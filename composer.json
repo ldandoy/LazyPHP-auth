@@ -11,7 +11,8 @@
     "require": {},
     "autoload": {
         "psr-0": {
-            "Auth": ["/", "controllers/"]
+            "Auth": "/",
+            "Auth\\controllers": "/controllers/"
         }
     }
 }

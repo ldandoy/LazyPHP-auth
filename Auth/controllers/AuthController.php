@@ -1,6 +1,6 @@
 <?php
 /**
- * File system\AuthController.php
+ * File Auth\controllers\AuthController.php
  *
  * @category System
  * @package  Netoverconsulting
@@ -9,7 +9,7 @@
  * @link     http://overconsulting.net
  */
 
-namespace Auth;
+namespace Auth\controllers;
 
 use System\Controller;
 use System\Session;
@@ -17,7 +17,7 @@ use System\Query;
 use System\Router;
 
 /**
- * Class gérant les Controllers du site
+ * Auth controller
  *
  * @category System
  * @package  Netoverconsulting
