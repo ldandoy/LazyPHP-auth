@@ -10,7 +10,7 @@
 		    {% input_submit name="submit" value="login" formId="formLogin" label="Se connecter" class="btn-primary" %}
 		</form>
 		<p>
-			Pas encore de compte? {% link url="user_signup" content="S'inscrire" new_window="1" %}
+			Pas encore de compte? {% link url="auth_auth_signup" content="S'inscrire" %}
 		</p>
 	</div>
 </div>
