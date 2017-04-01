@@ -11,12 +11,11 @@
 
 namespace Auth\controllers;
 
-use System\Controller;
+use app\controllers\ApplicationController;
 use System\Session;
 use System\Query;
 use System\Router;
 use System\Password;
-use app\models\User;
 
 /**
  * Auth controller
@@ -27,12 +26,17 @@ use app\models\User;
  * @license  GNU
  * @link     http://overconsulting.net
  */
-class AuthController extends Controller
+class AuthController extends ApplicationController
 {
     /**
      * @var string
      */
-    public $usersTable = 'users';
+    public $tableName = 'users';
+
+    /**
+     * @var string
+     */
+    public $connected = 'current_user';
 
     /**
      * @var string
@@ -47,7 +51,7 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    public $loginLayout = 'login';
+    public $layout = 'login';
 
     /**
      * @var string
@@ -57,39 +61,35 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    public $loginPageTitle = 'Connexion';
+    public $signupURL = 'auth_auth_signup';
+
+    /**
+     * @var string
+     */
+    public $pageTitle = 'Connexion au service';
+
+    /**
+     * @var string
+     */
+    public $afterLoginPage = '';
+
+    /**
+     * @var string
+     */
+    public $afterLogoutPage = '';
+
 
     public function __construct($request)
     {
         parent::__construct($request);
     }
 
-    public function before()
-    {
-        if (AuthController::isConnected('connected')) {
-            $this->redirect('/');
-        }
-    }
-
-    /**
-     * Check if use is connected
-     * @return bool
-     */
-    public static function isConnected()
-    {
-        if (Session::get('connected')) {
-            return true;
-        }
-        return false;
-    }
-
-    public function loginAction($goto = null)
+    public function loginAction()
     {
 
         $errors = array();
         $post = $this->request->post;
-        $this->layout = $this->loginLayout;
-
+        
         if (!empty($post) && isset($post[$this->idField]) && isset($post[$this->passwordField])) {
             $id = trim($post[$this->idField]);
             $password = trim($post[$this->passwordField]);
@@ -108,11 +108,11 @@ class AuthController extends Controller
                 $query = new Query();
                 $query->select('*');
                 $query->where($this->idField.' = :idField');
-                $query->from($this->usersTable);
-                $user = $query->executeAndFetch(array('idField' => $id));
+                $query->from($this->tableName);
+                $connected = $query->executeAndFetch(array('idField' => $id));
 
-                if ($user && Password::check($password, $user->password)) {
-                    Session::set('connected', $user);
+                if ($connected && Password::check($password, $connected->password)) {
+                    Session::set($this->connected, $connected);
                     $this->redirect($this->afterLoginPage);
                 } else {
                     Session::addFlash('Identifiant ou mot de passe incorrect', 'danger');
@@ -121,9 +121,10 @@ class AuthController extends Controller
         }
 
         $params = array(
-            'pageTitle' => $this->loginPageTitle,
-            'formAction' => Router::url($this->loginPage),
-            'errors' => $errors
+            'pageTitle'     => $this->pageTitle,
+            'formAction'    => Router::url($this->loginPage),
+            'signupURL'     => Router::url($this->signupURL),
+            'errors'        => $errors
         );
 
         if (isset($id)) {
@@ -135,24 +136,25 @@ class AuthController extends Controller
 
     public function signupAction()
     {
-        $this->user = new User();
+        $class = 'app\\models\\'.ucfirst($this->model);
+        $connected = new $class();
 
         if (!empty($this->request->post)) {
-            $this->user->setData($this->request->post);
+            $connected->setData($this->request->post);
 
-            if ($this->user->valid()) {
+            if ($connected->valid()) {
                 // $password = Password::generatePassword();
-                $password = $this->user->password;
+                $password = $connected->password;
                 $cryptedPassword = Password::crypt($password);
-                $this->user->password = $cryptedPassword;
+                $connected->password = $cryptedPassword;
 
-                $this->user->email_verification_code = Password::generateToken();
-                $this->user->email_verification_date = date('Y-m-d H:i:s');
-                $this->user->active = 0;
+                $connected->email_verification_code = Password::generateToken();
+                $connected->email_verification_date = date('Y-m-d H:i:s');
+                $connected->active = 0;
 
-                if ($this->user->create((array)$this->user)) {
+                if ($connected->create((array)$connected)) {
                     Session::addFlash('Compte créé', 'success');
-                    $this->redirect('auth_auth_login');
+                    $this->redirect($this->afterSignupPage);
                 } else {
                     Session::addFlash('Erreur insertion base de données', 'danger');
                 };
@@ -163,16 +165,15 @@ class AuthController extends Controller
 
         $this->render('signup', array(
             'id' => 0,
-            'user' => $this->user,
-            'pageTitle' => 'Création de compte',
-            'formAction' => Router::url('auth_auth_signup')
+            'user' => $connected,
+            'pageTitle' => $this->pageTitle,
+            'formAction' => Router::url($this->signupURL)
         ));
     }
 
     public function logoutAction()
     {
-
-        Session::remove('connected');
-        $this->redirect('');
+        Session::remove($this->connected);
+        $this->redirect($this->afterLogoutPage);
     }
 }

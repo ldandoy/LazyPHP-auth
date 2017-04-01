@@ -10,7 +10,7 @@
 		    {% input_submit name="submit" value="login" formId="formLogin" label="Se connecter" class="btn-primary" %}
 		</form>
 		<p>
-			Pas encore de compte? {% link url="auth_auth_signup" content="S'inscrire" %}
+			Pas encore de compte? {% link url="<?php echo $params['signupURL']; ?>" content="S'inscrire" %}
 		</p>
 	</div>
 </div>
