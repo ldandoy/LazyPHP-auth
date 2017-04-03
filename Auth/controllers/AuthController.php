@@ -11,7 +11,7 @@
 
 namespace Auth\controllers;
 
-use app\controllers\ApplicationController;
+use System\Controller;
 use System\Session;
 use System\Query;
 use System\Router;
@@ -26,7 +26,7 @@ use System\Password;
  * @license  GNU
  * @link     http://overconsulting.net
  */
-class AuthController extends ApplicationController
+class AuthController extends Controller
 {
     /**
      * @var string
@@ -86,7 +86,6 @@ class AuthController extends ApplicationController
 
     public function loginAction()
     {
-
         $errors = array();
         $post = $this->request->post;
         
