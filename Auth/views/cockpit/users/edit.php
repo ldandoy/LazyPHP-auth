@@ -1,6 +1,6 @@
 <h1 class="page-title">{{ pageTitle }}</h1>
 <div class="actions">
-    {% button url="cockpit_users" type="default" icon="arrow-left" content="Retour" %}
+    {% button url="cockpit_auth_users" type="default" icon="arrow-left" content="Retour" %}
 </div>
 {% form_open id="formUser" action="formAction" class="form-horizontal" %}
     {% input_text name="lastname" model="user.lastname" label="Nom" %}

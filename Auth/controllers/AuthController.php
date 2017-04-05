@@ -94,13 +94,13 @@ class AuthController extends Controller
             $password = trim($post[$this->passwordField]);
 
             if ($id == '') {
-                $errors[$this->idField] = 'Champs obligatoire';
+                $errors[$this->idField] = 'Identifiant obligatoire';
             } else if (!filter_var($id, FILTER_VALIDATE_EMAIL)) {
                 $errors[$this->idField] = 'Email invlaide';
             }
 
             if ($password == '') {
-                $errors[$this->passwordField] = 'Champs obligatoire';
+                $errors[$this->passwordField] = 'Mot de passe obligatoire';
             }
 
             if (empty($errors)) {

@@ -1,18 +1,18 @@
 <?php
 
-namespace app\controllers\cockpit;
+namespace Auth\controllers\cockpit;
 
 use app\controllers\cockpit\CockpitController;
-use app\models\User;
-
 use System\Router;
 use System\Session;
 use System\Password;
 
+use Auth\models\User;
+
 class UsersController extends CockpitController
 {
     /*
-     * @var app\models\User
+     * @var Auth\models\User
      */
     public $user = null;
 
@@ -36,7 +36,7 @@ class UsersController extends CockpitController
             'id' => 0,
             'user' => $this->user,
             'pageTitle' => 'Nouvel utilisateur',
-            'formAction' => Router::url('cockpit_users_create')
+            'formAction' => Router::url('cockpit_auth_users_create')
         ));
     }
 
@@ -50,7 +50,7 @@ class UsersController extends CockpitController
             'id' => $id,
             'user' => $this->user,
             'pageTitle' => 'Modification utilisateur n°'.$id,
-            'formAction' => Router::url('cockpit_users_update_'.$id)
+            'formAction' => Router::url('cockpit_auth_users_update_'.$id)
         ));
     }
 
@@ -70,7 +70,7 @@ class UsersController extends CockpitController
 
             if ($this->user->create((array)$this->user)) {
                 Session::addFlash('Utilisateur ajouté', 'success');
-                $this->redirect('cockpit_users');
+                $this->redirect('cockpit_auth_users');
             } else {
                 Session::addFlash('Erreur insertion base de données', 'danger');
             };
@@ -99,7 +99,7 @@ class UsersController extends CockpitController
             if (empty($this->user->errors)) {
                 if ($this->user->update((array)$this->user)) {
                     Session::addFlash('Utilisateur modifié', 'success');
-                    $this->redirect('cockpit_users');
+                    $this->redirect('cockpit_auth_users');
                 } else {
                     Session::addFlash('Erreur mise à jour base de données', 'danger');
                 }
@@ -116,6 +116,6 @@ class UsersController extends CockpitController
         $user = User::findById($id);
         $user->delete();
         $this->Session->setFlash('Utilisateur supprimé', 'success');
-        $this->redirect('cockpit_users');
+        $this->redirect('cockpit_auth_users');
     }
 }

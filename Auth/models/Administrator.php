@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace Auth\models;
 
 use System\Model;
 use System\Query;
@@ -32,26 +32,20 @@ class Administrator extends Model
                 'error' => 'Prénom obligatoire'
             ),
             'email' => array(
-                'type' => 'required',
-                'error' => 'Email obligatoire'
-            ),
-            'email' => array(
-                'type' => 'email',
-                'error' => 'Email invalide'
+                array(
+                    'type' => 'required',
+                    'filter' => 'trim',
+                    'error' => 'Email obligatoire'
+                ),
+                array(
+                    'type' => 'email',
+                    'filter' => 'trim',
+                    'error' => 'Email invalide'
+                )
             )
         ));
 
         return $validations;
-    }
-
-    /**
-     * Set default properties values
-     */
-    public function setDefaultProperties()
-    {
-        parent::setDefaultProperties();
-
-        $this->active = 1;
     }
 
     /**
@@ -69,5 +63,15 @@ class Administrator extends Model
         $query->from(self::getTableName());
 
         return $query->executeAndFetch(array('email' => $email));
+    }
+
+    /**
+     * Get fullname : <lastname>[ <firstname>]
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->lastname.ltrim(' '.$this->firstname);
     }
 }

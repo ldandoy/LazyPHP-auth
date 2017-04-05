@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace Auth\models;
 
 use System\Model;
 use System\Query;
@@ -18,23 +18,6 @@ class User extends Model
         'email_verification_date',
         'active'
     );
-
-    /**
-     * Get an user by email
-     *
-     * @param string $email
-     *
-     * @return app\model\User | bool
-     */
-    public static function findByEmail($email)
-    {
-        $query = new Query();
-        $query->select('*');
-        $query->where('email = :email');
-        $query->from(self::getTableName());
-
-        return $query->executeAndFetch(array('email' => $email));
-    }
 
     public function getValidations()
     {
@@ -66,6 +49,23 @@ class User extends Model
         ));
 
         return $validations;
+    }
+
+    /**
+     * Get an user by email
+     *
+     * @param string $email
+     *
+     * @return Auth\models\User | bool
+     */
+    public static function findByEmail($email)
+    {
+        $query = new Query();
+        $query->select('*');
+        $query->where('email = :email');
+        $query->from(self::getTableName());
+
+        return $query->executeAndFetch(array('email' => $email));
     }
 
     /**

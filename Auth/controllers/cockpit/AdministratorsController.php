@@ -1,18 +1,18 @@
 <?php
 
-namespace app\controllers\cockpit;
+namespace Auth\controllers\cockpit;
 
 use app\controllers\cockpit\CockpitController;
-use app\models\Administrator;
-
 use System\Router;
 use System\Session;
 use System\Password;
 
+use Auth\models\Administrator;
+
 class AdministratorsController extends CockpitController
 {
     /*
-     * @var app\models\Administrator
+     * @var Auth\models\Administrator
      */
     public $administrator = null;
 
@@ -21,7 +21,8 @@ class AdministratorsController extends CockpitController
         $administrators = Administrator::findAll();
 
         $this->render('index', array(
-            'administrators' => $administrators
+            'administrators' => $administrators,
+            'pageTitle' => '<i class="fa fa-user-secret"></i> Administrateurs'
         ));
     }
 
@@ -35,7 +36,7 @@ class AdministratorsController extends CockpitController
             'id' => 0,
             'administrator' => $this->administrator,
             'pageTitle' => 'Nouvel administrateur',
-            'formAction' => Router::url('cockpit_administrators_create')
+            'formAction' => Router::url('cockpit_auth_administrators_create')
         ));
     }
 
@@ -49,7 +50,7 @@ class AdministratorsController extends CockpitController
             'id' => $id,
             'administrator' => $this->administrator,
             'pageTitle' => 'Modification administrateur n°'.$id,
-            'formAction' => Router::url('cockpit_administrators_update_'.$id)
+            'formAction' => Router::url('cockpit_auth_administrators_update_'.$id)
         ));
     }
 
@@ -69,7 +70,7 @@ class AdministratorsController extends CockpitController
 
             if ($this->administrator->create((array)$this->administrator)) {
                 Session::addFlash('Administrateur ajouté', 'success');
-                $this->redirect('cockpit_administrators');
+                $this->redirect('cockpit_auth_administrators');
             } else {
                 Session::addFlash('Erreur insertion base de données', 'danger');
             };
@@ -98,7 +99,7 @@ class AdministratorsController extends CockpitController
             if (empty($this->administrator->errors)) {
                 if ($this->administrator->update((array)$this->administrator)) {
                     Session::addFlash('Administrateur modifié', 'success');
-                    $this->redirect('cockpit_administrators');
+                    $this->redirect('cockpit_auth_administrators');
                 } else {
                     Session::addFlash('Erreur mise à jour base de données', 'danger');
                 }
@@ -115,6 +116,6 @@ class AdministratorsController extends CockpitController
         $administrator = Administrator::findById($id);
         $administrator->delete();
         Session::addFlash('Administrateur supprimé', 'success');
-        $this->redirect('cockpit_administrators');
+        $this->redirect('cockpit_auth_administrators');
     }
 }
