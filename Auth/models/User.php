@@ -26,23 +26,23 @@ class User extends Model
         $validations = array_merge($validations, array(
             'lastname' => array(
                 'type' => 'required',
-                'filter' => 'trim',
+                'filters' => 'trim',
                 'error' => 'Nom obligatoire'
             ),
             'firstname' => array(
                 'type' => 'required',
-                'filter' => 'trim',
+                'filters' => 'trim',
                 'error' => 'Prénom obligatoire'
             ),
             'email' => array(
                 array(
                     'type' => 'required',
-                    'filter' => 'trim',
+                    'filters' => 'trim',
                     'error' => 'Email obligatoire'
                 ),
                 array(
                     'type' => 'email',
-                    'filter' => 'trim',
+                    'filters' => 'trim',
                     'error' => 'Email invalide'
                 )
             )

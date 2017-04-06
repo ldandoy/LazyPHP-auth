@@ -34,12 +34,12 @@ class Administrator extends Model
             'email' => array(
                 array(
                     'type' => 'required',
-                    'filter' => 'trim',
+                    'filters' => 'trim',
                     'error' => 'Email obligatoire'
                 ),
                 array(
                     'type' => 'email',
-                    'filter' => 'trim',
+                    'filters' => 'trim',
                     'error' => 'Email invalide'
                 )
             )
