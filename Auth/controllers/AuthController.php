@@ -56,12 +56,12 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    public $loginPage = 'auth_auth_login';
+    public $loginPage = 'auth_login';
 
     /**
      * @var string
      */
-    public $signupURL = 'auth_auth_signup';
+    public $signupURL = 'auth_signup';
 
     /**
      * @var string
