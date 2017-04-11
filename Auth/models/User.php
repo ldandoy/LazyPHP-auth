@@ -75,7 +75,7 @@ class User extends Model
      */
     public function getFullName()
     {
-        return $this->lastname.ltrim(' '.$this->firstname);
+        return $this->firstname . " " . $this->lastname;
     }
 
     /**

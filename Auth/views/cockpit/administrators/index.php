@@ -13,7 +13,7 @@
                     <th width="1%">ID</th>
                     <th>Nom</th>
                     <th>Email</th>
-                    <th>Actif</th>
+                    <th>Status</th>
                     <th width="10%">Actions</th>
                 </tr>
             </thead>
@@ -21,17 +21,16 @@
 <?php
 foreach ($params['administrators'] as $administrator) {
     if ($administrator->active == 1) {
-        $active = '<i class="fa fa-check"></i>';
+        $label = '<span class="label label-success">Activé</span>';
     } else {
-        $active = '<i class="fa fa-times"></i>';
+        $label = '<span class="label label-danger">Désactivé</span>';
     }
-
     echo
         '<tr>'.
             '<td>'.$administrator->id.'</td>'.
             '<td>'.$administrator->getFullname().'</td>'.
             '<td>'.$administrator->email.'</td>'.
-            '<td>'.$active.'</td>'.
+            '<td>'.$label.'</td>'.
             '<td>';?>
     {% button url="cockpit_auth_administrators_edit_<?php echo $administrator->id; ?>" type="info" size="xs" icon="pencil" %}
     {% button url="cockpit_auth_administrators_delete_<?php echo $administrator->id; ?>" type="danger" size="xs" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet administrateur?" %}
