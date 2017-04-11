@@ -19,6 +19,16 @@ class User extends Model
         'active'
     );
 
+    public $labelOption = 'fullname';
+    public $valueOption = 'id';
+
+    public function __construct($data = array())
+    {
+        parent::__construct($data);
+        
+        $this->fullname = $this->getFullName();
+    }
+
     public function getValidations()
     {
         $validations = parent::getValidations();
@@ -75,25 +85,6 @@ class User extends Model
      */
     public function getFullName()
     {
-        return $this->firstname . " " . $this->lastname;
-    }
-
-    /**
-     * Get user list for options in a select input
-     */
-    public static function getOptions()
-    {
-        $options = array();
-
-        $users = self::findAll();
-
-        foreach ($users as $user) {
-            $options[$user->id] = array(
-                'value' => $user->id,
-                'label' => $user->getFullName()
-            );
-        }
-
-        return $options;
+        return $this->firstname . " ".  $this->lastname;
     }
 }
