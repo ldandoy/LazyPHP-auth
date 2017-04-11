@@ -36,7 +36,7 @@ class UsersController extends CockpitController
             'id' => 0,
             'user' => $this->user,
             'pageTitle' => 'Nouvel utilisateur',
-            'formAction' => Router::url('cockpit_auth_users_create')
+            'formAction' => url('cockpit_auth_users_create')
         ));
     }
 
