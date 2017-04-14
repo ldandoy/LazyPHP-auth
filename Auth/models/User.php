@@ -52,7 +52,6 @@ class User extends Model
                 ),
                 array(
                     'type' => 'email',
-                    'filters' => 'trim',
                     'error' => 'Email invalide'
                 )
             )
@@ -85,6 +84,6 @@ class User extends Model
      */
     public function getFullName()
     {
-        return $this->firstname . " ".  $this->lastname;
+        return ltrim($this->firstname.' ').$this->lastname;
     }
 }
