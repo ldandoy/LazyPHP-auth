@@ -78,6 +78,8 @@ class AuthController extends Controller
      */
     public $afterLogoutPage = '';
 
+    public $model  = 'Auth\\models\\User';
+
 
     public function __construct($request)
     {
@@ -135,7 +137,7 @@ class AuthController extends Controller
 
     public function signupAction()
     {
-        $class = 'app\\models\\'.ucfirst($this->model);
+        $class = $this->model;
         $connected = new $class();
 
         if (!empty($this->request->post)) {
