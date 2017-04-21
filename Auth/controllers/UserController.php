@@ -9,29 +9,42 @@ use System\Password;
 
 use Auth\models\User;
 
-class UsersController extends FrontController
+class UserController extends FrontController
 {
     /*
      * @var Auth\models\User
      */
     public $user = null;
 
-    public function editAction($id)
+    public function indexAction()
     {
         if ($this->user === null) {
-            $this->user = User::findById($id);
+            $this->user = Session::get('current_user');
         }
 
-        $this->render('edit', array(
-            'id' => $id,
-            'user' => $this->user,
-            'formAction' => Router::url('users_update_'.$id)
+        $this->render('index', array(
+            'user' => $this->user
         ));
     }
 
-    public function updateAction($id)
+    public function editAction()
     {
-        $this->user = User::findById($id);
+        if ($this->user === null) {
+            $this->user = Session::get('current_user');
+        }
+
+        $this->render('edit', array(
+            'user' => $this->user,
+            'formAction' => Router::url('user_update')
+        ));
+    }
+
+    public function updateAction()
+    {
+        if ($this->user === null) {
+            $this->user = Session::get('current_user');
+        }
+
         $this->user->setData($this->request->post);
 
         if ($this->user->valid()) {
@@ -47,7 +60,7 @@ class UsersController extends FrontController
             if (empty($this->user->errors)) {
                 if ($this->user->update((array)$this->user)) {
                     Session::addFlash('Votre compte a été modifié', 'success');
-                    $this->redirect('users_update_'.$id);
+                    $this->redirect('user');
                 } else {
                     Session::addFlash('Erreur mise à jour base de données', 'danger');
                 }
@@ -56,6 +69,6 @@ class UsersController extends FrontController
             }
         }
 
-        $this->editAction($id);
+        $this->editAction();
     }
 }

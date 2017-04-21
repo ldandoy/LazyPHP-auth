@@ -71,7 +71,7 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    public $afterLoginPage = '';
+    public $afterLoginPage = 'user_index';
 
     /**
      * @var string
@@ -143,13 +143,12 @@ class AuthController extends Controller
                 $query = new Query();
                 $query->select('*');
                 $query->where($this->idField.' = :idField');
-                $query->from($this->tableName);                
+                $query->from($this->tableName);
                 $res = $query->executeAndFetch(array('idField' => $id));
 
                 if ($res && Password::check($password, $res->password)) {
                     $class = $this->model;
                     $user = $class::findById($res->id);
-                    var_dump($user);
                     Session::set($this->sessionKey, $user);
                     $this->redirect($this->afterLoginPage);
                 } else {

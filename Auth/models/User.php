@@ -103,4 +103,14 @@ class User extends Model
     {
         return ltrim($this->firstname.' ').$this->lastname;
     }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->media->getUrl();
+    }
 }
