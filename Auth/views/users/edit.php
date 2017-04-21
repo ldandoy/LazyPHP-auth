@@ -1,10 +1,10 @@
-<h1 class="page-title">{{ pageTitle }}</h1>
+<h1 class="page-title">Modification de votre compte</h1>
 <div class="box box-success">
     <div class="box-header">
-        <h3 class="box-title">Liste des utilisateurs</h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_users" type="default" icon="arrow-left" class="btn-xs" %}
+            {% button url="" type="default" icon="arrow-left" class="btn-xs" %}
         </div>
+        <div class="clearfix"></div>
     </div>
     <div class="box-body">
 {% form_open id="formUser" action="formAction" class="form-horizontal" %}

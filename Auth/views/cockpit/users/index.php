@@ -27,10 +27,16 @@ foreach ($params['users'] as $user) {
         $label = '<span class="label label-danger">Désactivé</span>';
     }
 
+    if ($user->media_id !== null) {
+        $avatar = '<img class="user-avatar" src="'.$user->media->getUrl().'" />&nbsp;';
+    } else {
+        $avatar = '';
+    }
+
     echo
         '<tr>'.
             '<td>'.$user->id.'</td>'.
-            '<td>'.$user->getFullname().'</td>'.
+            '<td>'.$avatar.$user->getFullname().'</td>'.
             '<td>'.$user->email.'</td>'.
             '<td>'.$user->address.'</td>'.
             '<td>'.$label.'</td>'.

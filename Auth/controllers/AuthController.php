@@ -36,7 +36,7 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    public $connected = 'current_user';
+    public $sessionKey = 'current_user';
 
     /**
      * @var string
@@ -78,12 +78,46 @@ class AuthController extends Controller
      */
     public $afterLogoutPage = '';
 
+    /**
+     * @var string
+     */
     public $model  = 'Auth\\models\\User';
 
-
-    public function __construct($request)
+    public function signupAction()
     {
-        parent::__construct($request);
+        $class = $this->model;
+        $user = new $class();
+
+        if (!empty($this->request->post)) {
+            $user->setData($this->request->post);
+
+            if ($user->valid()) {
+                // $password = Password::generatePassword();
+                $password = $user->password;
+                $cryptedPassword = Password::crypt($password);
+                $user->password = $cryptedPassword;
+
+                $user->email_verification_code = Password::generateToken();
+                $user->email_verification_date = date('Y-m-d H:i:s');
+                $user->active = 0;
+
+                if ($user->create((array)$user)) {
+                    Session::addFlash('Compte créé', 'success');
+                    $this->redirect($this->afterSignupPage);
+                } else {
+                    Session::addFlash('Erreur insertion base de données', 'danger');
+                };
+            } else {
+                Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+            }
+        }
+
+        $this->render('signup', array(
+            'id' => 0,
+            'user' => $user,
+            'pageTitle' => $this->pageTitle,
+            'formAction' => Router::url($this->signupURL)
+        ));
     }
 
     public function loginAction()
@@ -109,11 +143,14 @@ class AuthController extends Controller
                 $query = new Query();
                 $query->select('*');
                 $query->where($this->idField.' = :idField');
-                $query->from($this->tableName);
-                $connected = $query->executeAndFetch(array('idField' => $id));
+                $query->from($this->tableName);                
+                $res = $query->executeAndFetch(array('idField' => $id));
 
-                if ($connected && Password::check($password, $connected->password)) {
-                    Session::set($this->connected, $connected);
+                if ($res && Password::check($password, $res->password)) {
+                    $class = $this->model;
+                    $user = $class::findById($res->id);
+                    var_dump($user);
+                    Session::set($this->sessionKey, $user);
                     $this->redirect($this->afterLoginPage);
                 } else {
                     Session::addFlash('Identifiant ou mot de passe incorrect', 'danger');
@@ -135,46 +172,9 @@ class AuthController extends Controller
         $this->render('login', $params);
     }
 
-    public function signupAction()
-    {
-        $class = $this->model;
-        $connected = new $class();
-
-        if (!empty($this->request->post)) {
-            $connected->setData($this->request->post);
-
-            if ($connected->valid()) {
-                // $password = Password::generatePassword();
-                $password = $connected->password;
-                $cryptedPassword = Password::crypt($password);
-                $connected->password = $cryptedPassword;
-
-                $connected->email_verification_code = Password::generateToken();
-                $connected->email_verification_date = date('Y-m-d H:i:s');
-                $connected->active = 0;
-
-                if ($connected->create((array)$connected)) {
-                    Session::addFlash('Compte créé', 'success');
-                    $this->redirect($this->afterSignupPage);
-                } else {
-                    Session::addFlash('Erreur insertion base de données', 'danger');
-                };
-            } else {
-                Session::addFlash('Erreur(s) dans le formulaire', 'danger');
-            }
-        }
-
-        $this->render('signup', array(
-            'id' => 0,
-            'user' => $connected,
-            'pageTitle' => $this->pageTitle,
-            'formAction' => Router::url($this->signupURL)
-        ));
-    }
-
     public function logoutAction()
     {
-        Session::remove($this->connected);
+        Session::remove($this->sessionKey);
         $this->redirect($this->afterLogoutPage);
     }
 }

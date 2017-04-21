@@ -16,6 +16,7 @@ class User extends Model
         'address',
         'email_verification_code',
         'email_verification_date',
+        'media_id',
         'active'
     );
 
@@ -27,6 +28,22 @@ class User extends Model
         parent::__construct($data);
         
         $this->fullname = $this->getFullName();
+    }
+
+    /**
+     * Get list of associed table(s)
+     *
+     * @return mixed
+     */
+    public function getAssociations()
+    {
+        return array(
+            'media' => array(
+                'type' => '1',
+                'model' => 'Media\\models\\Media',
+                'key' => 'media_id'
+            )
+        );
     }
 
     public function getValidations()
