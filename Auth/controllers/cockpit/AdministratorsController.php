@@ -26,6 +26,14 @@ class AdministratorsController extends CockpitController
         ));
     }
 
+    public function showAction()
+    {
+        $this->render('show', array(
+            'administrator' => $this->current_administrator,
+            'pageTitle' => '<i class="fa fa-user-secret"></i> Administrateurs'
+        ));
+    }
+
     public function newAction()
     {
         if ($this->administrator === null) {

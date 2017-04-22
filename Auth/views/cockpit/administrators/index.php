@@ -32,6 +32,7 @@ foreach ($params['administrators'] as $administrator) {
             '<td>'.$administrator->email.'</td>'.
             '<td>'.$label.'</td>'.
             '<td>';?>
+    {% button url="cockpit_auth_administrators_show_<?php echo $administrator->id; ?>" type="primary" size="xs" icon="eye" %}
     {% button url="cockpit_auth_administrators_edit_<?php echo $administrator->id; ?>" type="info" size="xs" icon="pencil" %}
     {% button url="cockpit_auth_administrators_delete_<?php echo $administrator->id; ?>" type="danger" size="xs" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet administrateur?" %}
 <?php
