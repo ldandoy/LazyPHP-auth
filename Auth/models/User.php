@@ -82,16 +82,16 @@ class User extends Model
      *
      * @param string $email
      *
-     * @return Auth\models\User | bool
+     * @return Auth\models\User
      */
     public static function findByEmail($email)
     {
-        $query = new Query();
-        $query->select('*');
-        $query->where('email = :email');
-        $query->from(self::getTableName());
-
-        return $query->executeAndFetch(array('email' => $email));
+        $res = self::findAll('email = \''.$email.'\'');
+        if (!empty($res)) {
+            return $res[0];
+        } else {
+            return null;
+        }
     }
 
     /**
