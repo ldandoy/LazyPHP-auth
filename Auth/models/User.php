@@ -111,6 +111,10 @@ class User extends Model
      */
     public function getImageUrl()
     {
+        if ($this->media !== null) {
         return $this->media->getUrl();
+        } else {
+            return '';
+        }
     }
 }
