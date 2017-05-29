@@ -1,8 +1,11 @@
 <div class="login-box">
 	<div class="login-box-logo">
-		<b>Cockpit</b> LTE
+		
 	</div>
 	<div class="login-box-body">
+		<p align="center">
+			<a href="/"><img src="/assets/images/logo_miaw.png" alt="logo_miaw"></a>
+		</p>
 		<form id="formLogin" method="post" action="<?php echo $params['formAction']; ?>" class="form form-horizontal">
 			<p class="page-title">{{ pageTitle }}</p>
 		    {% input_text name="email" model="email" label="Email" placeholder="Identifiant" %}

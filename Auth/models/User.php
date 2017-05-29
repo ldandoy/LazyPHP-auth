@@ -17,7 +17,8 @@ class User extends Model
         'email_verification_code',
         'email_verification_date',
         'media_id',
-        'active'
+        'active',
+        'has_startup'
     );
 
     public $labelOption = 'fullname';

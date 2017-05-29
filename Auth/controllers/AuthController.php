@@ -158,9 +158,9 @@ class AuthController extends Controller
         }
 
         $params = array(
-            'pageTitle'     => $this->pageTitle,
+            'pageTitle'     => "Accédez à votre espace start-up",
             'formAction'    => Router::url($this->loginPage),
-            'signupURL'     => Router::url($this->signupURL),
+            'signupURL'     => "/jeparticipe",
             'errors'        => $errors
         );
 
@@ -174,6 +174,8 @@ class AuthController extends Controller
     public function logoutAction()
     {
         Session::remove($this->sessionKey);
+        Session::remove('fb_access_token');
+
         $this->redirect($this->afterLogoutPage);
     }
 }
