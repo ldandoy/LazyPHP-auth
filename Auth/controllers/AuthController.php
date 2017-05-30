@@ -76,7 +76,7 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    public $afterLoginPage = 'user_index';
+    public $afterLoginPage = 'mystartup';
 
     /**
      * @var string
