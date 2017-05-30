@@ -45,10 +45,16 @@ class UserController extends FrontController
             $this->user = Session::get('current_user');
         }
 
-        $this->user->setData($this->request->post);
+        $post = $this->request->post; 
+
+        if (isset($post['media_id']) && $post['media_id'] == '') {
+            $post['media_id'] = null;
+        }
+
+        $this->user->setData($post);
 
         if ($this->user->valid()) {
-            $newPassword = isset($this->request->post['newPassword']) ? trim($this->request->post['newPassword']) : '';
+            $newPassword = isset($post['newPassword']) ? trim($post['newPassword']) : '';
             if ($newPassword != '') {
                 if (Password::validPassword($newPassword)) {
                     $this->user->password = Password::crypt($newPassword);

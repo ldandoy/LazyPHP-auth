@@ -61,6 +61,11 @@ class AuthController extends Controller
     /**
      * @var string
      */
+    public $forgotpasswordPage = 'auth_forgotpassword';
+
+    /**
+     * @var string
+     */
     public $signupURL = 'auth_signup';
 
     /**
@@ -177,5 +182,33 @@ class AuthController extends Controller
         Session::remove('fb_access_token');
 
         $this->redirect($this->afterLogoutPage);
+    }
+
+    public function forgotpasswordAction()
+    {
+        $post = $this->request->post;
+        $errors = array();
+
+        if (!empty($post) && isset($post['email'])) {
+            $post['email'] = trim($post['email']);
+            if ($post['email'] != '') {
+                $class = $this->model;
+                $user = $class::findByEmail($post['email']);
+                if ($user !== null) {
+                    
+                } else {
+                    $errors['email'] = 'Cet addresse email ne correspond à aucun compte';
+                }
+            } else {
+                $errors['email'] = 'Email obligatoire';
+            }
+        }
+
+        $params = array(
+            'pageTitle' => 'Mot de passe oublié',
+            'formAction' => Router::url($this->forgotpasswordPage),
+            'errors' => $errors
+        );
+        $this->render('forgotpassword', $params);
     }
 }
