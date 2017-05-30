@@ -195,7 +195,42 @@ class AuthController extends Controller
                 $class = $this->model;
                 $user = $class::findByEmail($post['email']);
                 if ($user !== null) {
-                    
+                    $password = Password::generatePassword();
+                    $user->password = Password::crypt($password);
+                    $user->update(array(
+                        'password' => $user->password
+                    ));
+
+                    $tpl =
+                        '<html>'.
+                            '<head>'.
+                            '</head>'.
+                            '<body>'.
+                                '<p>'.
+                                    'Identifiant : '.$user->email.'<br />'.
+                                    'Nouveau mot de passe : '.$password.
+                                '</p>'.
+                            '</body>'.
+                        '</html>';
+                    $tpl = str_replace(array('{email}', '{password}'), array($user->email, $password), $tpl);
+
+
+                    $email = new \PHPMailer();
+                    $email->isMail();
+                    $email->setFrom('contact@messageinawindow.com', 'Message In A Window');
+                    $email->addAddress($user->email);
+                    $email->addReplyTo('contact@messageinawindow.com', 'Message In A Window');
+                    $email->CharSet = 'utf-8';
+                    $email->isHTML(true);
+                    $email->Subject = 'Votre nouveau mot de passe - Jeu-concours Message In A Window';
+                    $email->Body = $tpl;
+                    $email->AltBody = '';
+                    if ($email->send()) {
+                    } else {
+                    }
+
+                    Session::addFlash('Votre nouveau mot de passe vient de vous être envoyé par email', 'success');
+                    $this->redirect($this->loginPage);
                 } else {
                     $errors['email'] = 'Cet addresse email ne correspond à aucun compte';
                 }
