@@ -11,10 +11,8 @@
     {% input_text name="lastname" model="user.lastname" label="Nom" %}
     {% input_text name="firstname" model="user.firstname" label="Prénom" %}
     {% input_text name="email" model="user.email" label="Email" %}
-    {% input_textarea name="address" model="user.address" label="Adresse" %}
     {% input_password name="newPassword" model="user.newPassword" label="Nouveau mot de passe" autocomplete="off" %}
     {% input_media name="media_id" model="user.media_id" label="Image" mediaType="image" mediaCategory="user" %}
-    {% input_checkbox name="active" model="user.active" label="Actif" %}
     {% input_submit name="submit" value="save" formId="formUser" class="btn-primary" icon="save" label="Enregistrer" %}
 {% form_close %}
 	</div>
