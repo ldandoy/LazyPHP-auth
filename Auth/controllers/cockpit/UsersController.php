@@ -115,7 +115,7 @@ class UsersController extends CockpitController
     {
         $user = User::findById($id);
         $user->delete();
-        $this->Session->setFlash('Utilisateur supprimé', 'success');
+        Session::addFlash('Utilisateur supprimé', 'success');
         $this->redirect('cockpit_auth_users');
     }
 }
