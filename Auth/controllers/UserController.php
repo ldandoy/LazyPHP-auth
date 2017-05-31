@@ -66,7 +66,7 @@ class UserController extends FrontController
             if (empty($this->user->errors)) {
                 if ($this->user->update((array)$this->user)) {
                     Session::addFlash('Votre compte a été modifié', 'success');
-                    $this->redirect('user');
+                    $this->redirect('/');
                 } else {
                     Session::addFlash('Erreur mise à jour base de données', 'danger');
                 }
