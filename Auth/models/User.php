@@ -2,9 +2,9 @@
 
 namespace Auth\models;
 
-use System\Model;
-use System\Query;
-use System\Password;
+use Core\Model;
+use Core\Query;
+use Core\Password;
 
 class User extends Model
 {

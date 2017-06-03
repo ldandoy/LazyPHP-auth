@@ -11,11 +11,11 @@
 
 namespace Auth\controllers;
 
-use System\Controller;
-use System\Session;
-use System\Query;
-use System\Router;
-use System\Password;
+use Core\Controller;
+use Core\Session;
+use Core\Query;
+use Core\Router;
+use Core\Password;
 
 
 /**
@@ -174,7 +174,7 @@ class AuthController extends Controller
             $params[$this->idField] = $id;
         }
 
-        $this->render('login', $params);
+        $this->render('auth::login', $params);
     }
 
     public function logoutAction()
