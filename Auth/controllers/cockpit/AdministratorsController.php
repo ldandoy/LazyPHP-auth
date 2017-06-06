@@ -3,9 +3,9 @@
 namespace Auth\controllers\cockpit;
 
 use app\controllers\cockpit\CockpitController;
-use System\Router;
-use System\Session;
-use System\Password;
+use Core\Router;
+use Core\Session;
+use Core\Password;
 
 use Auth\models\Administrator;
 
