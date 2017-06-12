@@ -4,9 +4,9 @@
 	</div>
 	<div class="login-box-body">
 		<p align="center">
-			<a href="/"><img src="/assets/images/logo_miaw.png" alt="logo_miaw"></a>
+			<a href="/"><img src="/assets/images/<?php echo $logo; ?>.png" alt="logo_miaw"></a>
 		</p>
-		<form id="formLogin" method="post" action="<?php echo $params['formAction']; ?>" class="form form-horizontal">
+		<form id="formLogin" method="post" action="<?php echo $formAction; ?>" class="form form-horizontal">
 			<p class="page-title">{{ pageTitle }}</p>
 			{% input_text name="email" model="email" label="Email" placeholder="Identifiant" %}
 			{% input_password name="password" label="Password" model="password" value="" placeholder="Mot de passe" autocomplete="off" %}
@@ -16,7 +16,7 @@
 			Mot de passe oublié? <a href="forgotpassword">Cliquez ici</a>
 		</p>
 		<p>
-			Pas encore de compte? {% link url="<?php echo $params['signupURL']; ?>" content="S'inscrire" %}
+			Pas encore de compte? {% link url="<?php echo $signupURL; ?>" content="S'inscrire" %}
 		</p>
 	</div>
 </div>
