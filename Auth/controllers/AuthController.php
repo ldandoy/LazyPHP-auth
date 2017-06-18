@@ -77,7 +77,7 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    public $afterLoginPage = 'mystartup';
+    public $afterLoginPage = 'users';
 
     /**
      * @var string
@@ -130,7 +130,7 @@ class AuthController extends Controller
     {
         $errors = array();
         $post = $this->request->post;
-        
+
         if (!empty($post) && isset($post[$this->idField]) && isset($post[$this->passwordField])) {
             $id = trim($post[$this->idField]);
             $password = trim($post[$this->passwordField]);
@@ -163,18 +163,18 @@ class AuthController extends Controller
             }
         }
 
-        $params = array(
-            'pageTitle'     => "Accédez à votre espace start-up",
+        $this->params = array(
+            'titlePage'     => "Accédez à votre espace",
             'formAction'    => Router::url($this->loginPage),
-            'signupURL'     => "/jeparticipe",
+            'signupURL'     => "/users",
+            'altImageLogin' => "Default Image Login",
+            'imageLogin'    => "/assets/images/default_image_login.png",
             'errors'        => $errors
         );
 
         if (isset($id)) {
-            $params[$this->idField] = $id;
+            $this->params[$this->idField] = $id;
         }
-
-        $this->render('auth::login', $params);
     }
 
     public function logoutAction()

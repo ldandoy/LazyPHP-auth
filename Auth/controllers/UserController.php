@@ -22,9 +22,10 @@ class UserController extends FrontController
             $this->user = Session::get('current_user');
         }
 
-        $this->render('index', array(
-            'user' => $this->user
-        ));
+        $this->params['user'] = $this->user;
+        $this->params['title'] = $this->config['GENERAL']['title'];
+
+        $this->render('auth::user::index', $this->params);
     }
 
     public function editAction()
@@ -45,7 +46,7 @@ class UserController extends FrontController
             $this->user = Session::get('current_user');
         }
 
-        $post = $this->request->post; 
+        $post = $this->request->post;
 
         if (isset($post['media_id']) && $post['media_id'] == '') {
             $post['media_id'] = null;

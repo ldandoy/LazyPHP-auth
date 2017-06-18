@@ -20,7 +20,7 @@ class AdministratorsController extends CockpitController
     {
         $administrators = Administrator::findAll();
 
-        $this->render('index', array(
+        $this->render('auth::administrators::index', array(
             'administrators' => $administrators,
             'pageTitle' => '<i class="fa fa-user-secret"></i> Administrateurs'
         ));
@@ -28,7 +28,7 @@ class AdministratorsController extends CockpitController
 
     public function showAction()
     {
-        $this->render('show', array(
+        $this->render('auth::administrators::show', array(
             'administrator' => $this->current_administrator,
             'pageTitle' => '<i class="fa fa-user-secret"></i> Administrateurs'
         ));
@@ -40,7 +40,7 @@ class AdministratorsController extends CockpitController
             $this->administrator = new Administrator();
         }
 
-        $this->render('edit', array(
+        $this->render('auth::administrators::edit', array(
             'id' => 0,
             'administrator' => $this->administrator,
             'pageTitle' => 'Nouvel administrateur',
@@ -54,7 +54,7 @@ class AdministratorsController extends CockpitController
             $this->administrator = Administrator::findById($id);
         }
 
-        $this->render('edit', array(
+        $this->render('auth::administrators::edit', array(
             'id' => $id,
             'administrator' => $this->administrator,
             'pageTitle' => 'Modification administrateur n°'.$id,

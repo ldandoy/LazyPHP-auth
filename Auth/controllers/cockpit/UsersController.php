@@ -20,7 +20,7 @@ class UsersController extends CockpitController
     {
         $this->users = User::findAll();
 
-        $this->render('index', array(
+        $this->render('auth::users::index', array(
             'pageTitle' => '<i class="fa fa-users"></i> Utilisateurs',
             'users' => $this->users
         ));
@@ -32,7 +32,7 @@ class UsersController extends CockpitController
             $this->user = new User();
         }
 
-        $this->render('edit', array(
+        $this->render('auth::users::edit', array(
             'id' => 0,
             'user' => $this->user,
             'pageTitle' => 'Nouvel utilisateur',
@@ -46,7 +46,7 @@ class UsersController extends CockpitController
             $this->user = User::findById($id);
         }
 
-        $this->render('edit', array(
+        $this->render('auth::users::edit', array(
             'id' => $id,
             'user' => $this->user,
             'pageTitle' => 'Modification utilisateur n°'.$id,
