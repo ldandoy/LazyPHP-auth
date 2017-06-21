@@ -118,7 +118,7 @@ class AuthController extends Controller
             }
         }
 
-        $this->render('signup', array(
+        $this->render('auth::auth::signup', array(
             'id' => 0,
             'user' => $user,
             'pageTitle' => $this->pageTitle,
@@ -245,6 +245,6 @@ class AuthController extends Controller
             'formAction' => Router::url($this->forgotpasswordPage),
             'errors' => $errors
         );
-        $this->render('forgotpassword', $params);
+        $this->render('auth::auth::forgotpassword', $params);
     }
 }
