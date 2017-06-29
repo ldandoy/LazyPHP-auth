@@ -4,10 +4,9 @@ namespace Auth\models;
 
 use Core\Model;
 
-class Role extends Model
+class Group extends Model
 {
     protected $permittedColumns = array(
-        'action',
         'label'
     );
 
@@ -16,10 +15,6 @@ class Role extends Model
         $validations = parent::getValidations();
 
         $validations = array_merge($validations, array(
-            'action' => array(
-                'type' => 'required',
-                'error' => 'Action obligatoire'
-            ),
             'label' => array(
                 'type' => 'required',
                 'error' => 'Label obligatoire'

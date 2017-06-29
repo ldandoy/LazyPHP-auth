@@ -15,8 +15,20 @@ class Administrator extends Model
         'password',
         'email_verification_code',
         'email_verification_date',
+        'group_id',
         'active'
     );
+
+    public function getAssociations()
+    {
+        return array(
+            'group' => array(
+                'type' => '1',
+                'model' => 'Auth\\models\\Group',
+                'key' => 'group_id'
+            )
+        );
+    }
 
     public function getValidations()
     {

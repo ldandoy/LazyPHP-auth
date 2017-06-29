@@ -17,8 +17,8 @@ class User extends Model
         'email_verification_code',
         'email_verification_date',
         'media_id',
-        'active',
-        'has_startup'
+        'group_id',
+        'active'
     );
 
     public $labelOption = 'fullname';
@@ -43,6 +43,11 @@ class User extends Model
                 'type' => '1',
                 'model' => 'Media\\models\\Media',
                 'key' => 'media_id'
+            ),
+            'group' => array(
+                'type' => '1',
+                'model' => 'Auth\\models\\Group',
+                'key' => 'group_id'
             )
         );
     }
