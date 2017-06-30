@@ -4,22 +4,18 @@
         <h3 class="box-title">{{ boxTitle }}</h3>
     </div>
     <div class="box-body">
-        {% form_open id="formGroup" action="formAction" class="form-horizontal" %}
+        {% form_open id="formRoleAssignment" action="formAction" class="form-horizontal" %}
             <div class="panel-group" id="roleassignment_accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="roleassignment_accordion_group_heading">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#cms_page_block_properties_accordion" href="#cms_page_block_properties_accordion_box" aria-expanded="false" aria-controls="cms_page_block_properties_accordion_box">
+                            <a role="button" data-toggle="collapse" data-parent="#roleassignment_accordion" href="#roleassignment_accordion_group" aria-expanded="false" aria-controls="roleassignment_accordion">
                                 Boîte
                             </a>
                         </h4>
                     </div>
-                    <div id="cms_page_block_properties_accordion_box" class="panel-collapse collapse" role="tabpanel" aria-labelledby="cms_page_block_properties_accordion_box_heading">
+                    <div id="roleassignment_accordion_group" class="panel-collapse collapse" role="tabpanel" aria-labelledby="roleassignment_accordion_group_heading">
                         <div class="panel-body">
-                            {% input_select name="fullwidth" label="Contenu pleine largeur" data-property-type="fullwidth" options="fullwidthOptions" %}
-                            {% input_text name="id" label="Id" data-property-type="attribute" data-property-name="id" %}
-                            {% input_text name="class" label="Class" data-property-type="attribute" data-property-name="class" %}
-                            {% input_text name="height" label="Hauteur" data-property-type="style" data-property-name="height" %}
                         </div>
                     </div>
                 </div>

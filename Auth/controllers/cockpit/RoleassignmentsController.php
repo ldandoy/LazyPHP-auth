@@ -16,11 +16,18 @@ class RoleassignmentsController extends CockpitController
 {
     public function indexAction()
     {
-        $groups = Role::findAll();
-        $administrators = Administrator::findAll();
-        $users = User::findAll();
         $roles = Role::findAll();
         $roleAssignments = RoleAssignment::findAll();
+
+
+        $allGroups = Group::findAll();
+        $groups = array();
+        foreach ($roles as $role) {
+            foreach ($roleAssignments as $roleAssignment) {
+            }
+        }
+        $administrators = Administrator::findAll();
+        $users = User::findAll();
 
         $this->render('auth::roleassignments::index', array(
             'groups' => $groups,
