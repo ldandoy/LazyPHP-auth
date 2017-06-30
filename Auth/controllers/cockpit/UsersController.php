@@ -8,6 +8,7 @@ use Core\Session;
 use Core\Password;
 
 use Auth\models\User;
+use Auth\models\Group;
 
 class UsersController extends CockpitController
 {
@@ -32,10 +33,13 @@ class UsersController extends CockpitController
             $this->user = new User();
         }
 
+        $groupOptions = Group::getOptions();
+
         $this->render('auth::users::edit', array(
             'id' => 0,
             'user' => $this->user,
             'pageTitle' => 'Nouvel utilisateur',
+            'groupOptions' => $groupOptions,
             'formAction' => url('cockpit_auth_users_create')
         ));
     }
@@ -46,10 +50,13 @@ class UsersController extends CockpitController
             $this->user = User::findById($id);
         }
 
+        $groupOptions = Group::getOptions();
+
         $this->render('auth::users::edit', array(
             'id' => $id,
             'user' => $this->user,
             'pageTitle' => 'Modification utilisateur n°'.$id,
+            'groupOptions' => $groupOptions,
             'formAction' => Router::url('cockpit_auth_users_update_'.$id)
         ));
     }

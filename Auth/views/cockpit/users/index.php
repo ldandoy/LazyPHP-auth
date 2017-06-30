@@ -13,7 +13,7 @@
                     <th width="1%">ID</th>
                     <th>Nom</th>
                     <th>Email</th>
-                    <th>Adresse</th>
+                    <th>Groupe</th>
                     <th>Actif</th>
                     <th width="10%">Actions</th>
                 </tr>
@@ -22,9 +22,9 @@
 <?php
 foreach ($params['users'] as $user) {
     if ($user->active == 1) {
-        $label = '<span class="label label-success">Activé</span>';
+        $active = '<span class="label label-success">Activé</span>';
     } else {
-        $label = '<span class="label label-danger">Désactivé</span>';
+        $active = '<span class="label label-danger">Désactivé</span>';
     }
 
     if ($user->media_id !== null) {
@@ -38,8 +38,8 @@ foreach ($params['users'] as $user) {
             '<td>'.$user->id.'</td>'.
             '<td>'.$avatar.$user->getFullname().'</td>'.
             '<td>'.$user->email.'</td>'.
-            '<td>'.$user->address.'</td>'.
-            '<td>'.$label.'</td>'.
+            '<td>'.($user->group_id != null ? $user->group->label : '').'</td>'.
+            '<td>'.$active.'</td>'.
             '<td>';?>
     {% button url="cockpit_auth_users_edit_<?php echo $user->id; ?>" type="info" size="xs" icon="pencil" %}
     {% button url="cockpit_auth_users_delete_<?php echo $user->id; ?>" type="danger" size="xs" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet utilisateur?" %}

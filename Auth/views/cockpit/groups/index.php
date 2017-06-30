@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th width="1%">ID</th>
+                    <th>Code</th>
                     <th>Nom</th>
                     <th width="10%">Actions</th>
                 </tr>
@@ -21,10 +22,11 @@ foreach ($groups as $group) {
     echo
         '<tr>'.
             '<td>'.$group->id.'</td>'.
+            '<td>'.$group->code.'</td>'.
             '<td>'.$group->label.'</td>'.
             '<td>';?>
     {% button url="cockpit_auth_groups_edit_<?php echo $group->id; ?>" type="info" size="xs" icon="pencil" %}
-    {% button url="cockpit_auth_groups_delete_<?php echo $group->id; ?>" type="danger" size="xs" icon="trash-o" confirmation="Vous confirmer vouloir supprimer ce group?" %}
+    {% button url="cockpit_auth_groups_delete_<?php echo $group->id; ?>" type="danger" size="xs" icon="trash-o" confirmation="Vous confirmer vouloir supprimer ce groupe?" %}
 <?php
     echo
             '</td>'.

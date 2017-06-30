@@ -4,9 +4,10 @@ namespace Auth\models;
 
 use Core\Model;
 
-class Roleassignment extends Model
+class RoleAssignment extends Model
 {
     protected $permittedColumns = array(
+        'role_id',
         'group_id',
         'administrator_id',
         'user_id'
@@ -15,6 +16,11 @@ class Roleassignment extends Model
     public function getAssociations()
     {
         return array(
+            'role' => array(
+                'type' => '1',
+                'model' => 'Auth\\models\\Role',
+                'key' => 'role_id'
+            ),
             'group' => array(
                 'type' => '1',
                 'model' => 'Auth\\models\\Group',

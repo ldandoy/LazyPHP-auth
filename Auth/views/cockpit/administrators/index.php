@@ -13,6 +13,7 @@
                     <th width="1%">ID</th>
                     <th>Nom</th>
                     <th>Email</th>
+                    <th>Groupe</th>
                     <th>Status</th>
                     <th width="10%">Actions</th>
                 </tr>
@@ -21,16 +22,17 @@
 <?php
 foreach ($params['administrators'] as $administrator) {
     if ($administrator->active == 1) {
-        $label = '<span class="label label-success">Activé</span>';
+        $active = '<span class="label label-success">Activé</span>';
     } else {
-        $label = '<span class="label label-danger">Désactivé</span>';
+        $active = '<span class="label label-danger">Désactivé</span>';
     }
     echo
         '<tr>'.
             '<td>'.$administrator->id.'</td>'.
             '<td>'.$administrator->getFullname().'</td>'.
             '<td>'.$administrator->email.'</td>'.
-            '<td>'.$label.'</td>'.
+            '<td>'.($administrator->group_id != null ? $administrator->group->label : '').'</td>'.
+            '<td>'.$active.'</td>'.
             '<td>';?>
     {% button url="cockpit_auth_administrators_show_<?php echo $administrator->id; ?>" type="primary" size="xs" icon="eye" %}
     {% button url="cockpit_auth_administrators_edit_<?php echo $administrator->id; ?>" type="info" size="xs" icon="pencil" %}
