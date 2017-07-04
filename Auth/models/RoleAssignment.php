@@ -38,4 +38,54 @@ class RoleAssignment extends Model
             )
         );
     }
+
+    public static function findAllSorted()
+    {
+        $roleAssignments = self::findAll();
+
+        $res = array(
+            'groups' => array(),
+            'administrators' => array(),
+            'users' => array()
+        );
+
+        foreach ($roleAssignments as $roleAssignment) {
+            if ($roleAssignment->group_id !== null) {
+                if (isset($res['groups'][$roleAssignment->group_id])) {
+                    $res['groups'][$roleAssignment->group_id][] = $roleAssignment->role_id;
+                } else {
+                    $res['groups'][$roleAssignment->group_id] = array($roleAssignment->role_id);
+                }
+            } else if ($roleAssignment->administrator_id !== null) {
+                if (isset($res['administrators'][$roleAssignment->administrator_id])) {
+                    $res['administrators'][$roleAssignment->administrator_id][] = $roleAssignment->role_id;
+                } else {
+                    $res['administrators'][$roleAssignment->administrator_id] = array($roleAssignment->role_id);
+                }
+            } else if ($roleAssignment->user_id !== null) {
+                if (isset($res['users'][$roleAssignment->user_id])) {
+                    $res['users'][$roleAssignment->user_id][] = $roleAssignment->role_id;
+                } else {
+                    $res['users'][$roleAssignment->user_id] = array($roleAssignment->role_id);
+                }
+            }
+        }
+
+        return $res;
+    }
+
+    public static function findByGroup($group_id)
+    {
+        return self::findAll('group_id = '.$group_id);
+    }
+
+    public static function findByAdministrator($administrator_id)
+    {
+        return self::findAll('administrator_id = '.$administrator_id);
+    }
+
+    public static function findByUser($user_id)
+    {
+        return self::findAll('user_id = '.$user_id);
+    }
 }

@@ -13,80 +13,58 @@ use Auth\models\Role;
 use Auth\models\RoleAssignment;
 
 class RoleassignmentsController extends CockpitController
-{
+{    
     public function indexAction()
     {
-        $roles = Role::findAll();
-        $roleAssignments = RoleAssignment::findAll();
-
-
-        $allGroups = Group::findAll();
-        $groups = array();
-        foreach ($roles as $role) {
-            foreach ($roleAssignments as $roleAssignment) {
+        if (!empty($this->request->post) && isset($this->request->post['submit'])) {
+            if ($this->save()) {
+                Session::addFlash('Affectations des rôle modifées', 'success');
+                $this->redirect('cockpit_auth_roles');
+            } else {
+                Session::addFlash('Erreur(s) dans le formulaire', 'danger');
             }
         }
+
+        $roleAssignments = RoleAssignment::findAllSorted();
+        $roles = Role::findAll();
+        $groups = Group::findAll();
         $administrators = Administrator::findAll();
         $users = User::findAll();
 
         $this->render('auth::roleassignments::index', array(
-            'groups' => $groups,
-            'administrators' => $administrators,
-            'users' => $users,
-            'roles' => $roles,
             'roleAssignments' => $roleAssignments,
+            'roles' => $roles,
+            'groups' => $groups,
             'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs',
-            'boxTitle' => 'Liste des roles d\'utilisateurs'
+            'boxTitle' => 'Affectations des rôles',
+            'formAction' => Router::url('cockpit_auth_roleassignments')
         ));
     }
 
-    public function editAction($id)
+    private function save()
     {
-        if ($this->role === null) {
-            $this->role = Role::findById($id);
+        $post = $this->request->post;
+
+        RoleAssignment::deleteAll();
+
+        $roleAssignment = new RoleAssignment();
+
+        foreach ($post as $k => $v) {
+            if (strpos($k, 'group_') === 0) {
+                $a = explode('_', $k);
+                $roleAssignment->create(
+                    array(
+                        'group_id' => (int)$a[1],
+                        'administrator_id' => null,
+                        'user_id' => null,
+                        'role_id' => (int)$a[3]
+                    )
+                );                
+            // } else if () {
+            // } else if () {
+            }
         }
 
-        $this->render('auth::roles::edit', array(
-            'role' => $this->role,
-            'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs',
-            'boxTitle' => 'Modification rôle n°'.$id,
-            'formAction' => Router::url('cockpit_auth_roles_update_'.$id)
-        ));
-    }
-
-    public function createAction()
-    {
-        $this->role = new Role();
-
-        if ($this->role->save($this->request->post)) {
-            Session::addFlash('Rôle ajouté', 'success');
-            $this->redirect('cockpit_auth_roles');
-        } else {
-            Session::addFlash('Erreur(s) dans le formulaire', 'danger');
-        }
-
-        $this->newAction();
-    }
-
-    public function updateAction($id)
-    {
-        $this->role = Role::findById($id);
-
-        if ($this->role->save($this->request->post)) {
-            Session::addFlash('Rôle modifié', 'success');
-            $this->redirect('cockpit_auth_roles');
-        } else {
-            Session::addFlash('Erreur(s) dans le formulaire', 'danger');
-        }
-
-        $this->editAction($id);
-    }
-
-    public function deleteAction($id)
-    {
-        $role = Role::findById($id);
-        $role->delete();
-        Session::addFlash('Rôle supprimé', 'success');
-        $this->redirect('cockpit_auth_roles');
+        return true;
     }
 }

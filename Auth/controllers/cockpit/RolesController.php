@@ -22,7 +22,7 @@ class RolesController extends CockpitController
         $this->render('auth::roles::index', array(
             'roles' => $roles,
             'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs',
-            'boxTitle' => 'Liste des roles d\'utilisateurs'
+            'boxTitle' => 'Liste des rôles d\'utilisateurs'
         ));
     }
 

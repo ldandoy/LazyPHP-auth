@@ -42,8 +42,43 @@ class Role extends Model
         return $validations;
     }
 
-    public static function check($role)
+    public static function checkAdministratorPermission($administrator, $roleCode)
     {
-        
+        if ($administrator !== null && $administrator->group_id !== null) {
+            $roleAssignments = array_merge(
+                RoleAssignment::findByGroup($administrator->group_id),
+                RoleAssignment::findByAdministrator($administrator->id)
+            );
+
+            if (!empty($roleAssignments)) {
+                foreach ($roleAssignments as $roleAssignment) {
+                    if ($roleAssignment->role->code == $roleCode) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static function checkUserPermission($user, $roleCode)
+    {
+        if ($user !== null && $user->group_id !== null) {
+            $roleAssignments = array_merge(
+                RoleAssignment::findByGroup($user->group_id),
+                RoleAssignment::findByUser($user->id)
+            );
+
+            if (!empty($roleAssignments)) {
+                foreach ($roleAssignments as $roleAssignment) {
+                    if ($roleAssignment->role->code == $roleCode) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
