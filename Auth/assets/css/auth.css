@@ -8,3 +8,11 @@
 	border-bottom-left-radius: 4px;
 }
 
+#formRoleAssignments .tab-content .panel-heading {
+	background: transparent;
+}
+
+#formRoleAssignments .tab-content .panel-heading .panel-title {
+	font-size: 14px;
+	font-weight: normal;
+}

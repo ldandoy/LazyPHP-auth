@@ -19,7 +19,7 @@ class RoleassignmentsController extends CockpitController
         if (!empty($this->request->post) && isset($this->request->post['submit'])) {
             if ($this->save()) {
                 Session::addFlash('Affectations des rôle modifées', 'success');
-                $this->redirect('cockpit_auth_roles');
+                $this->redirect('cockpit_auth_roleassignments');
             } else {
                 Session::addFlash('Erreur(s) dans le formulaire', 'danger');
             }
@@ -35,6 +35,8 @@ class RoleassignmentsController extends CockpitController
             'roleAssignments' => $roleAssignments,
             'roles' => $roles,
             'groups' => $groups,
+            'administrators' => $administrators,
+            'users' => $users,
             'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs',
             'boxTitle' => 'Affectations des rôles',
             'formAction' => Router::url('cockpit_auth_roleassignments')
@@ -59,9 +61,27 @@ class RoleassignmentsController extends CockpitController
                         'user_id' => null,
                         'role_id' => (int)$a[3]
                     )
-                );                
-            // } else if () {
-            // } else if () {
+                );
+            } else if (strpos($k, 'administrator_') === 0) {
+                $a = explode('_', $k);
+                $roleAssignment->create(
+                    array(
+                        'group_id' => null,
+                        'administrator_id' => (int)$a[1],
+                        'user_id' => null,
+                        'role_id' => (int)$a[3]
+                    )
+                );
+            } else if (strpos($k, 'user_') === 0) {
+                $a = explode('_', $k);
+                $roleAssignment->create(
+                    array(
+                        'group_id' => null,
+                        'administrator_id' => null,
+                        'user_id' => (int)$a[1],
+                        'role_id' => (int)$a[3]
+                    )
+                );
             }
         }
 
