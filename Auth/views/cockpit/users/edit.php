@@ -3,7 +3,7 @@
     <div class="box-header">
         <h3 class="box-title">Liste des utilisateurs</h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_users" type="default" icon="arrow-left" class="btn-xs" %}
+            {% button url="cockpit_auth_users" type="secondary" icon="arrow-left" class="btn-sm" %}
         </div>
     </div>
     <div class="box-body">

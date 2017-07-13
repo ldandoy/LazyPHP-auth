@@ -3,7 +3,7 @@
     <div class="box-header">
         <h3 class="box-title">Compte de l'administeur: <?php echo $params['administrator']->id ?></h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_administrators" type="default" class="btn-xs" icon="arrow-left" content="" %}
+            {% button url="cockpit_auth_administrators" type="secondary" class="btn-sm" icon="arrow-left" content="" %}
         </div>
     </div>
     <div class="box-body">

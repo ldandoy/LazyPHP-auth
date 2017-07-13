@@ -3,7 +3,7 @@
     <div class="box-header">
         <h3 class="box-title">Liste des utilisateurs</h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_users_new" type="success" size="xs" icon="plus" %}
+            {% button url="cockpit_auth_users_new" type="success" size="sm" icon="plus" %}
         </div>
     </div>
     <div class="box-body">
@@ -27,7 +27,7 @@ foreach ($params['users'] as $user) {
         $active = '<span class="label label-danger">Désactivé</span>';
     }
 
-    if ($user->media_id !== null) {
+    if ($user->media_id !== null && $user->media !== null) {
         $avatar = '<img class="user-avatar" src="'.$user->media->getUrl().'" />&nbsp;';
     } else {
         $avatar = '';
@@ -41,8 +41,8 @@ foreach ($params['users'] as $user) {
             '<td>'.($user->group_id != null ? $user->group->label : '').'</td>'.
             '<td>'.$active.'</td>'.
             '<td>';?>
-    {% button url="cockpit_auth_users_edit_<?php echo $user->id; ?>" type="info" size="xs" icon="pencil" %}
-    {% button url="cockpit_auth_users_delete_<?php echo $user->id; ?>" type="danger" size="xs" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet utilisateur?" %}
+    {% button url="cockpit_auth_users_edit_<?php echo $user->id; ?>" type="info" size="sm" icon="pencil" %}
+    {% button url="cockpit_auth_users_delete_<?php echo $user->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet utilisateur?" %}
 <?php
     echo
             '</td>'.

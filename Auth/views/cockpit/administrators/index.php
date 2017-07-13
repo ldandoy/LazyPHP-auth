@@ -3,7 +3,7 @@
     <div class="box-header">
         <h3 class="box-title">Liste des Administrateurs</h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_administrators_new" type="success" size="xs" icon="plus" %}
+            {% button url="cockpit_auth_administrators_new" type="success" size="sm" icon="plus" %}
         </div>
     </div>
     <div class="box-body">
@@ -34,9 +34,9 @@ foreach ($params['administrators'] as $administrator) {
             '<td>'.($administrator->group_id != null ? $administrator->group->label : '').'</td>'.
             '<td>'.$active.'</td>'.
             '<td>';?>
-    {% button url="cockpit_auth_administrators_show_<?php echo $administrator->id; ?>" type="primary" size="xs" icon="eye" %}
-    {% button url="cockpit_auth_administrators_edit_<?php echo $administrator->id; ?>" type="info" size="xs" icon="pencil" %}
-    {% button url="cockpit_auth_administrators_delete_<?php echo $administrator->id; ?>" type="danger" size="xs" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet administrateur?" %}
+    {% button url="cockpit_auth_administrators_show_<?php echo $administrator->id; ?>" type="primary" size="sm" icon="eye" %}
+    {% button url="cockpit_auth_administrators_edit_<?php echo $administrator->id; ?>" type="info" size="sm" icon="pencil" %}
+    {% button url="cockpit_auth_administrators_delete_<?php echo $administrator->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet administrateur?" %}
 <?php
     echo
             '</td>'.
