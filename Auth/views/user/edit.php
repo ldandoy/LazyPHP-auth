@@ -5,7 +5,7 @@
             <div class="box box-success">
                 <div class="box-header">
                     <div class="box-tools pull-right">
-                        {% button url="user_index" type="default" icon="arrow-left" class="btn-xs" %}
+                        {% button url="user_index" type="default" icon="arrow-left" size="sm" %}
                     </div>
                     <div class="clearfix"></div>
                 </div>

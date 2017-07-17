@@ -52,9 +52,6 @@ class Role extends Model
 
             if (!empty($roleAssignments)) {
                 foreach ($roleAssignments as $roleAssignment) {
-                    echo "<pre>";
-                    var_dump($roleAssignment->role);
-                    echo "</pre>";
                     if ($roleAssignment->role->code == $roleCode) {
                         return true;
                     }

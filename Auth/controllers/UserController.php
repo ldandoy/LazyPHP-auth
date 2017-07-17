@@ -25,7 +25,7 @@ class UserController extends FrontController
         $this->params['user'] = $this->user;
         $this->params['title'] = $this->config['GENERAL']['title'];
 
-        $this->render('auth::user::index', $this->params);
+        $this->render('user::index', $this->params);
     }
 
     public function editAction()
