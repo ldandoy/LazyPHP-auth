@@ -34,7 +34,7 @@ class UserController extends FrontController
             $this->user = Session::get('current_user');
         }
 
-        $this->render('auth::user::edit', array(
+        $this->render('user::edit', array(
             'user' => $this->user,
             'formAction' => Router::url('user_update')
         ));
