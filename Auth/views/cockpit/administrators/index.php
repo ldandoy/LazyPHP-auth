@@ -29,6 +29,7 @@ foreach ($params['administrators'] as $administrator) {
     }
 
     $site = $administrator->site_id !== null ? $administrator->site->label : '*';
+
     echo
         '<tr>'.
             '<td>'.$administrator->id.'</td>'.

@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th width="1%">ID</th>
+                    <th>Site</th>
                     <th>Nom</th>
                     <th>Email</th>
                     <th>Groupe</th>
@@ -33,9 +34,12 @@ foreach ($params['users'] as $user) {
         $avatar = '';
     }
 
+    $site = $user->site_id !== null ? $user->site->label : '*';
+
     echo
         '<tr>'.
             '<td>'.$user->id.'</td>'.
+            '<td>'.$site.'</td>'.
             '<td>'.$avatar.$user->getFullname().'</td>'.
             '<td>'.$user->email.'</td>'.
             '<td>'.($user->group_id != null ? $user->group->label : '').'</td>'.

@@ -9,6 +9,7 @@ use Core\Password;
 
 use Auth\models\User;
 use Auth\models\Group;
+use Multisite\models\Site;
 
 class UsersController extends CockpitController
 {
@@ -19,7 +20,12 @@ class UsersController extends CockpitController
 
     public function indexAction()
     {
-        $this->users = User::findAll();
+        if ($this->current_administrator->site_id !== null) {
+            $where = 'site_id = '.$this->current_administrator->site_id;
+        } else {
+            $where = '';
+        }
+        $this->users = User::findAll($where);
 
         $this->render('auth::users::index', array(
             'pageTitle' => '<i class="fa fa-users"></i> Utilisateurs',
@@ -34,12 +40,14 @@ class UsersController extends CockpitController
         }
 
         $groupOptions = Group::getOptions();
+        $siteOptions = Site::getOptions();
 
         $this->render('auth::users::edit', array(
             'id' => 0,
             'user' => $this->user,
             'pageTitle' => 'Nouvel utilisateur',
             'groupOptions' => $groupOptions,
+            'siteOptions' => $siteOptions,
             'formAction' => url('cockpit_auth_users_create')
         ));
     }
@@ -51,12 +59,14 @@ class UsersController extends CockpitController
         }
 
         $groupOptions = Group::getOptions();
+        $siteOptions = Site::getOptions();
 
         $this->render('auth::users::edit', array(
             'id' => $id,
             'user' => $this->user,
             'pageTitle' => 'Modification utilisateur n°'.$id,
             'groupOptions' => $groupOptions,
+            'siteOptions' => $siteOptions,
             'formAction' => Router::url('cockpit_auth_users_update_'.$id)
         ));
     }

@@ -9,6 +9,7 @@ use Core\Password;
 class User extends Model
 {
     protected $permittedColumns = array(
+        'site_id',
         'lastname',
         'firstname',
         'email',
@@ -39,6 +40,11 @@ class User extends Model
     public function getAssociations()
     {
         return array(
+            'site' => array(
+                'type' => '1',
+                'model' => 'Multisite\\models\\Site',
+                'key' => 'site_id'
+            ),
             'media' => array(
                 'type' => '1',
                 'model' => 'Media\\models\\Media',
@@ -57,6 +63,10 @@ class User extends Model
         $validations = parent::getValidations();
 
         $validations = array_merge($validations, array(
+            'site_id' => array(
+                'type' => 'required',
+                'defaultValue' => null
+            ),
             'lastname' => array(
                 'type' => 'required',
                 'filters' => 'trim',
