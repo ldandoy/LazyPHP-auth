@@ -1,5 +1,5 @@
 <h1 class="page-title">{{ pageTitle }}</h1>
-<form id="formUser" method="post" action="<?php echo $params['formAction']; ?>" class="form form-horizontal">
+<form id="formUser" method="post" action="<?php echo $params['formAction']; ?>" class="form">
     {% input_text name="lastname" model="user.lastname" label="Nom" %}
     {% input_text name="firstname" model="user.firstname" label="Prénom" %}
     {% input_text name="email" model="user.email" label="Email" %}

@@ -9,6 +9,7 @@ use Core\Password;
 
 use Auth\models\Administrator;
 use Auth\models\Group;
+use Multisite\models\Site;
 
 class AdministratorsController extends CockpitController
 {
@@ -42,12 +43,14 @@ class AdministratorsController extends CockpitController
         }
 
         $groupOptions = Group::getOptions();
+        $siteOptions = Site::getOptions();
 
         $this->render('auth::administrators::edit', array(
             'id' => 0,
             'administrator' => $this->administrator,
             'pageTitle' => 'Nouvel administrateur',
             'groupOptions' => $groupOptions,
+            'siteOptions' => $siteOptions,
             'formAction' => Router::url('cockpit_auth_administrators_create')
         ));
     }
@@ -59,12 +62,14 @@ class AdministratorsController extends CockpitController
         }
 
         $groupOptions = Group::getOptions();
+        $siteOptions = Site::getOptions();
 
         $this->render('auth::administrators::edit', array(
             'id' => $id,
             'administrator' => $this->administrator,
             'pageTitle' => 'Modification administrateur n°'.$id,
             'groupOptions' => $groupOptions,
+            'siteOptions' => $siteOptions,
             'formAction' => Router::url('cockpit_auth_administrators_update_'.$id)
         ));
     }

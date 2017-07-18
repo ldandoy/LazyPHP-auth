@@ -5,12 +5,12 @@
             <div class="box box-success">
                 <div class="box-header">
                     <div class="box-tools pull-right">
-                        {% button url="user_index" type="default" icon="arrow-left" size="sm" %}
+                        {% button url="user_index" type="secondary" icon="arrow-left" size="sm" %}
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="box-body">
-                    {% form_open id="formUser" action="formAction" class="form-horizontal" %}
+                    {% form_open id="formUser" action="formAction" %}
                         {% input_text name="lastname" model="user.lastname" label="Nom" %}
                         {% input_text name="firstname" model="user.firstname" label="Prénom" %}
                         {% input_text name="email" model="user.email" label="Email" %}

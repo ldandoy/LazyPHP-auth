@@ -4,7 +4,7 @@
         <h3 class="box-title">{{ boxTitle }}</h3>
     </div>
     <div class="box-body">
-        {% form_open id="formRoleAssignments" action="formAction" class="form-horizontal" %}
+        {% form_open id="formRoleAssignments" action="formAction" %}
             <ul class="nav nav-tabs" role="tablist">
                 <li class="active" role="presentation">
                     <a href="#roleassignments_groups" role="tab" data-toggle="tab">

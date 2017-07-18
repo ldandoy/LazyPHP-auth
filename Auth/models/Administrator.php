@@ -9,6 +9,7 @@ use Core\Password;
 class Administrator extends Model
 {
     protected $permittedColumns = array(
+        'site_id',
         'lastname',
         'firstname',
         'email',
@@ -22,6 +23,11 @@ class Administrator extends Model
     public function getAssociations()
     {
         return array(
+            'site' => array(
+                'type' => '1',
+                'model' => 'Multisite\\models\\Site',
+                'key' => 'site_id'
+            ),
             'group' => array(
                 'type' => '1',
                 'model' => 'Auth\\models\\Group',
@@ -35,6 +41,10 @@ class Administrator extends Model
         $validations = parent::getValidations();
 
         $validations = array_merge($validations, array(
+            'site_id' => array(
+                'type' => 'required',
+                'defaultValue' => null
+            ),
             'lastname' => array(
                 'type' => 'required',
                 'error' => 'Nom obligatoire'
