@@ -25,11 +25,11 @@ class UsersController extends CockpitController
         } else {
             $where = '';
         }
-        $this->users = User::findAll($where);
+        $users = User::findAll($where);
 
         $this->render('auth::users::index', array(
             'pageTitle' => '<i class="fa fa-users"></i> Utilisateurs',
-            'users' => $this->users
+            'users' => $users
         ));
     }
 
