@@ -20,7 +20,12 @@ class AdministratorsController extends CockpitController
 
     public function indexAction()
     {
-        $administrators = Administrator::findAll();
+        if ($this->site !== null) {
+            $where = 'site_id = '.$this->site->id;
+        } else {
+            $where = '';
+        }
+        $administrators = Administrator::findAll($where);
 
         $this->render('auth::administrators::index', array(
             'administrators' => $administrators,
@@ -51,6 +56,7 @@ class AdministratorsController extends CockpitController
             'pageTitle' => 'Nouvel administrateur',
             'groupOptions' => $groupOptions,
             'siteOptions' => $siteOptions,
+            'selectSite' => $this->current_administrator->site_id === null,
             'formAction' => Router::url('cockpit_auth_administrators_create')
         ));
     }
@@ -70,12 +76,17 @@ class AdministratorsController extends CockpitController
             'pageTitle' => 'Modification administrateur n°'.$id,
             'groupOptions' => $groupOptions,
             'siteOptions' => $siteOptions,
+            'selectSite' => $this->current_administrator->site_id === null,
             'formAction' => Router::url('cockpit_auth_administrators_update_'.$id)
         ));
     }
 
     public function createAction()
     {
+        if (!isset($this->request->post['site_id'])) {
+            $this->request->post['site_id'] = $this->site->id;
+        }
+
         $this->administrator = new Administrator();
         $this->administrator->setData($this->request->post);
 
@@ -103,6 +114,10 @@ class AdministratorsController extends CockpitController
 
     public function updateAction($id)
     {
+        if (!isset($this->request->post['site_id'])) {
+            $this->request->post['site_id'] = $this->site->id;
+        }
+
         $this->administrator = Administrator::findById($id);
         $this->administrator->setData($this->request->post);
 

@@ -11,7 +11,6 @@
             <thead>
                 <tr>
                     <th width="1%">ID</th>
-                    <th>Site</th>
                     <th>Nom</th>
                     <th>Email</th>
                     <th>Groupe</th>
@@ -28,12 +27,9 @@ foreach ($params['administrators'] as $administrator) {
         $active = '<span class="label label-danger">Désactivé</span>';
     }
 
-    $site = $administrator->site_id !== null ? $administrator->site->label : '*';
-
     echo
         '<tr>'.
             '<td>'.$administrator->id.'</td>'.
-            '<td>'.$site.'</td>'.
             '<td>'.$administrator->getFullname().'</td>'.
             '<td>'.$administrator->email.'</td>'.
             '<td>'.($administrator->group_id != null ? $administrator->group->label : '').'</td>'.

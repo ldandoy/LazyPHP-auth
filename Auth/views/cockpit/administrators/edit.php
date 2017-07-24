@@ -8,7 +8,9 @@
     </div>
     <div class="box-body">
         {% form_open id="formAdministrator" action="formAction" %}
+<?php if ($selectSite): ?>
             {% input_select name="site_id" model="administrator.site_id" label="Site" options="siteOptions" %}
+<?php endif; ?>
             {% input_text name="lastname" model="administrator.lastname" label="Nom" %}
             {% input_text name="firstname" model="administrator.firstname" label="Prénom" %}
             {% input_text name="email" model="administrator.email" label="Email" %}

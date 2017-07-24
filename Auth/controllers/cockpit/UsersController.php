@@ -20,8 +20,8 @@ class UsersController extends CockpitController
 
     public function indexAction()
     {
-        if ($this->current_administrator->site_id !== null) {
-            $where = 'site_id = '.$this->current_administrator->site_id;
+        if ($this->site !== null) {
+            $where = 'site_id = '.$this->site->id;
         } else {
             $where = '';
         }
@@ -48,6 +48,7 @@ class UsersController extends CockpitController
             'pageTitle' => 'Nouvel utilisateur',
             'groupOptions' => $groupOptions,
             'siteOptions' => $siteOptions,
+            'selectSite' => $this->current_administrator->site_id === null,
             'formAction' => url('cockpit_auth_users_create')
         ));
     }
@@ -67,12 +68,17 @@ class UsersController extends CockpitController
             'pageTitle' => 'Modification utilisateur n°'.$id,
             'groupOptions' => $groupOptions,
             'siteOptions' => $siteOptions,
+            'selectSite' => $this->current_administrator->site_id === null,
             'formAction' => Router::url('cockpit_auth_users_update_'.$id)
         ));
     }
 
     public function createAction()
     {
+        if (!isset($this->request->post['site_id'])) {
+            $this->request->post['site_id'] = $this->site->id;
+        }
+
         $this->user = new User();
         $this->user->setData($this->request->post);
 
@@ -100,6 +106,10 @@ class UsersController extends CockpitController
 
     public function updateAction($id)
     {
+        if (!isset($this->request->post['site_id'])) {
+            $this->request->post['site_id'] = $this->site->id;
+        }
+
         $this->user = User::findById($id);
         $this->user->setData($this->request->post);
 
