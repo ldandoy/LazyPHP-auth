@@ -35,9 +35,9 @@ foreach ($params['administrators'] as $administrator) {
             '<td>'.($administrator->group_id != null ? $administrator->group->label : '').'</td>'.
             '<td>'.$active.'</td>'.
             '<td>';?>
-    {% button url="cockpit_auth_administrators_show_<?php echo $administrator->id; ?>" type="primary" size="sm" icon="eye" %}
-    {% button url="cockpit_auth_administrators_edit_<?php echo $administrator->id; ?>" type="info" size="sm" icon="pencil" %}
-    {% button url="cockpit_auth_administrators_delete_<?php echo $administrator->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet administrateur?" %}
+                {% button url="cockpit_auth_administrators_show_<?php echo $administrator->id; ?>" type="primary" size="sm" icon="eye" %}
+                {% button url="cockpit_auth_administrators_edit_<?php echo $administrator->id; ?>" type="info" size="sm" icon="pencil" %}
+                {% button url="cockpit_auth_administrators_delete_<?php echo $administrator->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet administrateur?" %}
 <?php
     echo
             '</td>'.
