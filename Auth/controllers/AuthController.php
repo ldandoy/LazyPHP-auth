@@ -220,12 +220,12 @@ class AuthController extends Controller
 
                     $email = new \PHPMailer();
                     $email->isMail();
-                    $email->setFrom('contact@messageinawindow.com', 'Message In A Window');
+                    $email->setFrom('contact@test.com', 'CE');
                     $email->addAddress($user->email);
-                    $email->addReplyTo('contact@messageinawindow.com', 'Message In A Window');
+                    $email->addReplyTo('contact@test.com', 'CE');
                     $email->CharSet = 'utf-8';
                     $email->isHTML(true);
-                    $email->Subject = 'Votre nouveau mot de passe - Jeu-concours Message In A Window';
+                    $email->Subject = 'Votre nouveau mot de passe - CE';
                     $email->Body = $tpl;
                     $email->AltBody = '';
                     if ($email->send()) {
