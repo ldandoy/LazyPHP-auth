@@ -36,7 +36,7 @@ foreach ($params['users'] as $user) {
     echo
         '<tr>'.
             '<td>'.$user->id.'</td>'.
-            '<td>'.$avatar.$user->getFullname().'</td>'.
+            '<td>'.$avatar.$user->getFullName().'</td>'.
             '<td>'.$user->email.'</td>'.
             '<td>'.($user->group_id != null ? $user->group->label : '').'</td>'.
             '<td>'.$active.'</td>'.

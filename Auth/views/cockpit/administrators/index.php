@@ -30,7 +30,7 @@ foreach ($params['administrators'] as $administrator) {
     echo
         '<tr>'.
             '<td>'.$administrator->id.'</td>'.
-            '<td>'.$administrator->getFullname().'</td>'.
+            '<td>'.$administrator->getFullName().'</td>'.
             '<td>'.$administrator->email.'</td>'.
             '<td>'.($administrator->group_id != null ? $administrator->group->label : '').'</td>'.
             '<td>'.$active.'</td>'.
