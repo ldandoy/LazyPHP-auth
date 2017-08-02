@@ -17,7 +17,6 @@ use Core\Query;
 use Core\Router;
 use Core\Password;
 
-
 /**
  * Auth controller
  *
@@ -216,7 +215,6 @@ class AuthController extends Controller
                             '</body>'.
                         '</html>';
                     $tpl = str_replace(array('{email}', '{password}'), array($user->email, $password), $tpl);
-
 
                     $email = new \PHPMailer();
                     $email->isMail();
