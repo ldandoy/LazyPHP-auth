@@ -30,3 +30,8 @@
 #login .login-box-msg {
 	color: #666;
 }
+
+#login .form-group {
+	margin-right: 0;
+	margin-left: 0;
+}
