@@ -107,13 +107,13 @@ class AuthController extends Controller
                 $user->active = 0;
 
                 if ($user->create((array)$user)) {
-                    Session::addFlash('Compte créé', 'success');
+                    $this->addFlash('Compte créé', 'success');
                     $this->redirect($this->afterSignupPage);
                 } else {
-                    Session::addFlash('Erreur insertion base de données', 'danger');
+                    $this->addFlash('Erreur insertion base de données', 'danger');
                 };
             } else {
-                Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
             }
         }
 
@@ -157,7 +157,7 @@ class AuthController extends Controller
                     Session::set($this->sessionKey, $user);
                     $this->redirect($this->afterLoginPage);
                 } else {
-                    Session::addFlash('Identifiant ou mot de passe incorrect', 'danger');
+                    $this->addFlash('Identifiant ou mot de passe incorrect', 'danger');
                 }
             }
         }
@@ -230,7 +230,7 @@ class AuthController extends Controller
                     } else {
                     }
 
-                    Session::addFlash('Votre nouveau mot de passe vient de vous être envoyé par email', 'success');
+                    $this->addFlash('Votre nouveau mot de passe vient de vous être envoyé par email', 'success');
                     $this->redirect($this->loginPage);
                 } else {
                     $errors['email'] = 'Cet addresse email ne correspond à aucun compte';

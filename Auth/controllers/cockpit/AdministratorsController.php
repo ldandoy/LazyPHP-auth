@@ -9,7 +9,7 @@ use Core\Password;
 
 use Auth\models\Administrator;
 use Auth\models\Group;
-use Multisite\models\Site;
+use Core\models\Site;
 
 class AdministratorsController extends CockpitController
 {
@@ -100,13 +100,13 @@ class AdministratorsController extends CockpitController
             $this->administrator->active = 0;
 
             if ($this->administrator->create((array)$this->administrator)) {
-                Session::addFlash('Administrateur ajouté', 'success');
+                $this->addFlash('Administrateur ajouté', 'success');
                 $this->redirect('cockpit_auth_administrators');
             } else {
-                Session::addFlash('Erreur insertion base de données', 'danger');
+                $this->addFlash('Erreur insertion base de données', 'danger');
             };
         } else {
-            Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+            $this->addFlash('Erreur(s) dans le formulaire', 'danger');
         }
 
         $this->newAction();
@@ -133,13 +133,13 @@ class AdministratorsController extends CockpitController
 
             if (empty($this->administrator->errors)) {
                 if ($this->administrator->update((array)$this->administrator)) {
-                    Session::addFlash('Administrateur modifié', 'success');
+                    $this->addFlash('Administrateur modifié', 'success');
                     $this->redirect('cockpit_auth_administrators');
                 } else {
-                    Session::addFlash('Erreur mise à jour base de données', 'danger');
+                    $this->addFlash('Erreur mise à jour base de données', 'danger');
                 }
             } else {
-                Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
             }
         }
 
@@ -150,7 +150,7 @@ class AdministratorsController extends CockpitController
     {
         $administrator = Administrator::findById($id);
         $administrator->delete();
-        Session::addFlash('Administrateur supprimé', 'success');
+        $this->addFlash('Administrateur supprimé', 'success');
         $this->redirect('cockpit_auth_administrators');
     }
 }

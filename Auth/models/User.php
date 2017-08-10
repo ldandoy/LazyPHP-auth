@@ -42,7 +42,7 @@ class User extends Model
         return array(
             'site' => array(
                 'type' => '1',
-                'model' => 'Multisite\\models\\Site',
+                'model' => 'Core\\models\\Site',
                 'key' => 'site_id'
             ),
             'media' => array(

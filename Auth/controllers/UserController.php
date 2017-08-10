@@ -66,13 +66,13 @@ class UserController extends FrontController
 
             if (empty($this->user->errors)) {
                 if ($this->user->update((array)$this->user)) {
-                    Session::addFlash('Votre compte a été modifié', 'success');
+                    $this->addFlash('Votre compte a été modifié', 'success');
                     $this->redirect('/');
                 } else {
-                    Session::addFlash('Erreur mise à jour base de données', 'danger');
+                    $this->addFlash('Erreur mise à jour base de données', 'danger');
                 }
             } else {
-                Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
             }
         }
 

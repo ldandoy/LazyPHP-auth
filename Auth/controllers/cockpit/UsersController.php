@@ -9,7 +9,7 @@ use Core\Password;
 
 use Auth\models\User;
 use Auth\models\Group;
-use Multisite\models\Site;
+use Core\models\Site;
 
 class UsersController extends CockpitController
 {
@@ -92,13 +92,13 @@ class UsersController extends CockpitController
             $this->user->active = 0;
 
             if ($this->user->create((array)$this->user)) {
-                Session::addFlash('Utilisateur ajouté', 'success');
+                $this->addFlash('Utilisateur ajouté', 'success');
                 $this->redirect('cockpit_auth_users');
             } else {
-                Session::addFlash('Erreur insertion base de données', 'danger');
+                $this->addFlash('Erreur insertion base de données', 'danger');
             };
         } else {
-            Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+            $this->addFlash('Erreur(s) dans le formulaire', 'danger');
         }
 
         $this->newAction();
@@ -125,13 +125,13 @@ class UsersController extends CockpitController
 
             if (empty($this->user->errors)) {
                 if ($this->user->update((array)$this->user)) {
-                    Session::addFlash('Utilisateur modifié', 'success');
+                    $this->addFlash('Utilisateur modifié', 'success');
                     $this->redirect('cockpit_auth_users');
                 } else {
-                    Session::addFlash('Erreur mise à jour base de données', 'danger');
+                    $this->addFlash('Erreur mise à jour base de données', 'danger');
                 }
             } else {
-                Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
             }
         }
 
@@ -142,7 +142,7 @@ class UsersController extends CockpitController
     {
         $user = User::findById($id);
         $user->delete();
-        Session::addFlash('Utilisateur supprimé', 'success');
+        $this->addFlash('Utilisateur supprimé', 'success');
         $this->redirect('cockpit_auth_users');
     }
 }

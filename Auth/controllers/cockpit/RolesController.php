@@ -59,10 +59,10 @@ class RolesController extends CockpitController
         $this->role = new Role();
 
         if ($this->role->save($this->request->post)) {
-            Session::addFlash('Rôle ajouté', 'success');
+            $this->addFlash('Rôle ajouté', 'success');
             $this->redirect('cockpit_auth_roles');
         } else {
-            Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+            $this->addFlash('Erreur(s) dans le formulaire', 'danger');
         }
 
         $this->newAction();
@@ -73,10 +73,10 @@ class RolesController extends CockpitController
         $this->role = Role::findById($id);
 
         if ($this->role->save($this->request->post)) {
-            Session::addFlash('Rôle modifié', 'success');
+            $this->addFlash('Rôle modifié', 'success');
             $this->redirect('cockpit_auth_roles');
         } else {
-            Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+            $this->addFlash('Erreur(s) dans le formulaire', 'danger');
         }
 
         $this->editAction($id);
@@ -86,7 +86,7 @@ class RolesController extends CockpitController
     {
         $role = Role::findById($id);
         $role->delete();
-        Session::addFlash('Rôle supprimé', 'success');
+        $this->addFlash('Rôle supprimé', 'success');
         $this->redirect('cockpit_auth_roles');
     }
 }

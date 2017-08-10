@@ -59,10 +59,10 @@ class GroupsController extends CockpitController
         $this->group = new Group();
 
         if ($this->group->save($this->request->post)) {
-            Session::addFlash('Groupe ajouté', 'success');
+            $this->addFlash('Groupe ajouté', 'success');
             $this->redirect('cockpit_auth_groups');
         } else {
-            Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+            $this->addFlash('Erreur(s) dans le formulaire', 'danger');
         }
 
         $this->newAction();
@@ -73,10 +73,10 @@ class GroupsController extends CockpitController
         $this->group = Group::findById($id);
 
         if ($this->group->save($this->request->post)) {
-            Session::addFlash('Groupe modifié', 'success');
+            $this->addFlash('Groupe modifié', 'success');
             $this->redirect('cockpit_auth_groups');
         } else {
-            Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+            $this->addFlash('Erreur(s) dans le formulaire', 'danger');
         }
 
         $this->editAction($id);
@@ -86,7 +86,7 @@ class GroupsController extends CockpitController
     {
         $group = Group::findById($id);
         $group->delete();
-        Session::addFlash('Groupe supprimé', 'success');
+        $this->addFlash('Groupe supprimé', 'success');
         $this->redirect('cockpit_auth_groups');
     }
 }

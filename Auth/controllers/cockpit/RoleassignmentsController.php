@@ -18,10 +18,10 @@ class RoleassignmentsController extends CockpitController
     {
         if (!empty($this->request->post) && isset($this->request->post['submit'])) {
             if ($this->save()) {
-                Session::addFlash('Affectations des rôle modifées', 'success');
+                $this->addFlash('Affectations des rôle modifées', 'success');
                 $this->redirect('cockpit_auth_roleassignments');
             } else {
-                Session::addFlash('Erreur(s) dans le formulaire', 'danger');
+                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
             }
         }
 
