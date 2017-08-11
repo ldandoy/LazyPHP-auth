@@ -154,7 +154,7 @@ class AuthController extends Controller
                 if ($res && Password::check($password, $res->password)) {
                     $class = $this->model;
                     $user = $class::findById($res->id);
-                    Session::set($this->sessionKey, $user);
+                    $this->session->set($this->sessionKey, $user);
                     $this->redirect($this->afterLoginPage);
                 } else {
                     $this->addFlash('Identifiant ou mot de passe incorrect', 'danger');
@@ -178,10 +178,10 @@ class AuthController extends Controller
 
     public function logoutAction()
     {
-        /*Session::removeAll();
+        /*$this->session->removeAll();
         $this->redirect($this->afterLogoutPage);*/
-        Session::remove($this->sessionKey);
-        Session::remove('fb_access_token');
+        $this->session->remove($this->sessionKey);
+        $this->session->remove('fb_access_token');
 
         $this->redirect($this->afterLogoutPage);
     }

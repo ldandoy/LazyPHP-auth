@@ -19,7 +19,7 @@ class UserController extends FrontController
     public function indexAction()
     {
         if ($this->user === null) {
-            $this->user = Session::get('current_user');
+            $this->user = $this->session->get('current_user');
         }
 
         $this->params['user'] = $this->user;
@@ -31,7 +31,7 @@ class UserController extends FrontController
     public function editAction()
     {
         if ($this->user === null) {
-            $this->user = Session::get('current_user');
+            $this->user = $this->session->get('current_user');
         }
 
         $this->render('user::edit', array(
@@ -43,7 +43,7 @@ class UserController extends FrontController
     public function updateAction()
     {
         if ($this->user === null) {
-            $this->user = Session::get('current_user');
+            $this->user = $this->session->get('current_user');
         }
 
         $post = $this->request->post;
