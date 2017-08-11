@@ -3,7 +3,7 @@
     <div class="box-header">
         <h3 class="box-title">Liste des Administrateurs</h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_administrators_new" type="success" size="sm" icon="plus" %}
+            {% button url="cockpit_auth_administrators_new" type="success" size="sm" icon="plus" hint="Nouvel administrateur" %}
         </div>
     </div>
     <div class="box-body">

@@ -27,18 +27,24 @@ class AdministratorsController extends CockpitController
         }
         $administrators = Administrator::findAll($where);
 
-        $this->render('auth::administrators::index', array(
-            'administrators' => $administrators,
-            'pageTitle' => '<i class="fa fa-user-secret"></i> Administrateurs'
-        ));
+        $this->render(
+            'auth::administrators::index',
+            array(
+                'administrators' => $administrators,
+                'pageTitle' => '<i class="fa fa-user-secret"></i> Administrateurs'
+            )
+        );
     }
 
     public function showAction()
     {
-        $this->render('auth::administrators::show', array(
-            'administrator' => $this->current_administrator,
-            'pageTitle' => '<i class="fa fa-user-secret"></i> Administrateurs'
-        ));
+        $this->render(
+            'auth::administrators::show',
+            array(
+                'administrator' => $this->current_administrator,
+                'pageTitle' => '<i class="fa fa-user-secret"></i> Administrateurs'
+            )
+        );
     }
 
     public function newAction()
@@ -50,15 +56,18 @@ class AdministratorsController extends CockpitController
         $groupOptions = Group::getOptions();
         $siteOptions = Site::getOptions();
 
-        $this->render('auth::administrators::edit', array(
-            'id' => 0,
-            'administrator' => $this->administrator,
-            'pageTitle' => 'Nouvel administrateur',
-            'groupOptions' => $groupOptions,
-            'siteOptions' => $siteOptions,
-            'selectSite' => $this->current_administrator->site_id === null,
-            'formAction' => Router::url('cockpit_auth_administrators_create')
-        ));
+        $this->render(
+            'auth::administrators::edit',
+            array(
+                'id' => 0,
+                'administrator' => $this->administrator,
+                'pageTitle' => 'Nouvel administrateur',
+                'groupOptions' => $groupOptions,
+                'siteOptions' => $siteOptions,
+                'selectSite' => $this->current_administrator->site_id === null,
+                'formAction' => Router::url('cockpit_auth_administrators_create')
+            )
+        );
     }
 
     public function editAction($id)
@@ -70,15 +79,17 @@ class AdministratorsController extends CockpitController
         $groupOptions = Group::getOptions();
         $siteOptions = Site::getOptions();
 
-        $this->render('auth::administrators::edit', array(
-            'id' => $id,
-            'administrator' => $this->administrator,
-            'pageTitle' => 'Modification administrateur n°'.$id,
-            'groupOptions' => $groupOptions,
-            'siteOptions' => $siteOptions,
-            'selectSite' => $this->current_administrator->site_id === null,
-            'formAction' => Router::url('cockpit_auth_administrators_update_'.$id)
-        ));
+        $this->render(
+            'auth::administrators::edit', array(
+                'id' => $id,
+                'administrator' => $this->administrator,
+                'pageTitle' => 'Modification administrateur n°'.$id,
+                'groupOptions' => $groupOptions,
+                'siteOptions' => $siteOptions,
+                'selectSite' => $this->current_administrator->site_id === null,
+                'formAction' => Router::url('cockpit_auth_administrators_update_'.$id)
+            )
+        );
     }
 
     public function createAction()
