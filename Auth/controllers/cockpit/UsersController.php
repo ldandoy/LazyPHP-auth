@@ -49,7 +49,7 @@ class UsersController extends CockpitController
             'groupOptions' => $groupOptions,
             'siteOptions' => $siteOptions,
             'selectSite' => $this->current_administrator->site_id === null,
-            'formAction' => url('cockpit_auth_users_create')
+            'formAction' => Router::url('cockpit_auth_users_create')
         ));
     }
 
