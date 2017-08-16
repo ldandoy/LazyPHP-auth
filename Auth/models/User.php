@@ -22,9 +22,6 @@ class User extends Model
         'active'
     );
 
-    public $labelOption = 'fullname';
-    public $valueOption = 'id';
-
     public function __construct($data = array())
     {
         parent::__construct($data);
@@ -39,21 +36,26 @@ class User extends Model
      */
     public function getAssociations()
     {
-        return array(
-            'site' => array(
-                'type' => '1',
-                'model' => 'Core\\models\\Site',
-                'key' => 'site_id'
-            ),
-            'media' => array(
-                'type' => '1',
-                'model' => 'Media\\models\\Media',
-                'key' => 'media_id'
-            ),
-            'group' => array(
-                'type' => '1',
-                'model' => 'Auth\\models\\Group',
-                'key' => 'group_id'
+        $associations = parent::getAssociations();
+
+        return array_merge(
+            $associations,
+            array(
+                'site' => array(
+                    'type' => '1',
+                    'model' => 'Core\\models\\Site',
+                    'key' => 'site_id'
+                ),
+                'media' => array(
+                    'type' => '1',
+                    'model' => 'Media\\models\\Media',
+                    'key' => 'media_id'
+                ),
+                'group' => array(
+                    'type' => '1',
+                    'model' => 'Auth\\models\\Group',
+                    'key' => 'group_id'
+                )
             )
         );
     }
