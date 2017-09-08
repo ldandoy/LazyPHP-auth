@@ -95,6 +95,11 @@ class User extends Model
         return $validations;
     }
 
+    public function getOptionLabel()
+    {
+        return '['.$this->id.'] '.$this->getFullName();
+    }
+
     /**
      * Get an user by email
      *
