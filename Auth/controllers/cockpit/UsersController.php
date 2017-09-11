@@ -4,8 +4,8 @@ namespace Auth\controllers\cockpit;
 
 use app\controllers\cockpit\CockpitController;
 use Core\Router;
-use Core\Session;
 use Core\Password;
+use Core\AttachedFile;
 
 use Auth\models\User;
 use Auth\models\Group;
@@ -16,7 +16,12 @@ class UsersController extends CockpitController
     /*
      * @var Auth\models\User
      */
-    public $user = null;
+    private $user = null;
+
+    /*
+     * @var Auth\models\User
+     */
+    private $pageTitle = '<i class="fa fa-users"></i> Gestion des utilisateurs';
 
     public function indexAction()
     {
@@ -27,10 +32,13 @@ class UsersController extends CockpitController
         }
         $users = User::findAll($where);
 
-        $this->render('auth::users::index', array(
-            'pageTitle' => '<i class="fa fa-users"></i> Utilisateurs',
-            'users' => $users
-        ));
+        $this->render(
+            'auth::users::index',
+            array(
+                'pageTitle' => $this->pageTitle,
+                'users' => $users
+            )
+        );
     }
 
     public function newAction()
@@ -42,15 +50,19 @@ class UsersController extends CockpitController
         $groupOptions = Group::getOptions();
         $siteOptions = Site::getOptions();
 
-        $this->render('auth::users::edit', array(
-            'id' => 0,
-            'user' => $this->user,
-            'pageTitle' => 'Nouvel utilisateur',
-            'groupOptions' => $groupOptions,
-            'siteOptions' => $siteOptions,
-            'selectSite' => $this->current_administrator->site_id === null,
-            'formAction' => Router::url('cockpit_auth_users_create')
-        ));
+        $this->render(
+            'auth::users::edit',
+            array(
+                'id' => 0,
+                'user' => $this->user,
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Nouvel utilisateur',
+                'groupOptions' => $groupOptions,
+                'siteOptions' => $siteOptions,
+                'selectSite' => $this->current_administrator->site_id === null,
+                'formAction' => Router::url('cockpit_auth_users_create')
+            )
+        );
     }
 
     public function editAction($id)
@@ -62,15 +74,19 @@ class UsersController extends CockpitController
         $groupOptions = Group::getOptions();
         $siteOptions = Site::getOptions();
 
-        $this->render('auth::users::edit', array(
-            'id' => $id,
-            'user' => $this->user,
-            'pageTitle' => 'Modification utilisateur n°'.$id,
-            'groupOptions' => $groupOptions,
-            'siteOptions' => $siteOptions,
-            'selectSite' => $this->current_administrator->site_id === null,
-            'formAction' => Router::url('cockpit_auth_users_update_'.$id)
-        ));
+        $this->render(
+            'auth::users::edit',
+            array(
+                'id' => $id,
+                'user' => $this->user,
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Modification utilisateur n°'.$id,
+                'groupOptions' => $groupOptions,
+                'siteOptions' => $siteOptions,
+                'selectSite' => $this->current_administrator->site_id === null,
+                'formAction' => Router::url('cockpit_auth_users_update_'.$id)
+            )
+        );
     }
 
     public function createAction()
@@ -96,7 +112,7 @@ class UsersController extends CockpitController
                 $this->redirect('cockpit_auth_users');
             } else {
                 $this->addFlash('Erreur insertion base de données', 'danger');
-            };
+            }
         } else {
             $this->addFlash('Erreur(s) dans le formulaire', 'danger');
         }
@@ -144,5 +160,88 @@ class UsersController extends CockpitController
         $user->delete();
         $this->addFlash('Utilisateur supprimé', 'success');
         $this->redirect('cockpit_auth_users');
+    }
+
+    public function importcsvAction()
+    {
+        $errors = array();
+
+        $post = $this->request->post;
+
+        if (isset($post['submit']) && $post['submit'] == 'importcsv') {
+            if (!isset($post['site_id'])) {
+                $post['site_id'] = $this->site->id;
+            }
+
+            if (!isset($post['file'])) {
+                $errors['file'] = 'Fichier obligatoire';
+            } else {
+                $af = new AttachedFile(null, $post['file'][0], '.csv');
+                $errorFile = $af->valid();
+
+                if ($errorFile !== true) {
+                    $errors['file'] = 'Erreur fichier : '.$errorFile;
+                }
+            }
+
+            if (empty($errors)) {
+                $path = $af->uploadedFile['tmp_name'];                
+
+                $f = fopen($path, 'r');
+                $r = 0;
+                while (($row = fgetcsv($f, 0, ';', '"', '\\')) !== false) {
+                    // header
+                    if ($r == 0/*$row[0] == 'lastname' && $row[1] == 'firstname'*/) {
+                        $r++;
+                        continue;
+                    }
+
+                    $user = new User();
+
+                    $user->site_id = $post['site_id'];
+
+                    $user->lastname = $row[0];
+                    $user->firstname = $row[1];
+                    $user->email = $row[2];
+
+                    $password = $row[3] != '' ? $row[3] : Password::generatePassword(); 
+                    $cryptedPassword = Password::crypt($password);
+                    $user->password = $cryptedPassword;
+
+                    $user->email_verification_code = Password::generateToken();
+                    $user->email_verification_date = date('Y-m-d H:i:s');
+                    $user->active = 1;
+
+                    // echo $row[0].' '.$row[1];
+                    // if ($user->save()) {
+                    //     echo ' => OK';
+                    // } else {
+                    //     echo ' => * erreur *';
+                    // }
+                    // echo '<br />';
+
+                    $r++;
+                }
+
+                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
+                $this->redirect('cockpit_auth_users');
+            } else {
+                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
+            }
+        }
+
+        $siteOptions = Site::getOptions();
+
+        $this->render(
+            'auth::users::importcsv',
+            array(
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Importer des utilisateurs',
+                'siteOptions' => $siteOptions,
+                'selectSite' => $this->current_administrator->site_id === null,
+                'formAction' => Router::url('cockpit_auth_users_importcsv'),
+                'errors' => $errors
+            )
+        );
     }
 }

@@ -1,9 +1,10 @@
 <h1 class="page-title">{{ pageTitle }}</h1>
 <div class="box box-success">
     <div class="box-header">
-        <h3 class="box-title">Liste des utilisateurs</h3>
+        <h3 class="box-title">{{ boxTitle }}</h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_users_new" type="success" size="sm" icon="plus" %}
+            {% button url="cockpit_auth_users_new" type="success" size="sm" icon="plus" hint="Ajouter" %}
+            {% button url="cockpit_auth_users_importcsv" type="warning" size="sm" icon="download" hint="Importer" %}
         </div>
     </div>
     <div class="box-body">
@@ -41,8 +42,8 @@ foreach ($params['users'] as $user) {
             '<td>'.($user->group_id != null ? $user->group->label : '').'</td>'.
             '<td>'.$active.'</td>'.
             '<td>';?>
-    {% button url="cockpit_auth_users_edit_<?php echo $user->id; ?>" type="info" size="sm" icon="pencil" %}
-    {% button url="cockpit_auth_users_delete_<?php echo $user->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet utilisateur?" %}
+            {% button url="cockpit_auth_users_edit_<?php echo $user->id; ?>" type="info" size="sm" icon="pencil" hint="modifier" %}
+            {% button url="cockpit_auth_users_delete_<?php echo $user->id; ?>" type="danger" size="sm" icon="trash-o" hint="Supprimer" confirmation="Vous confirmer vouloir supprimer cet utilisateur?" %}
 <?php
     echo
             '</td>'.

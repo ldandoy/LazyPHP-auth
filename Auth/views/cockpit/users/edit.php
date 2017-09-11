@@ -1,7 +1,7 @@
 <h1 class="page-title">{{ pageTitle }}</h1>
 <div class="box box-success">
     <div class="box-header">
-        <h3 class="box-title">Liste des utilisateurs</h3>
+        <h3 class="box-title">{{ boxTitle }}</h3>
         <div class="box-tools pull-right">
             {% button url="cockpit_auth_users" type="secondary" icon="arrow-left" class="btn-sm" %}
         </div>
