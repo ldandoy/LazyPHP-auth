@@ -3,7 +3,7 @@
     <div class="box-header">
         <h3 class="box-title">{{ boxTitle }}</h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_roles_new" type="success" size="sm" icon="plus" %}
+            {% button url="cockpit_auth_roles_new" type="success" size="sm" icon="plus" hint="Ajouter" %}
         </div>
     </div>
     <div class="box-body">
@@ -25,8 +25,8 @@ foreach ($roles as $role) {
             '<td>'.$role->code.'</td>'.
             '<td>'.$role->label.'</td>'.
             '<td>';?>
-    {% button url="cockpit_auth_roles_edit_<?php echo $role->id; ?>" type="info" size="sm" icon="pencil" %}
-    {% button url="cockpit_auth_roles_delete_<?php echo $role->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer ce rôle?" %}
+                {% button url="cockpit_auth_roles_edit_<?php echo $role->id; ?>" type="info" size="sm" icon="pencil" hint="Modifier" %}
+                {% button url="cockpit_auth_roles_delete_<?php echo $role->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer ce rôle ?" hint="Supprimer" %}
 <?php
     echo
             '</td>'.
@@ -43,6 +43,6 @@ foreach ($roles as $role) {
         <h3 class="box-title">Modifier les affectations des rôles</h3>
     </div>
     <div class="box-body">
-        {% button url="cockpit_auth_roleassignments" type="info" content="Affectations des rôles" icon="list" %}
+        {% button url="cockpit_auth_roleassignments" type="info" content="Affectations des rôles" icon="list" hint="Modifer affectations des rôles" %}
     </div>
 </div>

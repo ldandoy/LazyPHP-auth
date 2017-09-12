@@ -30,25 +30,4 @@ class Group extends Model
 
         return $validations;
     }
-
-    public static function getOptions($parent_id = null)
-    {
-        $options = array(
-            0 => array(
-                'value' => '',
-                'label' => '---'
-            )
-        );
-
-        $groups = self::findAll();
-
-        foreach ($groups as $group) {
-            $options[$group->id] = array(
-                'value' => $group->id,
-                'label' => $group->label
-            );
-        }
-
-        return $options;
-    }
 }

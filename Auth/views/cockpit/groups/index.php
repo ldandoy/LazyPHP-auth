@@ -3,7 +3,7 @@
     <div class="box-header">
         <h3 class="box-title">{{ boxTitle }}</h3>
         <div class="box-tools pull-right">
-            {% button url="cockpit_auth_groups_new" type="success" size="sm" icon="plus" %}
+            {% button url="cockpit_auth_groups_new" type="success" size="sm" icon="plus" hint="Ajouter" %}
         </div>
     </div>
     <div class="box-body">
@@ -25,8 +25,8 @@ foreach ($groups as $group) {
             '<td>'.$group->code.'</td>'.
             '<td>'.$group->label.'</td>'.
             '<td>';?>
-    {% button url="cockpit_auth_groups_edit_<?php echo $group->id; ?>" type="info" size="sm" icon="pencil" %}
-    {% button url="cockpit_auth_groups_delete_<?php echo $group->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer ce groupe?" %}
+                {% button url="cockpit_auth_groups_edit_<?php echo $group->id; ?>" type="info" size="sm" icon="pencil" hint="Modifier" %}
+                {% button url="cockpit_auth_groups_delete_<?php echo $group->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer ce groupe ?" hint="Supprimer" %}
 <?php
     echo
             '</td>'.
