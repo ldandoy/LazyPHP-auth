@@ -1,7 +1,7 @@
 <div class="login-box">
 	<div class="login-box-body">
 		<p align="center">
-			<a href="/"><img src="/assets/images/logo_miaw.png" alt="logo_miaw"></a>
+			<a href="/"><img src="" alt=""></a>
 		</p>
 		{% form_open id="formForgotpassword" class="" noBootstrapCol="1" %}
 			<p class="page-title">{{ pageTitle }}</p>

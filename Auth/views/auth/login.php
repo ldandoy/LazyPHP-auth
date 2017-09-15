@@ -6,7 +6,7 @@
 		<p align="center">
 			<a href="/"><img src="{{ imageLogin }}" alt="{{ altImageLogin }}"></a>
 		</p>
-		{% form_open id="formLogin" action="formAction" noBootstrapCol="1" class="form" %}
+		{% form_open id="formLogin" action="formAction" noBootstrapCol="1" %}
 			<p class="page-title">{{ pageTitle }}</p>
 			{% input_text name="email" model="email" label="Email" placeholder="Identifiant" %}
 			{% input_password name="password" label="Password" model="password" value="" placeholder="Mot de passe" autocomplete="off" %}
