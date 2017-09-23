@@ -81,6 +81,11 @@ class AuthController extends Controller
     /**
      * @var string
      */
+    public $afterLoginPageCokpit = 'cockpit';
+
+    /**
+     * @var string
+     */
     public $afterLogoutPage = '';
 
     /**
@@ -155,7 +160,11 @@ class AuthController extends Controller
                     $class = $this->model;
                     $user = $class::findById($res->id);
                     $this->session->set($this->sessionKey, $user);
-                    $this->redirect($this->afterLoginPage);
+                    if ($user->group->cockpit == 1) {
+                        $this->redirect($this->afterLoginPageCokpit);
+                    } else {
+                        $this->redirect($this->afterLoginPage);
+                    }
                 } else {
                     $this->addFlash('Identifiant ou mot de passe incorrect', 'danger');
                 }
