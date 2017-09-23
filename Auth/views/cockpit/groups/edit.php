@@ -10,6 +10,7 @@
         {% form_open id="formGroup" action="formAction" %}
             {% input_text name="code" model="group.code" label="Code" %}
             {% input_text name="label" model="group.label" label="Nom" %}
+            {% input_checkbox name="cockpit" model="group.cockpit" label="Accès au cockpit" %}
             {% input_submit name="submit" value="save" formId="formGroup" class="btn-primary" icon="save" label="Enregistrer" %}
         {% form_close %}
     </div>

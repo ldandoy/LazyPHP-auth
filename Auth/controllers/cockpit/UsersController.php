@@ -13,13 +13,13 @@ use Core\models\Site;
 
 class UsersController extends CockpitController
 {
-    /*
+    /**
      * @var Auth\models\User
      */
     private $user = null;
 
-    /*
-     * @var Auth\models\User
+    /**
+     * @var string
      */
     private $pageTitle = '<i class="fa fa-users"></i> Gestion des utilisateurs';
 
@@ -59,7 +59,7 @@ class UsersController extends CockpitController
                 'boxTitle' => 'Nouvel utilisateur',
                 'groupOptions' => $groupOptions,
                 'siteOptions' => $siteOptions,
-                'selectSite' => $this->current_administrator->site_id === null,
+                'selectSite' => $this->current_user->site_id === null,
                 'formAction' => Router::url('cockpit_auth_users_create')
             )
         );
@@ -83,7 +83,7 @@ class UsersController extends CockpitController
                 'boxTitle' => 'Modification utilisateur n°'.$id,
                 'groupOptions' => $groupOptions,
                 'siteOptions' => $siteOptions,
-                'selectSite' => $this->current_administrator->site_id === null,
+                'selectSite' => $this->current_user->site_id === null,
                 'formAction' => Router::url('cockpit_auth_users_update_'.$id)
             )
         );
@@ -238,7 +238,7 @@ class UsersController extends CockpitController
                 'pageTitle' => $this->pageTitle,
                 'boxTitle' => 'Importer des utilisateurs',
                 'siteOptions' => $siteOptions,
-                'selectSite' => $this->current_administrator->site_id === null,
+                'selectSite' => $this->current_user->site_id === null,
                 'formAction' => Router::url('cockpit_auth_users_importcsv'),
                 'errors' => $errors
             )

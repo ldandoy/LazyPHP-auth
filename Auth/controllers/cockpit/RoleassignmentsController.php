@@ -28,14 +28,12 @@ class RoleassignmentsController extends CockpitController
         $roleAssignments = RoleAssignment::findAllSorted();
         $roles = Role::findAll();
         $groups = Group::findAll();
-        $administrators = Administrator::findAll();
         $users = User::findAll();
 
         $this->render('auth::roleassignments::index', array(
             'roleAssignments' => $roleAssignments,
             'roles' => $roles,
             'groups' => $groups,
-            'administrators' => $administrators,
             'users' => $users,
             'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs',
             'boxTitle' => 'Affectations des rôles',
@@ -57,17 +55,6 @@ class RoleassignmentsController extends CockpitController
                 $roleAssignment->create(
                     array(
                         'group_id' => (int)$a[1],
-                        'administrator_id' => null,
-                        'user_id' => null,
-                        'role_id' => (int)$a[3]
-                    )
-                );
-            } else if (strpos($k, 'administrator_') === 0) {
-                $a = explode('_', $k);
-                $roleAssignment->create(
-                    array(
-                        'group_id' => null,
-                        'administrator_id' => (int)$a[1],
                         'user_id' => null,
                         'role_id' => (int)$a[3]
                     )
@@ -77,7 +64,6 @@ class RoleassignmentsController extends CockpitController
                 $roleAssignment->create(
                     array(
                         'group_id' => null,
-                        'administrator_id' => null,
                         'user_id' => (int)$a[1],
                         'role_id' => (int)$a[3]
                     )

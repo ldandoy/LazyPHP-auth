@@ -5,6 +5,7 @@ namespace Auth\models;
 use Core\Model;
 use Core\Query;
 use Core\Password;
+use Auth\models\RoleAssignment;
 
 class User extends Model
 {
@@ -140,4 +141,25 @@ class User extends Model
             return '';
         }
     }
+
+    public static function checkPermission($user, $roleCode)
+    {
+        if ($user !== null && $user->group_id !== null) {
+            $roleAssignments = array_merge(
+                RoleAssignment::findByGroup($user->group_id),
+                RoleAssignment::findByUser($user->id)
+            );
+
+            if (!empty($roleAssignments)) {
+                foreach ($roleAssignments as $roleAssignment) {
+                    if ($roleAssignment->role->code == $roleCode) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

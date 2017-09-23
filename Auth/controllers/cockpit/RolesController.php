@@ -10,20 +10,28 @@ use Auth\models\Role;
 
 class RolesController extends CockpitController
 {
-    /*
+    /**
      * @var Auth\models\Role
      */
-    public $role = null;
+    private $role = null;
+
+    /**
+     * @var string
+     */
+    private $pageTitle = '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs';
 
     public function indexAction()
     {
         $roles = Role::findAll();
 
-        $this->render('auth::roles::index', array(
-            'roles' => $roles,
-            'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs',
-            'boxTitle' => 'Liste des rôles d\'utilisateurs'
-        ));
+        $this->render(
+            'auth::roles::index',
+            array(
+                'roles' => $roles,
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Liste des rôles d\'utilisateurs'
+            )
+        );
     }
 
     public function newAction()
@@ -32,12 +40,15 @@ class RolesController extends CockpitController
             $this->role = new Role();
         }
 
-        $this->render('auth::roles::edit', array(
-            'role' => $this->role,
-            'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs',
-            'boxTitle' => 'Nouveau rôle',
-            'formAction' => Router::url('cockpit_auth_roles_create')
-        ));
+        $this->render(
+            'auth::roles::edit',
+            array(
+                'role' => $this->role,
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Nouveau rôle',
+                'formAction' => Router::url('cockpit_auth_roles_create')
+            )
+        );
     }
 
     public function editAction($id)
@@ -46,12 +57,15 @@ class RolesController extends CockpitController
             $this->role = Role::findById($id);
         }
 
-        $this->render('auth::roles::edit', array(
-            'role' => $this->role,
-            'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des rôles d\'utilisateurs',
-            'boxTitle' => 'Modification rôle n°'.$id,
-            'formAction' => Router::url('cockpit_auth_roles_update_'.$id)
-        ));
+        $this->render(
+            'auth::roles::edit',
+            array(
+                'role' => $this->role,
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Modification rôle n°'.$id,
+                'formAction' => Router::url('cockpit_auth_roles_update_'.$id)
+            )
+        );
     }
 
     public function createAction()

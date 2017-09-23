@@ -10,20 +10,28 @@ use Auth\models\Group;
 
 class GroupsController extends CockpitController
 {
-    /*
+    /**
      * @var Auth\models\Group
      */
-    public $group = null;
+    private $group = null;
+
+    /**
+     * @var string
+     */
+    private $pageTitle = '<i class="fa fa-picture-o fa-brown"></i> Gestion des groupes d\'utilisateurs';
 
     public function indexAction()
     {
         $groups = Group::findAll();
 
-        $this->render('auth::groups::index', array(
-            'groups' => $groups,
-            'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des groupes d\'utilisateurs',
-            'boxTitle' => 'Liste des groupes d\'utilisateurs'
-        ));
+        $this->render(
+            'auth::groups::index',
+            array(
+                'groups' => $groups,
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Liste des groupes d\'utilisateurs'
+            )
+        );
     }
 
     public function newAction()
@@ -32,12 +40,15 @@ class GroupsController extends CockpitController
             $this->group = new Group();
         }
 
-        $this->render('auth::groups::edit', array(
-            'group' => $this->group,
-            'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des groupes d\'utilisateurs',
-            'boxTitle' => 'Nouveau groupe',
-            'formAction' => Router::url('cockpit_auth_groups_create')
-        ));
+        $this->render(
+            'auth::groups::edit',
+            array(
+                'group' => $this->group,
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Nouveau groupe',
+                'formAction' => Router::url('cockpit_auth_groups_create')
+            )
+        );
     }
 
     public function editAction($id)
@@ -46,17 +57,24 @@ class GroupsController extends CockpitController
             $this->group = Group::findById($id);
         }
 
-        $this->render('auth::groups::edit', array(
-            'group' => $this->group,
-            'pageTitle' => '<i class="fa fa-picture-o fa-brown"></i> Gestion des groupes d\'utilisateurs',
-            'boxTitle' => 'Modification group n°'.$id,
-            'formAction' => Router::url('cockpit_auth_groups_update_'.$id)
-        ));
+        $this->render(
+            'auth::groups::edit',
+            array(
+                'group' => $this->group,
+                'pageTitle' => $this->pageTitle,
+                'boxTitle' => 'Modification group n°'.$id,
+                'formAction' => Router::url('cockpit_auth_groups_update_'.$id)
+            )
+        );
     }
 
     public function createAction()
     {
         $this->group = new Group();
+
+        if (!isset($this->request->post['cockpit'])) {
+            $this->request->post['cockpit'] = 0;
+        }
 
         if ($this->group->save($this->request->post)) {
             $this->addFlash('Groupe ajouté', 'success');
@@ -71,6 +89,10 @@ class GroupsController extends CockpitController
     public function updateAction($id)
     {
         $this->group = Group::findById($id);
+
+        if (!isset($this->request->post['cockpit'])) {
+            $this->request->post['cockpit'] = 0;
+        }
 
         if ($this->group->save($this->request->post)) {
             $this->addFlash('Groupe modifié', 'success');

@@ -11,10 +11,10 @@ use Auth\models\User;
 
 class UserController extends FrontController
 {
-    /*
+    /**
      * @var Auth\models\User
      */
-    public $user = null;
+    private $user = null;
 
     public function indexAction()
     {
@@ -25,7 +25,10 @@ class UserController extends FrontController
         $this->params['user'] = $this->user;
         $this->params['title'] = $this->config['GENERAL']['title'];
 
-        $this->render('user::index', $this->params);
+        $this->render(
+            'user::index',
+            $this->params
+        );
     }
 
     public function editAction()
@@ -34,10 +37,13 @@ class UserController extends FrontController
             $this->user = $this->session->get('current_user');
         }
 
-        $this->render('user::edit', array(
-            'user' => $this->user,
-            'formAction' => Router::url('user_update')
-        ));
+        $this->render(
+            'user::edit',
+            array(
+                'user' => $this->user,
+                'formAction' => Router::url('user_update')
+            )
+        );
     }
 
     public function updateAction()

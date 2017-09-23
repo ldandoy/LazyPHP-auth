@@ -8,7 +8,8 @@ class Group extends Model
 {
     protected $permittedColumns = array(
         'code',
-        'label'
+        'label',
+        'cockpit'
     );
 
     public function getValidations()
