@@ -7,7 +7,6 @@ use Core\Session;
 use Core\Router;
 
 use Auth\models\Group;
-use Auth\models\Administrator;
 use Auth\models\User;
 use Auth\models\Role;
 use Auth\models\RoleAssignment;
