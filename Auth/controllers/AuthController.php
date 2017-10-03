@@ -142,7 +142,7 @@ class AuthController extends Controller
             if ($id == '') {
                 $errors[$this->idField] = 'Identifiant obligatoire';
             } else if (!filter_var($id, FILTER_VALIDATE_EMAIL)) {
-                $errors[$this->idField] = 'Email invlaide';
+                $errors[$this->idField] = 'Email invalide';
             }
 
             if ($password == '') {
@@ -255,5 +255,73 @@ class AuthController extends Controller
             'errors' => $errors
         );
         $this->render('auth::auth::forgotpassword', $params);
+    }
+
+    public function apiloginAction()
+    {
+        $params = array(
+            'error' => false,
+            'message' => '',
+            'errors' => array()
+        );
+        $error= false;
+
+        $post = $this->request->post;
+
+        if (!empty($post) && isset($post[$this->idField]) && isset($post[$this->passwordField])) {
+            $id = trim($post[$this->idField]);
+            $password = trim($post[$this->passwordField]);
+
+            if ($id == '') {
+                $params['errors'][$this->idField] = 'Identifiant obligatoire';
+            } else if (!filter_var($id, FILTER_VALIDATE_EMAIL)) {
+                $params['errors'][$this->idField] = 'Email invalide';
+            }
+
+            if ($password == '') {
+                $params['errors'][$this->passwordField] = 'Mot de passe obligatoire';
+            }
+
+            if (empty($params['errors'])) {
+                $query = new Query();
+                $query->select('*');
+                $query->where($this->idField.' = :idField');
+                $query->from($this->tableName);
+                $res = $query->executeAndFetch(array('idField' => $id));
+
+                if ($res && Password::check($password, $res->password)) {
+                    $class = $this->model;
+                    $user = $class::findById($res->id);
+                    $this->session->set($this->sessionKey, $user);
+                    $params['users'] = $user;
+                }
+            } else {
+                $error = true;
+            }
+        } else {
+            $error = true;
+        }
+
+        if ($error) {
+            $params['error'] = true;
+            $params['message'] = 'Identifiant ou mot de passe incorrect';
+        }
+
+        $this->render('', $params);
+    }
+
+    public function apilogoutAction()
+    {
+        $params = array(
+            'error' => false,
+            'message' => ''
+        );
+
+        $this->session->remove($this->sessionKey);
+        $this->session->remove('fb_access_token');
+
+        $params['message'] = 'Vous êtes maintenant déconnecté';
+
+        $this->render('', $params);
     }
 }
