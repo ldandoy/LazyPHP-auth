@@ -293,7 +293,9 @@ class AuthController extends Controller
                     $class = $this->model;
                     $user = $class::findById($res->id);
                     $this->session->set($this->sessionKey, $user);
-                    $params['users'] = $user;
+                    $params['user'] = $user;
+                } else {
+                    $error = true;
                 }
             } else {
                 $error = true;
@@ -321,6 +323,21 @@ class AuthController extends Controller
         $this->session->remove('fb_access_token');
 
         $params['message'] = 'Vous êtes maintenant déconnecté';
+
+        $this->render('', $params);
+    }
+
+    public function apiisconnectedAction()
+    {
+        $user = $this->session->get($this->sessionKey);
+        $isConnected = $user !== null;
+
+        $params = array(
+            'error' => false,
+            'message' => '',
+            'isConnected' => $isConnected,
+            'user' => $user
+        );
 
         $this->render('', $params);
     }
