@@ -292,6 +292,7 @@ class AuthController extends Controller
                 if ($res && Password::check($password, $res->password)) {
                     $class = $this->model;
                     $user = $class::findById($res->id);
+                    $user->avatar = $user->media != null ? $user->media->getUrl() : null;
                     $this->session->set($this->sessionKey, $user);
                     $params['user'] = $user;
                 } else {
@@ -330,7 +331,13 @@ class AuthController extends Controller
     public function apiisconnectedAction()
     {
         $user = $this->session->get($this->sessionKey);
-        $isConnected = $user !== null;
+
+        if ($user !== null) {
+            $isConnected = true;
+            $user->avatar = $user->media != null ? $user->media->getUrl() : null;
+        } else {
+            $isConnected = false;
+        }
 
         $params = array(
             'error' => false,
