@@ -122,12 +122,15 @@ class AuthController extends Controller
             }
         }
 
-        $this->render('auth::auth::signup', array(
-            'id' => 0,
-            'user' => $user,
-            'pageTitle' => $this->pageTitle,
-            'formAction' => Router::url($this->signupURL)
-        ));
+        $this->render(
+            'auth::auth::signup',
+            array(
+                'id' => 0,
+                'user' => $user,
+                'pageTitle' => $this->pageTitle,
+                'formAction' => Router::url($this->signupURL)
+            )
+        );
     }
 
     public function loginAction()
@@ -255,6 +258,21 @@ class AuthController extends Controller
             'errors' => $errors
         );
         $this->render('auth::auth::forgotpassword', $params);
+    }
+
+    public function activateAction($email_verification_code)
+    {
+        $class = $this->model;
+        $user = $class::findBy('email_verification_code', $email_verification_code);
+        if ($user !== null) {
+            $user->active = 1;
+            $user->email_verification_code = null;
+            $user->email_verification_date = null;
+            $user->save();
+            $this->params['activated'] = true;
+        } else {
+            $this->params['activated'] = false;
+        }
     }
 
     public function apiloginAction()
