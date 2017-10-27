@@ -314,6 +314,8 @@ class AuthController extends Controller
                         $user->avatar = $user->media != null ? $user->media->getUrl() : null;
                         $this->session->set($this->sessionKey, $user);
                         $params['user'] = $user;
+                    } else {
+                        $error = true;
                     }
                 } else {
                     $error = true;
