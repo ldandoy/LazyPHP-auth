@@ -310,9 +310,11 @@ class AuthController extends Controller
                 if ($res && Password::check($password, $res->password)) {
                     $class = $this->model;
                     $user = $class::findById($res->id);
-                    $user->avatar = $user->media != null ? $user->media->getUrl() : null;
-                    $this->session->set($this->sessionKey, $user);
-                    $params['user'] = $user;
+                    if ($user->active == 1) {
+                        $user->avatar = $user->media != null ? $user->media->getUrl() : null;
+                        $this->session->set($this->sessionKey, $user);
+                        $params['user'] = $user;
+                    }
                 } else {
                     $error = true;
                 }
