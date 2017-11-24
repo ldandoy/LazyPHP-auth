@@ -15,7 +15,6 @@ class User extends Model
         'firstname',
         'email',
         'password',
-        'address',
         'email_verification_code',
         'email_verification_date',
         'media_id',
