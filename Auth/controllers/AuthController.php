@@ -88,15 +88,10 @@ class AuthController extends Controller
      */
     public $afterLogoutPage = '';
 
-    /**
-     * @var string
-     */
-    public $model  = 'Auth\\models\\User';
-
     public function signupAction()
     {
-        $class = $this->model;
-        $user = new $class();
+        $userClass = $this->loadModel('user');
+        $user = new $userClass();
 
         if (!empty($this->request->post)) {
             $user->setData($this->request->post);
@@ -160,8 +155,8 @@ class AuthController extends Controller
                 $res = $query->executeAndFetch(array('idField' => $id));
 
                 if ($res && Password::check($password, $res->password)) {
-                    $class = $this->model;
-                    $user = $class::findById($res->id);
+                    $userClass = $this->loadModel('user');
+                    $user = $userClass::findById($res->id);
                     $this->session->set($this->sessionKey, $user);
                     if ($user->group->cockpit == 1) {
                         $this->redirect($this->afterLoginPageCokpit);
@@ -207,8 +202,8 @@ class AuthController extends Controller
         if (!empty($post) && isset($post['email'])) {
             $post['email'] = trim($post['email']);
             if ($post['email'] != '') {
-                $class = $this->model;
-                $user = $class::findByEmail($post['email']);
+                $userClass = $this->loadModel('user');
+                $user = $userClass::findByEmail($post['email']);
                 if ($user !== null) {
                     $password = Password::generatePassword();
                     $user->password = Password::crypt($password);
@@ -263,8 +258,8 @@ class AuthController extends Controller
 
     public function activateAction($email_verification_code)
     {
-        $class = $this->model;
-        $user = $class::findBy('email_verification_code', $email_verification_code);
+        $userClass = $this->loadModel('user');
+        $user = $userClass::findBy('email_verification_code', $email_verification_code);
         if ($user !== null) {
             $user->active = 1;
             $user->email_verification_code = null;
@@ -309,8 +304,8 @@ class AuthController extends Controller
                 $res = $query->executeAndFetch(array('idField' => $id));
 
                 if ($res && Password::check($password, $res->password)) {
-                    $class = $this->model;
-                    $user = $class::findById($res->id);
+                    $userClass = $this->loadModel('user');
+                    $user = $userClass::findById($res->id);
                     if ($user->active == 1) {
                         $user->avatar = $user->media != null ? $user->media->getUrl() : null;
                         $this->session->set($this->sessionKey, $user);
