@@ -193,6 +193,7 @@ class AuthController extends Controller
         /*$this->session->removeAll();
         $this->redirect($this->afterLogoutPage);*/
         $this->session->remove($this->sessionKey);
+        $this->session->remove('site');
         $this->session->remove('fb_access_token');
 
         $this->redirect($this->afterLogoutPage);
@@ -343,6 +344,7 @@ class AuthController extends Controller
         );
 
         $this->session->remove($this->sessionKey);
+        $this->session->remove('site');
         $this->session->remove('fb_access_token');
 
         $params['message'] = 'Vous êtes maintenant déconnecté';

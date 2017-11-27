@@ -212,13 +212,9 @@ class UsersController extends CockpitController
                     $user->email_verification_date = date('Y-m-d H:i:s');
                     $user->active = 1;
 
-                    // echo $row[0].' '.$row[1];
-                    // if ($user->save()) {
-                    //     echo ' => OK';
-                    // } else {
-                    //     echo ' => * erreur *';
-                    // }
-                    // echo '<br />';
+                    if ($user->save()) {
+                    } else {
+                    }
 
                     $r++;
                 }

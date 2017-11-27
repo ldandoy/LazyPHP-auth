@@ -17,8 +17,8 @@ class User extends Model
         'password',
         'email_verification_code',
         'email_verification_date',
-        'media_id',
         'group_id',
+        'media_id',
         'active'
     );
 
