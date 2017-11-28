@@ -1,6 +1,5 @@
 <div class="login-box">
 	<div class="login-box-logo">
-
 	</div>
 	<div class="login-box-body">
 		<p align="center">
@@ -9,7 +8,7 @@
 		{% form_open id="formLogin" action="formAction" noBootstrapCol="1" %}
 			<p class="page-title">{{ pageTitle }}</p>
 			{% input_text name="email" model="email" label="Email" placeholder="Identifiant" %}
-			{% input_password name="password" label="Password" model="password" value="" placeholder="Mot de passe" autocomplete="off" %}
+			{% input_password name="password" model="password" label="Password" value="" placeholder="Mot de passe" autocomplete="off" %}
 			{% input_submit name="submit" value="login" formId="formLogin" label="Se connecter" class="btn-primary" %}
 		{% form_close %}
 		<p>

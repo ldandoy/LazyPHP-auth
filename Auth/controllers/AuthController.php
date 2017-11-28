@@ -185,8 +185,6 @@ class AuthController extends Controller
 
     public function logoutAction()
     {
-        /*$this->session->removeAll();
-        $this->redirect($this->afterLogoutPage);*/
         $this->session->remove($this->sessionKey);
         $this->session->remove('site');
         $this->session->remove('fb_access_token');
