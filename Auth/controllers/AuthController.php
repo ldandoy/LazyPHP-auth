@@ -90,7 +90,7 @@ class AuthController extends Controller
 
     public function signupAction()
     {
-        $userClass = $this->loadModel('user');
+        $userClass = $this->loadModel('User');
         $user = new $userClass();
 
         if (!empty($this->request->post)) {
@@ -155,7 +155,7 @@ class AuthController extends Controller
                 $res = $query->executeAndFetch(array('idField' => $id));
 
                 if ($res && Password::check($password, $res->password)) {
-                    $userClass = $this->loadModel('user');
+                    $userClass = $this->loadModel('User');
                     $user = $userClass::findById($res->id);
                     $this->session->set($this->sessionKey, $user);
                     if ($user->group->cockpit == 1) {
@@ -200,7 +200,7 @@ class AuthController extends Controller
         if (!empty($post) && isset($post['email'])) {
             $post['email'] = trim($post['email']);
             if ($post['email'] != '') {
-                $userClass = $this->loadModel('user');
+                $userClass = $this->loadModel('User');
                 $user = $userClass::findByEmail($post['email']);
                 if ($user !== null) {
                     $password = Password::generatePassword();
@@ -256,7 +256,7 @@ class AuthController extends Controller
 
     public function activateAction($email_verification_code)
     {
-        $userClass = $this->loadModel('user');
+        $userClass = $this->loadModel('User');
         $user = $userClass::findBy('email_verification_code', $email_verification_code);
         if ($user !== null) {
             $user->active = 1;
@@ -302,7 +302,7 @@ class AuthController extends Controller
                 $res = $query->executeAndFetch(array('idField' => $id));
 
                 if ($res && Password::check($password, $res->password)) {
-                    $userClass = $this->loadModel('user');
+                    $userClass = $this->loadModel('User');
                     $user = $userClass::findById($res->id);
                     if ($user->active == 1) {
                         $user->avatar = $user->media != null ? $user->media->getUrl() : null;
