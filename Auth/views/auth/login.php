@@ -14,8 +14,10 @@
 		<p>
 			Mot de passe oublié? <a href="forgotpassword">Cliquez ici</a>
 		</p>
-		<p>
-			Pas encore de compte? {% link url="<?php echo $signupURL; ?>" content="S'inscrire" %}
-		</p>
+		<?php if ($this->site->signup_opt == 1) { ?>
+			<p>
+				Pas encore de compte? {% link url="<?php echo $signupURL; ?>" content="S'inscrire" %}
+			</p>
+		<?php } ?>
 	</div>
 </div>

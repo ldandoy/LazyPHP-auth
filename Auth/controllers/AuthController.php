@@ -247,9 +247,10 @@ class AuthController extends Controller
         }
 
         $params = array(
-            'pageTitle' => 'Mot de passe oublié',
-            'formAction' => Router::url($this->forgotpasswordPage),
-            'errors' => $errors
+            'imageLogin'    => $this->site->brand_logo->url,
+            'pageTitle'     => 'Mot de passe oublié',
+            'formAction'    => Router::url($this->forgotpasswordPage),
+            'errors'        => $errors
         );
         $this->render('auth::auth::forgotpassword', $params);
     }
