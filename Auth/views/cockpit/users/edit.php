@@ -15,7 +15,9 @@
             {% input_text name="firstname" model="user.firstname" label="Prénom" %}
             {% input_text name="email" model="user.email" label="Email" %}
             {% input_textaera name="address" model="user.address" label="Adresse" %}
-            {% input_password name="newPassword" model="user.newPassword" label="Nouveau mot de passe" autocomplete="off" %}
+<?php if ($user->id !== null): ?>
+            {% input_password name="newPassword" model="user.newPassword" label="Nouveau mot de passe" autocomplete="off" help="8 à 32 caractères, au moins une lettre et un chiffre" %}
+<?php endif; ?>
             {% input_media name="media_id" model="user.media_id" label="Image" mediaType="image" mediaCategory="user" %}
             {% input_select name="group_id" model="user.group_id" label="Groupe" options="groupOptions" %}
             {% input_checkbox name="active" model="user.active" label="Actif" %}
