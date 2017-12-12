@@ -185,6 +185,8 @@ class UsersController extends CockpitController
             }
 
             if (empty($errors)) {
+                $group = Group::findBy('code', 'users');
+
                 $path = $af->uploadedFile['tmp_name'];                
 
                 $f = fopen($path, 'r');
@@ -207,6 +209,8 @@ class UsersController extends CockpitController
                     $password = $row[3] != '' ? $row[3] : Password::generatePassword(); 
                     $cryptedPassword = Password::crypt($password);
                     $user->password = $cryptedPassword;
+
+                    $user->group_id = $group->id;
 
                     $user->email_verification_code = Password::generateToken();
                     $user->email_verification_date = date('Y-m-d H:i:s');
