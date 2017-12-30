@@ -152,7 +152,7 @@ class User extends Model
 
             if (!empty($roleAssignments)) {
                 foreach ($roleAssignments as $roleAssignment) {
-                    if ($roleAssignment->role->code == $roleCode) {
+                    if ($roleAssignment->role != null && $roleAssignment->role->code == $roleCode) {
                         return true;
                     }
                 }
