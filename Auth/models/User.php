@@ -56,7 +56,12 @@ class User extends Model
                     'type' => '1',
                     'model' => 'Auth\\models\\Group',
                     'key' => 'group_id'
-                )
+                ),
+                'order' => array(
+                'type' => '1',
+                'model' => 'Order',
+                'key' => 'order_id'
+            ),
             )
         );
     }

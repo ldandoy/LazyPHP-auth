@@ -22,13 +22,29 @@ class UserController extends FrontController
             $this->user = $this->session->get('current_user');
         }
 
+        $orderClass = $this->loadModel('Order'); 
+        if ($this->site !== null ) {
+            $where = 'site_id = '.$this->site->id;
+
+        } else {
+            $where = '';
+        }
+        $where .=  ' and user_id=' . $this->user->id;
+
+        $orders = $orderClass::findAll($where );
+
+        
+
         $this->params['user'] = $this->user;
         $this->params['title'] = $this->config['GENERAL']['title'];
+        $this->params['orders'] = $orders;
+
 
         $this->render(
             'user::index',
             $this->params
         );
+
     }
 
     public function editAction()
