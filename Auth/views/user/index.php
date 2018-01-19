@@ -13,7 +13,7 @@
 			<div class="box box-success">
 
 			    <div class="box-infos">
-					<h3>Informations personelles</h3>
+					<h3>Informations personnelles</h3>
 		            <div class="card slot-coach">
 		                    <div>
 		                        <?php echo $avatar; ?>
@@ -30,6 +30,18 @@
 				<div class="box-orders">
 					<h3>Commandes</h3>
 		            <div class="card">
+		             <table class="table table-hover table-sm ">
+            <thead>
+                <tr>
+                    <th>Coach</th>
+                    <th>Catégorie</th>
+                    <th>Activité - Date</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th width="15%"></th>
+                </tr>
+            </thead>
+            <tbody>
 						<?php
 						foreach ($orders as $order) {
 		                             foreach ($order->orderdetails as $orderdetail) {
@@ -40,7 +52,7 @@
 		                                        }  
 		                                echo
 		                                '<div class="slot-order">
-		                                <table>
+		                                
 			                                <tr>
 			                                    <td>'. $order->user->fullname . /* nom du coach */'</td> 
 			                                    <td>'. $label_slot ./* Sous catégorie */'</td>
@@ -54,12 +66,14 @@
 			                                echo
 			                                    '</td>'.
 			                                '</tr> 
-		                                </table>
 		                                <br /></div>';   
 		                        }
 						?>
 					</div>
 				 </div>
+
+				 </tbody>
+        </table>
 
 			 	<div class="box-body">
 			        {% link url="user_edit" content="Modifier vos données personnelles" icon="pencil" %}<br />
