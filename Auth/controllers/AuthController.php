@@ -17,6 +17,8 @@ use Core\Query;
 use Core\Router;
 use Core\Password;
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 /**
  * Auth controller
  *
@@ -88,6 +90,8 @@ class AuthController extends Controller
      */
     public $afterLogoutPage = '';
 
+    public $sponsorship = false;
+
     public function signupAction()
     {
         $userClass = $this->loadModel('User');
@@ -104,9 +108,38 @@ class AuthController extends Controller
 
                 $user->email_verification_code = Password::generateToken();
                 $user->email_verification_date = date('Y-m-d H:i:s');
-                $user->active = 0;
+                $user->active = 1;
+                $user->site_id = $this->site->id;
+
+                if ($this->sponsorship) {
+                    $user->sponsorship = uniqid();
+                }
 
                 if ($user->create((array)$user)) {
+                    $tpl =
+                        '<html>'.
+                            '<head>'.
+                            '</head>'.
+                            '<body>'.
+                                '<p>'.
+                                    'Identifiant : '.$user->email.'<br />'.
+                                    'Nouveau mot de passe : '.$password.
+                                '</p>'.
+                            '</body>'.
+                        '</html>';
+                    $tpl = str_replace(array('{email}', '{password}'), array($user->email, $password), $tpl);
+                    $email = new PHPMailer();
+                    $email->isMail();
+                    $email->setFrom('contact@'.$this->site->host, $this->site->label);
+                    $email->addAddress($user->email);
+                    $email->addReplyTo('contact@'.$this->site->host, $this->site->label);
+                    $email->CharSet = 'utf-8';
+                    $email->isHTML(true);
+                    $email->Subject = '['.$this->site->label.'] Votre nouveau mot de passe';
+                    $email->Body = $tpl;
+                    $email->AltBody = '';
+                    $email->send();
+
                     $this->addFlash('Compte créé', 'success');
                     $this->redirect($this->afterSignupPage);
                 } else {

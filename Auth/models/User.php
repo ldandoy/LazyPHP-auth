@@ -20,13 +20,14 @@ class User extends Model
         'email_verification_date',
         'group_id',
         'media_id',
-        'active'
+        'active',
+        'sponsorship'
     );
 
     public function __construct($data = array())
     {
         parent::__construct($data);
-        
+
         $this->fullname = $this->getFullName();
     }
 
