@@ -205,6 +205,8 @@ class AuthController extends Controller
         $this->params = array(
             'pageTitle' => 'Accédez à votre espace',
             'formAction' => Router::url($this->loginPage),
+            //'formAction2' => Router::url($this->'auth/signup'),
+            'formAction2' => Router::url($this->loginPage),
             'signupURL' => '/users',
             'altImageLogin' => 'Default Image Login',
             'imageLogin' => '/assets/images/default_image_login.png',
