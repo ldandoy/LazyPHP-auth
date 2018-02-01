@@ -17,6 +17,8 @@ use Core\Query;
 use Core\Router;
 use Core\Password;
 
+use Auth\controllers\Mail;
+
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
@@ -140,27 +142,26 @@ class AuthController extends Controller
                     $email->AltBody = '';
                     $email->send();*/
 
-                    $contents='Bonjour '. $user->firstname .',<br/>
+                    $contents='Bonjour '. $user->firstname .',<br/><br/>
                     
                         Nous vous confirmons votre inscription à FITNSS.<br/>
                         Voici les informations liées à votre compte :<br/>
                         Identifiants :  '. $user->email .'<br/>
-                        Mot de passe : '. $password  .' <br/>
+                        Mot de passe : '. $password  .' <br/><br/>
                     
-                        Vous pouvez désormais réserver à la carte des supers séances de coaching en petit groupe près de chez vous !<br/>
+                        Vous pouvez désormais réserver à la carte des supers séances de coaching en petit groupe près de chez vous !<br/><br/>
                     
-                        Alors, prêt à partager un coach ?      <a href="http://fitnss.fr/slots/search" RÉSERVER UNE SÉANCE</a> <br/>
+                        Alors, prêt à partager un coach ?      <a href="http://fitnss.fr/slots/search" target="_blank"> RÉSERVER UNE SÉANCE</a> <br/><br/>
                     
                     
-                        Chez Fitnss, le prix d’une heure de coaching semi-individuel est divisé par TROIS mais surtout la bonne ambiance est de mise.<br/>
+                        Chez Fitnss, le prix d’une heure de coaching semi-individuel est divisé par TROIS mais surtout la bonne ambiance est de mise.<br/><br/>
                     
                         Vous ne nous suivez pas encore sur Facebook ???<br/>
                         Ne ratez rien de l’évolution de la start-up sportive qui va révolutionner le sport de demain.<br/>
-                        Profitez de nos conseils et actualités en likant maintenant notre page FITNSS.<br/>
+                        Profitez de nos conseils et actualités en likant maintenant notre page FITNSS.<br/><br/>
                     
                         Sportivement,<br/>
                         L’équipe FITNSS.';
-                        var_dump($contents);die;
 
                     Mail::send('contact@fitnss.fr', 'Contact', $user->email, $user->fullname, 'Création de votre compte FITNSS' , $contents);
 
