@@ -17,7 +17,6 @@ use Core\Query;
 use Core\Router;
 use Core\Password;
 
-use Auth\controllers\Mail;
 
 use PHPMailer\PHPMailer\PHPMailer;
 
