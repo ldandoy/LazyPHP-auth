@@ -82,6 +82,11 @@ class AuthController extends Controller
     /**
      * @var string
      */
+    public $afterSignupPage = '/';
+
+    /**
+     * @var string
+     */
     public $afterLoginPageCokpit = 'cockpit';
 
     /**
@@ -163,6 +168,11 @@ class AuthController extends Controller
                     Mail::send('hello@fitnss.fr', 'Contact', $user->email, $user->fullname, 'Création de votre compte FITNSS' , $contents);
 
                     $this->addFlash('Compte créé', 'success');
+                    $this->session->set($this->sessionKey, $user);
+                    if (isset($this->request->post["return"]) && $this->request->post["return"] != '') {
+                        $this->afterSignupPage = $this->request->post["return"];
+                    }
+
                     $this->redirect($this->afterSignupPage);
 
 
