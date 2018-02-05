@@ -159,8 +159,9 @@ class AuthController extends Controller
                         Chez Fitnss, le prix d’une heure de coaching semi-individuel est divisé par TROIS mais surtout la bonne ambiance est de mise.<br/><br/>
 
                         Vous ne nous suivez pas encore sur Facebook ???<br/>
+                        
                         Ne ratez rien de l’évolution de la start-up sportive qui va révolutionner le sport de demain.<br/>
-                        Profitez de nos conseils et actualités en likant maintenant notre page FITNSS.<br/><br/>
+                        Profitez de nos conseils et actualités en likant maintenant <a href="https://www.facebook.com/fitnsslecoachpartage/" target="_blank">notre page FITNSS.</a><br/><br/>
 
                         Sportivement,<br/>
                         L’équipe FITNSS.';
