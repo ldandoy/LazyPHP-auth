@@ -50,23 +50,32 @@
 		                                 $amount = $orderdetail->amount;
 		                                 $quantity = $orderdetail->quantity ;
 		                                        }  
-		                                echo
-		                                '<div class="slot-order">
+
+		                                        //A supprimer quand le if fonctionnera
+		                                        $removebutton='{% button url="userauth_removeorder_' . $order->id .'" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir annuler cette commande ?" hint="Supprimer" %}';
+
+		                                        //Condition : si la date > à Current date +1, on affiche pas le btn
+		                                        /*if(){
+		                                        	$removebutton='{% button url="userauth_removeorder_<?php echo $order->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir annuler cette commande ?" hint="Supprimer" %}';
+		                                        } else {
+		                                        	$removebutton='';
+		                                        }*/
+
+		                                        if($order->status == 'waiting' or $order->status == 'paid' ){
+		                                        	echo
+						                                '<div class="slot-order">
+						                                
+							                                <tr>
+							                                    <td>'. $order->user->fullname . /* nom du coach */'</td> 
+							                                    <td>'. $label_slot ./* Sous catégorie */'</td>
+							                                    <td>'. $label ./* catégorie */'</td>
+							                                    <td>'. number_format(round($amount, 2),2) . /* Prix */' euros </td>  
+							                                    <td>'. $quantity . /* quantité */ '</td>     
+								                                <td>' . $removebutton . '</td>'.
+							                                '</tr> 
+						                                <br /></div>';   
+		                                        }
 		                                
-			                                <tr>
-			                                    <td>'. $order->user->fullname . /* nom du coach */'</td> 
-			                                    <td>'. $label_slot ./* Sous catégorie */'</td>
-			                                    <td>'. $label ./* catégorie */'</td>
-			                                    <td>'. number_format(round($amount, 2),2) . /* Prix */' euros </td>  
-			                                    <td>'. $quantity . /* quantité */ '</td>     
-				                                <td>';
-				                                ?>
-				                                {% button url="cockpit_orders_delete_<?php echo $order->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cette commande ?" hint="Supprimer" %}
-			                                <?php
-			                                echo
-			                                    '</td>'.
-			                                '</tr> 
-		                                <br /></div>';   
 		                        }
 						?>
 					</div>
