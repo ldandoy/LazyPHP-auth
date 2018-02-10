@@ -118,8 +118,8 @@ class AuthController extends Controller
                 if ($this->sponsorship) {
                     $user->sponsorship = uniqid();
                 }
-
-                if ($user->create((array)$user)) {
+                $toto = $user->create((array)$user);
+                if ($toto) {
                    /* $tpl =
                         '<html>'.
                             '<head>'.
@@ -285,6 +285,7 @@ class AuthController extends Controller
                     Mail::send('hello@fitnss.fr', 'Contact', $user->email, $user->fullname, 'Création de votre compte FITNSS' , $contents);
 
                     $this->addFlash('Compte créé', 'success');
+                    $user->id = $toto;
                     $this->session->set($this->sessionKey, $user);
                     if (isset($this->request->post["return"]) && $this->request->post["return"] != '') {
                         $this->afterSignupPage = $this->request->post["return"];
