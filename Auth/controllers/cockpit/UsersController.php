@@ -223,12 +223,12 @@ class UsersController extends CockpitController
                             <body>
                                 <table>
                                     <tr>
-                                        <td><h1>Voici vos aacès au Bureau Virtuel</h1></td>
+                                        <td><h1>Voici vos accès au Bureau Virtuel</h1></td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a>
-                                            <b>Login:</b> '.$user->email.'
+                                            <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a><br />
+                                            <b>Login:</b> '.$user->email.'<br />
                                             <b>Mot de passe :</b> '.$password.'
                                         </td>
                                     </tr>
