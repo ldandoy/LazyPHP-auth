@@ -6,6 +6,7 @@ use app\controllers\cockpit\CockpitController;
 use Core\Router;
 use Core\Password;
 use Core\AttachedFile;
+use Core\Mail;
 
 use Auth\models\User;
 use Auth\models\Group;
@@ -185,7 +186,8 @@ class UsersController extends CockpitController
             }
 
             if (empty($errors)) {
-                $group = Group::findBy('code', 'users');
+                $groupClass = $this->loadModel('Group');
+                $group = $groupClass::findBy('code', 'users');
 
                 $path = $af->uploadedFile['tmp_name'];                
 
@@ -197,19 +199,19 @@ class UsersController extends CockpitController
                         $r++;
                         continue;
                     }
-
-                    $user = new User();
+                    $userClass = $this->loadModel('User');
+                    $user = new $userClass();
 
                     $user->site_id = $post['site_id'];
 
                     $user->lastname = $row[0];
                     $user->firstname = $row[1];
                     $user->email = $row[2];
-
+                    
                     $password = $row[3] != '' ? $row[3] : Password::generatePassword(); 
                     $cryptedPassword = Password::crypt($password);
                     $user->password = $cryptedPassword;
-
+                    
                     $user->group_id = $group->id;
 
                     $user->email_verification_code = Password::generateToken();
@@ -217,9 +219,29 @@ class UsersController extends CockpitController
                     $user->active = 1;
 
                     if ($user->save()) {
+                        $contents=  '
+                            <body>
+                                <table>
+                                    <tr>
+                                        <td><h1>Voici vos aacès au Bureau Virtuel</h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a>
+                                            <b>Login:</b> '.$user->email.'
+                                            <b>Mot de passe :</b> '.$password.'
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:contact@'.$this->site->host.'">contact@'.$this->site->host.'</a></td>
+                                    </tr>
+                                </table>
+                            </body>
+                        ';
+                        Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, $this->site->label . 'Accès Bureau Virtuel' , $contents);
                     } else {
+                        $this->addFlash("Erreur(s) lors de la création d'utilisateur", 'danger');
                     }
-
                     $r++;
                 }
 
@@ -230,7 +252,8 @@ class UsersController extends CockpitController
             }
         }
 
-        $siteOptions = Site::getOptions();
+        $siteClass = $this->loadModel('Site');
+        $siteOptions = $siteClass::getOptions();
 
         $this->render(
             'auth::users::importcsv',
