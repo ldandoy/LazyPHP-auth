@@ -21,7 +21,6 @@ class User extends Model
         'group_id',
         'media_id',
         'active',
-        'sponsorship'
     );
 
     public function __construct($data = array())
