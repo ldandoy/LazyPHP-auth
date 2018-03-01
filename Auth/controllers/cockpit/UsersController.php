@@ -31,7 +31,8 @@ class UsersController extends CockpitController
         } else {
             $where = '';
         }
-        $users = User::findAll($where);
+        $userClass = $this->loadModel('User');
+        $users = $userClass::findAll($where);
 
         $this->render(
             'auth::users::index',
@@ -44,8 +45,9 @@ class UsersController extends CockpitController
 
     public function newAction()
     {
+        $userClass = $this->loadModel('User');
         if ($this->user === null) {
-            $this->user = new User();
+            $this->user = new $userClass();
         }
 
         $groupOptions = Group::getOptions();
@@ -69,7 +71,8 @@ class UsersController extends CockpitController
     public function editAction($id)
     {
         if ($this->user === null) {
-            $this->user = User::findById($id);
+            $userClass = $this->loadModel('User');
+            $this->user = $userClass::findById($id);
         }
 
         $groupOptions = Group::getOptions();
@@ -96,7 +99,8 @@ class UsersController extends CockpitController
             $this->request->post['site_id'] = $this->site->id;
         }
 
-        $this->user = new User();
+        $userClass = $this->loadModel('User');
+        $this->user = new $userClass();
         $this->user->setData($this->request->post);
 
         if ($this->user->valid()) {
@@ -127,7 +131,8 @@ class UsersController extends CockpitController
             $this->request->post['site_id'] = $this->site->id;
         }
 
-        $this->user = User::findById($id);
+        $userClass = $this->loadModel('User');
+        $this->user = $userClass::findById($id);
         $this->user->setData($this->request->post);
 
         if ($this->user->valid()) {
@@ -157,7 +162,8 @@ class UsersController extends CockpitController
 
     public function deleteAction($id)
     {
-        $user = User::findById($id);
+        $userClass = $this->loadModel('User');
+        $user = $userClass::findById($id);
         $user->delete();
         $this->addFlash('Utilisateur supprimé', 'success');
         $this->redirect('cockpit_auth_users');
