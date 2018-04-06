@@ -301,15 +301,14 @@ class AuthController extends Controller
                 $this->addFlash('Erreur(s) dans le formulaire', 'danger');
             }
         }
-
         $this->render(
-            'auth::auth::signup',
+            'auth::signup',
             array(
                 'id' => 0,
                 'user' => $user,
                 'pageTitle' => 'Créez votre compte',
                 'altImageLogin' => 'Default Image Login',
-                'imageLogin' => '/assets/images/default_image_login.png',
+                'imageLogin' => $this->site->brand_logo->url,
                 'formAction' => Router::url($this->signupURL)
             )
         );
