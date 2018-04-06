@@ -143,15 +143,14 @@ class AuthController extends Controller
                 $this->addFlash('Erreur(s) dans les mots de passe', 'danger');
             }
         }
-
         $this->render(
-            'auth::auth::signup',
+            'auth::signup',
             array(
                 'id' => 0,
                 'user' => $user,
                 'pageTitle' => 'Créez votre compte',
                 'altImageLogin' => 'Default Image Login',
-                'imageLogin' => '/assets/images/default_image_login.png',
+                'imageLogin' => $this->site->brand_logo->url,
                 'formAction' => Router::url($this->signupURL)
             )
         );
@@ -283,7 +282,7 @@ class AuthController extends Controller
             'formAction'    => Router::url($this->forgotpasswordPage),
             'errors'        => $errors
         );
-        $this->render('auth::auth::forgotpassword', $params);
+        $this->render('auth::forgotpassword', $params);
     }
 
     public function activateAction($email_verification_code)
