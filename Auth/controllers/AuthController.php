@@ -440,7 +440,7 @@ class AuthController extends Controller
             'formAction'    => Router::url($this->forgotpasswordPage),
             'errors'        => $errors
         );
-        $this->render('auth::auth::forgotpassword', $params);
+        $this->render('auth::forgotpassword', $params);
     }
 
     public function activateAction($email_verification_code)
