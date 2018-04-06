@@ -116,6 +116,7 @@ class AuthController extends Controller
                     $user->email_verification_code = Password::generateToken();
                     $user->email_verification_date = date('Y-m-d H:i:s');
                     $user->active = 1;
+                    $user->group_id = 2;
                     $user->site_id = $this->site->id;
 
                     if ($this->sponsorship) {
