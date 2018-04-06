@@ -255,12 +255,12 @@ class AuthController extends Controller
 
                     $email = new \PHPMailer();
                     $email->isMail();
-                    $email->setFrom('contact@test.com', 'CE');
+                    $email->setFrom(MAIL_SENDER, 'CE');
                     $email->addAddress($user->email);
-                    $email->addReplyTo('contact@test.com', 'CE');
+                    $email->addReplyTo(MAIL_SENDER, 'CE');
                     $email->CharSet = 'utf-8';
                     $email->isHTML(true);
-                    $email->Subject = 'Votre nouveau mot de passe - CE';
+                    $email->Subject = 'Votre nouveau mot de passe';
                     $email->Body = $tpl;
                     $email->AltBody = '';
                     if ($email->send()) {
