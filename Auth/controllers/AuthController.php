@@ -96,209 +96,51 @@ class AuthController extends Controller
 
     public $sponsorship = false;
 
+    public $redirect = true;
+
     public function signupAction()
     {
         $userClass = $this->loadModel('User');
         $user = new $userClass();
 
         if (!empty($this->request->post)) {
-            $user->setData($this->request->post);
+            if ($this->request->post['password'] == $this->request->post['password2']) {
+                $user->setData($this->request->post);
 
-            if ($user->valid()) {
-                // $password = Password::generatePassword();
-                $password = $user->password;
-                $cryptedPassword = Password::crypt($password);
-                $user->password = $cryptedPassword;
+                if ($user->valid()) {
+                    // $password = Password::generatePassword();
+                    $password = $user->password;
+                    $cryptedPassword = Password::crypt($password);
+                    $user->password = $cryptedPassword;
 
-                $user->email_verification_code = Password::generateToken();
-                $user->email_verification_date = date('Y-m-d H:i:s');
-                $user->active = 1;
-                $user->site_id = $this->site->id;
+                    $user->email_verification_code = Password::generateToken();
+                    $user->email_verification_date = date('Y-m-d H:i:s');
+                    $user->active = 1;
+                    $user->site_id = $this->site->id;
 
-                if ($this->sponsorship) {
-                    $user->sponsorship = uniqid();
-                }
-                $toto = $user->create((array)$user);
-                if ($toto) {
-                   /* $tpl =
-                        '<html>'.
-                            '<head>'.
-                            '</head>'.
-                            '<body>'.
-                                '<p>'.
-                                    'Identifiant : '.$user->email.'<br />'.
-                                    'Nouveau mot de passe : '.$password.
-                                '</p>'.
-                            '</body>'.
-                        '</html>';
-                    $tpl = str_replace(array('{email}', '{password}'), array($user->email, $password), $tpl);
-                    $email = new PHPMailer();
-                    $email->isMail();
-                    $email->setFrom('contact@'.$this->site->host, $this->site->label);
-                    $email->addAddress($user->email);
-                    $email->addReplyTo('contact@'.$this->site->host, $this->site->label);
-                    $email->CharSet = 'utf-8';
-                    $email->isHTML(true);
-                    $email->Subject = '['.$this->site->label.'] Votre nouveau mot de passe';
-                    $email->Body = $tpl;
-                    $email->AltBody = '';
-                    $email->send();*/
-
-                    $contents='
-    <table style="background-color:rgb(42, 55, 78)" width="100%" cellspacing="0" cellpadding="0" border="0">
-        <tbody>
-            <tr>
-                <td align="center" bgcolor="#000">
-                    <table cellspacing="0" cellpadding="0" border="0">
-                        <tbody>                            
-                            <tr>
-                                <td class="w640" width="640" height="10"></td>
-                            </tr>
-                            <tr>
-                                <td class="w640" width="640" height="20" align="center"> <a style="color:#ffffff; font-size:12px;" href="#"><span style="color:#ffffff; font-size:12px;">
-                                    Voir le contenu de ce mail en ligne</span></a> 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="w640" width="640" height="10"></td>
-                            </tr>
-
-                            <!-- logo -->
-                            <tr class="pagetoplogo">
-                                <td class="w640" width="640">
-                                    <table class="w640" width="640" cellspacing="0" cellpadding="0" border="0" bgcolor="#F2F0F0">
-                                        <tbody>
-                                            <tr>
-                                                <td class="w30" width="30"></td>
-                                                <td class="w580" width="580" valign="middle" align="left">
-                                                    <div class="pagetoplogo-content">
-                                                        <img class="w580" style="text-decoration: none; display: block; color:#476688; font-size:30px;" src="logo.png" alt="Mon Logo" width="482" height="108">
-                                                    </div>
-                                                </td> 
-                                                <td class="w30" width="30"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                                
-                            <!-- separateur horizontal -->
-                            <tr>
-                                <td class="w640" width="640" height="1" bgcolor="#d7d6d6"></td>
-                            </tr>
-
-                             <!-- contenu -->
-                            <tr class="content">
-                                <td class="w640" width="640" bgcolor="#ffffff">
-                                    <table class="w640" width="640" cellspacing="2" cellpadding="10" border="0">
-                                        <tbody>
-                                            <tr>
-                                                <td class="w30" width="30"></td>
-                                                <td class="w580" width="580">
-                                                    
-                                                    Bonjour '. $user->firstname .',<br/><br/>
-                                                    Nous vous confirmons votre inscription à FITNSS.<br/>
-                                                </td>
-                                                <td class="w30" width="30"></td>
-                                            </tr>
- 
-                                            <tr>
-                                                <td class="w30" width="30"></td>
-                                                <td class="w580" width="580" bgcolor="#F7BF17">
-                                                    <br/>
-                                                    <strong> Voici les informations liées à votre compte :</strong> <br/>
-                                                    Identifiants :  ' . $user->email .' <br/>
-                                                    Mot de passe : '. $password  .' <br/><br/>
-                                                    </td>
-                                                   <td class="w30" width="30"></td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                    <td class="w30" width="30"></td>
-                                                    <td class="w580" width="580">
-                                                        <br/>
-                                                        Vous pouvez désormais réserver à la carte des supers séances de coaching en petit groupe près de chez vous !<br/><br/>
-
-                                                        Alors, prêt à partager un coach ?      <a href="http://fitnss.fr/slots/search" target="_blank"> RÉSERVER UNE SÉANCE</a> <br/><br/>
-
-
-                                                        Chez Fitnss, le prix d’une heure de coaching semi-individuel est divisé par TROIS mais surtout la bonne ambiance est de mise.<br/><br/>
-
-                                                        Vous ne nous suivez pas encore sur Facebook ???<br/>
-                                                        
-                                                        Ne ratez rien de l’évolution de la start-up sportive qui va révolutionner le sport de demain.<br/>
-                                                        Profitez de nos conseils et actualités en likant maintenant <a href="https://www.facebook.com/fitnsslecoachpartage/" target="_blank">notre page FITNSS.</a><br/><br/>
-                    
-                                                        Sportivement, <br/>
-                                                        L’équipe FITNSS <br/>
-                                                        <img style="text-decoration: none; display: block; color:#476688; font-size:30px;" src="logo.png" alt="Logo Fitnss" width="48" height="30">
-                                                    </td>
-                                                    <td class="w30" width="30"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-
-                            <!--  separateur horizontal de 15px de  haut-->
-                            <tr>
-                                <td class="w640" width="640" height="15" bgcolor="#ffffff"></td>
-                            </tr>
-
-                            <!-- pied de page -->
-                            <tr class="pagebottom">
-                                <td class="w640" width="640">
-                                    <table class="w640" width="640" cellspacing="0" cellpadding="0" border="0" bgcolor="#c7c7c7">
-                                        <tbody>
-                                            <tr>
-                                                <td colspan="5" height="10"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="w30" width="30"></td>
-                                                <td class="w580" width="580" valign="top">
-                                                    <p class="pagebottom-content-left" align="right">
-                                                        <a style="color:#255D5C;" href="http://www.fitnss.fr"><span style="color:#255D5C;">www.fitnss.fr</span></a>
-                                                    </p>
-                                                </td>
-
-                                                <td class="w30" width="30"></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="5" height="10"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="w640" width="640" height="60"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-</body>';
-
-                    Mail::send('hello@fitnss.fr', 'Contact', $user->email, $user->fullname, 'Création de votre compte FITNSS' , $contents);
-
-                    $this->addFlash('Compte créé', 'success');
-                    $user->id = $toto;
-                    $this->session->set($this->sessionKey, $user);
-                    if (isset($this->request->post["return"]) && $this->request->post["return"] != '') {
-                        $this->afterSignupPage = $this->request->post["return"];
+                    if ($this->sponsorship) {
+                        $user->sponsorship = uniqid();
                     }
+                    $toto = $user->create((array)$user);
+                    if ($toto) {
+                        $this->addFlash('Compte créé', 'success');
+                        $user->id = $toto;
+                        $this->session->set($this->sessionKey, $user);
+                        
+                        if (isset($this->request->post["return"]) && $this->request->post["return"] != '') {
+                            $this->afterSignupPage = $this->request->post["return"];
+                        }
 
-                    $this->redirect($this->afterSignupPage);
+                        $this->redirect($this->afterSignupPage);
 
-
+                    } else {
+                        $this->addFlash('Erreur insertion base de données', 'danger');
+                    };
                 } else {
-                    $this->addFlash('Erreur insertion base de données', 'danger');
-                };
+                    $this->addFlash('Erreur(s) dans le formulaire', 'danger');
+                }
             } else {
-                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
+                $this->addFlash('Erreur(s) dans les mots de passe', 'danger');
             }
         }
 

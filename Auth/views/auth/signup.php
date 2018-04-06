@@ -11,6 +11,7 @@
             {% input_text name="firstname" model="user.firstname" label="Prénom" %}
             {% input_text name="email" model="user.email" label="Email" %}
             {% input_password name="password" model="password" value="" label="Mot de passe" autocomplete="off" %}
+			{% input_password name="password2" model="password" value="" label="Confirmer" autocomplete="off" %}
             <?php if (isset($this->user->id)) : ?>
                 {% input_password name="newPassword" model="user.newPassword" label="Mot de passe" autocomplete="off" %}
             <?php endif; ?>
