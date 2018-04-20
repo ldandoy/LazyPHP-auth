@@ -114,6 +114,28 @@ class UsersController extends CockpitController
 
             if ($this->user->create((array)$this->user)) {
                 $this->addFlash('Utilisateur ajouté', 'success');
+
+                $contents=  '
+                    <body>
+                        <table>
+                            <tr>
+                                <td><h1>Voici vos accès au '.$this->site->label.'</h1></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a><br />
+                                    <b>Login:</b> '.$user->email.'<br />
+                                    <b>Mot de passe :</b> '.$password.'
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:contact@'.$this->site->host.'">contact@'.$this->site->host.'</a></td>
+                            </tr>
+                        </table>
+                    </body>
+                ';
+                Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, $this->site->label . 'Accès '.$this->site->label , $contents);
+
                 $this->redirect('cockpit_auth_users');
             } else {
                 $this->addFlash('Erreur insertion base de données', 'danger');
