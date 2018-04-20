@@ -110,7 +110,7 @@ class UsersController extends CockpitController
 
             $this->user->email_verification_code = Password::generateToken();
             $this->user->email_verification_date = date('Y-m-d H:i:s');
-            $this->user->active = 0;
+            $this->user->active = 1;
 
             if ($this->user->create((array)$this->user)) {
                 $this->addFlash('Utilisateur ajouté', 'success');
@@ -134,7 +134,7 @@ class UsersController extends CockpitController
                         </table>
                     </body>
                 ';
-                Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, $this->site->label . 'Accès '.$this->site->label , $contents);
+                Mail::send('ldandoy@overconsulting.net', 'Contact', $user->email, $user->fullname, $this->site->label . 'Accès '.$this->site->label , $contents);
 
                 $this->redirect('cockpit_auth_users');
             } else {
