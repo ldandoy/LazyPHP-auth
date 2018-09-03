@@ -191,6 +191,39 @@ class UsersController extends CockpitController
         $this->redirect('cockpit_auth_users');
     }
 
+    public function sendnewpasswordAction($user_id) {
+        $userClass = $this->loadModel('User');
+        $this->user = $userClass::findById($user_id);
+
+        $password = Password::generatePassword();
+        $cryptedPassword = Password::crypt($password);
+        $this->user->password = $cryptedPassword;
+
+        $this->addFlash('Le mot de passe a bien été renvoyé', 'success');
+        $contents=  '
+            <body>
+                <table>
+                    <tr>
+                        <td><h1>Voici vos accès au Bureau Virtuel</h1></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a><br />
+                            <b>Login:</b> '.$this->user->email.'<br />
+                            <b>Mot de passe :</b> '.$password.'
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:contact@'.$this->site->host.'">contact@'.$this->site->host.'</a></td>
+                    </tr>
+                </table>
+            </body>
+        ';
+        Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, $this->site->label . 'Accès à '.$this->site->label , $contents);
+
+        $this->redirect('cockpit_auth_users');
+    }
+
     public function importcsvAction()
     {
         $errors = array();

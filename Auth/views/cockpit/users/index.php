@@ -42,6 +42,7 @@ foreach ($params['users'] as $user) {
             '<td>'.($user->group_id != null ? $user->group->label : '').'</td>'.
             '<td>'.$active.'</td>'.
             '<td>';?>
+            {% button url="cockpit_auth_users_sendnewpassword_<?php echo $user->id; ?>" type="warning" size="sm" icon="key" hint="Renvoyer le mot de passe" %}
             {% button url="cockpit_auth_users_edit_<?php echo $user->id; ?>" type="info" size="sm" icon="pencil" hint="modifier" %}
             {% button url="cockpit_auth_users_delete_<?php echo $user->id; ?>" type="danger" size="sm" icon="trash-o" confirmation="Vous confirmer vouloir supprimer cet utilisateur ?" hint="Supprimer" %}
 <?php
