@@ -269,6 +269,7 @@ class UsersController extends CockpitController
                     $user->lastname = $row[0];
                     $user->firstname = $row[1];
                     $user->email = $row[2];
+                    $user->inside_at = date("Y-m-d H:i:s", strtotime($row[4]));
                     
                     $password = $row[3] != '' ? $row[3] : Password::generatePassword(); 
                     $cryptedPassword = Password::crypt($password);
