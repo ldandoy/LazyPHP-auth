@@ -198,6 +198,7 @@ class UsersController extends CockpitController
         $password = Password::generatePassword();
         $cryptedPassword = Password::crypt($password);
         $this->user->password = $cryptedPassword;
+        $this->user->save();
 
         $this->addFlash('Le mot de passe a bien été renvoyé', 'success');
         $contents=  '
