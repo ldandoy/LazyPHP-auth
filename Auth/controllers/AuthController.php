@@ -240,7 +240,7 @@ class AuthController extends Controller
                         'password' => $user->password
                     ));
 
-                    $tpl =
+                    /*$tpl =
                         '<html>'.
                             '<head>'.
                             '</head>'.
@@ -265,7 +265,29 @@ class AuthController extends Controller
                     $email->AltBody = '';
                     if ($email->send()) {
                     } else {
-                    }
+                    }*/
+
+                    $contents=  '
+                        <body>
+                            <table>
+                                <tr>
+                                    <td><h1>Voici vos nouveaux accès au Bureau Virtuel</h1></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a><br />
+                                        <b>Login:</b> '.$this->user->email.'<br />
+                                        <b>Mot de passe :</b> '.$password.'
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:contact@'.$this->site->host.'">contact@'.$this->site->host.'</a></td>
+                                </tr>
+                            </table>
+                        </body>
+                    ';
+                    Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, $this->site->label . 'Accès à '.$this->site->label , $contents);
+		
 
                     $this->addFlash('Votre nouveau mot de passe vient de vous être envoyé par email', 'success');
                     $this->redirect($this->loginPage);

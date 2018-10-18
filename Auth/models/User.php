@@ -167,4 +167,14 @@ class User extends Model
         return false;
     }
 
+    public function getGroups()
+    {
+        if ($this->group_id !== null) {
+            $groupsAssignments = array_merge(
+                GroupAssignment::findByUser($this->id)
+            );
+        }
+        return $groupsAssignments;
+    }
+
 }

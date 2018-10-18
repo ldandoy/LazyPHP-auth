@@ -45,3 +45,12 @@ foreach ($groups as $group) {
         </table>
     </div>
 </div>
+
+<div class="box box-success">
+    <div class="box-header">
+        <h3 class="box-title">Modifier les affectations des groupes</h3>
+    </div>
+    <div class="box-body">
+        {% button url="cockpit_auth_groupassignments" type="success" content="Affectations des groupes" icon="list" hint="Modifer affectations des groupes" %}
+    </div>
+</div>
