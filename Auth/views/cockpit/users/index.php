@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="box-body">
-        <table class="table table-hover table-sm">
+        <table id="data-table" class="table table-hover table-sm">
             <thead>
                 <tr>
                     <th width="1%">ID</th>
@@ -16,7 +16,7 @@
                     <th>Email</th>
                     <th>Groupe</th>
                     <th>Actif</th>
-                    <th width="10%">Actions</th>
+                    <th width="15%">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,3 +55,12 @@ foreach ($params['users'] as $user) {
         </table>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#data-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+            }
+        });
+    });
+</script>
