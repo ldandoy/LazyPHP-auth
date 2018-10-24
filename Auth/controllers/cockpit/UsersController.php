@@ -123,7 +123,7 @@ class UsersController extends CockpitController
                             </tr>
                             <tr>
                                 <td>
-                                    <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a><br />
+                                    <b>URL:</b> <a href="https://'.$this->site->host.'" target="_blank">https://'.$this->site->host.'</a><br />
                                     <b>Login:</b> '.$this->user->email.'<br />
                                     <b>Mot de passe :</b> '.$password.'
                                 </td>
@@ -209,7 +209,7 @@ class UsersController extends CockpitController
                     </tr>
                     <tr>
                         <td>
-                            <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a><br />
+                            <b>URL:</b> <a href="https://'.$this->site->host.'" target="_blank">https://'.$this->site->host.'</a><br />
                             <b>Login:</b> '.$this->user->email.'<br />
                             <b>Mot de passe :</b> '.$password.'
                         </td>
@@ -290,7 +290,7 @@ class UsersController extends CockpitController
                                     </tr>
                                     <tr>
                                         <td>
-                                            <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a><br />
+                                            <b>URL:</b> <a href="https://'.$this->site->host.'" target="_blank">https://'.$this->site->host.'</a><br />
                                             <b>Login:</b> '.$user->email.'<br />
                                             <b>Mot de passe :</b> '.$password.'
                                         </td>
