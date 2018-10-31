@@ -134,7 +134,7 @@ class UsersController extends CockpitController
                         </table>
                     </body>
                 ';
-                Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, '['.$this->site->label . '] Accès à '.$this->site->label , $contents);
+                Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, '['.$this->site->label . '] Création de votre compte' , $contents);
 		
                 $this->redirect('cockpit_auth_users');
             } else {
@@ -220,7 +220,7 @@ class UsersController extends CockpitController
                 </table>
             </body>
         ';
-        Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, "[".$this->site->label . '] Accès à '.$this->site->label , $contents);
+        Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, "[".$this->site->label . '] Renvoi de vos accès', $contents);
 
         $this->redirect('cockpit_auth_users');
     }
@@ -301,14 +301,13 @@ class UsersController extends CockpitController
                                 </table>
                             </body>
                         ';
-                        Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, "[".$this->site->label . '] Accès Bureau Virtuel' , $contents);
+                        Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, "[".$this->site->label . '] Création de votre compte' , $contents);
                     } else {
                         $this->addFlash("Erreur(s) lors de la création d'utilisateur", 'danger');
                     }
                     $r++;
                 }
-
-                $this->addFlash('Erreur(s) dans le formulaire', 'danger');
+                $this->addFlash('Fichier bien importé', 'success');
                 $this->redirect('cockpit_auth_users');
             } else {
                 $this->addFlash('Erreur(s) dans le formulaire', 'danger');
