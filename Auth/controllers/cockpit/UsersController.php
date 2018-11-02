@@ -263,7 +263,7 @@ class UsersController extends CockpitController
                     }
                     $userClass = $this->loadModel('User');
                     $user = new $userClass();
-
+                    
                     $user->site_id = $post['site_id'];
 
                     $user->lastname = $row[0];
@@ -307,7 +307,9 @@ class UsersController extends CockpitController
                     }
                     $r++;
                 }
+                echo "passer 3";
                 $this->addFlash('Fichier bien importé', 'success');
+                die;
                 $this->redirect('cockpit_auth_users');
             } else {
                 $this->addFlash('Erreur(s) dans le formulaire', 'danger');
