@@ -81,6 +81,26 @@ class UserController extends FrontController
             if ($newPassword != '') {
                 if (Password::validPassword($newPassword)) {
                     $this->user->password = Password::crypt($newPassword);
+                    $contents=  '
+                            <body>
+                                <table>
+                                    <tr>
+                                        <td><h1>Voici vos accès au Bureau Virtuel</h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>URL:</b> <a href="https://'.$this->site->host.'" target="_blank">https://'.$this->site->host.'</a><br />
+                                            <b>Login:</b> '.$user->email.'<br />
+                                            <b>Mot de passe :</b> '.$password.'
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:contact@'.$this->site->host.'">contact@'.$this->site->host.'</a></td>
+                                    </tr>
+                                </table>
+                            </body>
+                        ';
+                        Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, "[".$this->site->label . '] Rappel de vos identifiant' , $contents);
                 } else {
                     $this->user->errors['newPassword'] = 'Mot de passe invalide';
                 }

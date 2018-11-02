@@ -10,12 +10,13 @@
         </div>
     </div>
     <div class="box-body">
-        <table id="data-table" class="table table-hover table-sm">
+        <table class="data-table table table-hover table-sm">
             <thead>
                 <tr>
                     <th width="1%">ID</th>
                     <th>Nom</th>
                     <th>Email</th>
+                    <th>Role</th>
                     <th>Groupe</th>
                     <th>Actif</th>
                     <th width="15%">Actions</th>
@@ -36,12 +37,23 @@ foreach ($params['users'] as $user) {
         $avatar = '';
     }
 
+    $classAssignGroup = $this->loadModel('GroupAssignment');
+    $groupsAssigns = $classAssignGroup::findByUser($user->id);
+    foreach ($groupsAssigns as $groupsAssig) {
+        $groups[] = $groupsAssig->group->label;
+    }
+
     echo
         '<tr>'.
             '<td>'.$user->id.'</td>'.
             '<td>'.$avatar.$user->getFullName().'</td>'.
             '<td>'.$user->email.'</td>'.
             '<td>'.($user->group_id != null ? $user->group->label : '').'</td>'.
+            '<td>';
+            foreach ($groups as $group) {
+                echo $group . ", ";
+            }
+            echo '</td>'.
             '<td>'.$active.'</td>'.
             '<td>';?>
             {% button url="cockpit_auth_users_sendnewpassword_<?php echo $user->id; ?>" type="warning" size="sm" icon="key" hint="Renvoyer le mot de passe" %}
@@ -57,12 +69,3 @@ foreach ($params['users'] as $user) {
         </table>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#data-table').DataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
-            }
-        });
-    });
-</script>

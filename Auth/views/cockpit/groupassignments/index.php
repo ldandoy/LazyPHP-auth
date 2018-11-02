@@ -28,14 +28,26 @@
                                     </h5>
                                 </div>
                                 <div id="roleassignments_group_<?php echo $group->code; ?>" class="collapse" role="tabpanel" aria-labelledby="roleassignments_group_<?php echo $group->code; ?>_header">
-                                    <div class="card-block">
-                                        <?php foreach ($users as $user): ?>
-                                            <?php if ( isset($tabAssign[$group->id][$user->id]) ) {  ?>
-                                                {% input_checkbox name="group_assignment_<?php echo $group->id ?>_<?php echo $user->id ?>" label="<?php echo $user->getFullName() ?>" checked="checked" %}
-                                            <?php } else { ?>
-                                                {% input_checkbox name="group_assignment_<?php echo $group->id ?>_<?php echo $user->id ?>" label="<?php echo $user->getFullName() ?>" %}
-                                            <?php } ?>
-                                        <?php endforeach; ?>
+                                    <div class="card-block" style="padding: 3%;">
+                                        <table class="data-table table table-hover table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th width="1%"></th>
+                                                    <th width="99%">User</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($users as $user): ?>
+                                                    <tr>
+                                                        <?php if ( isset($tabAssign[$group->id][$user->id]) ) {  ?>
+                                                            <td>{% input_checkbox name="group_assignment_<?php echo $group->id ?>_<?php echo $user->id ?>" checked="checked" %}</td><td><?php echo $user->getFullName() ?></td>
+                                                        <?php } else { ?>
+                                                            <td>{% input_checkbox name="group_assignment_<?php echo $group->id ?>_<?php echo $user->id ?>" %}</td><td><?php echo $user->getFullName() ?></td>
+                                                        <?php } ?>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

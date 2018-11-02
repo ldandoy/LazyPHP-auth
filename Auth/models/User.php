@@ -58,10 +58,10 @@ class User extends Model
                     'key' => 'group_id'
                 ),
                 'order' => array(
-                'type' => '1',
-                'model' => 'Order',
-                'key' => 'order_id'
-            ),
+                    'type' => '1',
+                    'model' => 'Order',
+                    'key' => 'order_id'
+                )
             )
         );
     }

@@ -10,6 +10,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="box-body">
+                    <br />
                     {% form_open id="formUser" action="formAction" %}
                         {% input_text name="lastname" model="user.lastname" label="Nom" %}
                         {% input_text name="firstname" model="user.firstname" label="Prénom" %}
