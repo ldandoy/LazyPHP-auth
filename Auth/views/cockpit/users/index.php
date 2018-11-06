@@ -39,6 +39,8 @@ foreach ($params['users'] as $user) {
 
     $classAssignGroup = $this->loadModel('GroupAssignment');
     $groupsAssigns = $classAssignGroup::findByUser($user->id);
+    
+    $groups = [];
     foreach ($groupsAssigns as $groupsAssig) {
         $groups[] = $groupsAssig->group->label;
     }
