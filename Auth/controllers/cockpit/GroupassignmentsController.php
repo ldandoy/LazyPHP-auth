@@ -52,6 +52,9 @@ class GroupassignmentsController extends CockpitController
     {
         $post = $this->request->post;
 
+        var_dump($this->request->post);
+        die;
+
         GroupAssignment::deleteAll();
         foreach ($post as $k => $v) {
             if (strpos($k, 'group_assignment') === 0) {

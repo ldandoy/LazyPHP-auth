@@ -225,6 +225,18 @@ class UsersController extends CockpitController
         $this->redirect('cockpit_auth_users');
     }
 
+    private function slugify($string, $delimiter = '-') {
+        $oldLocale = setlocale(LC_ALL, '0');
+        setlocale(LC_ALL, 'en_US.UTF-8');
+        $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+        $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+        $clean = strtolower($clean);
+        $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+        $clean = trim($clean, $delimiter);
+        setlocale(LC_ALL, $oldLocale);
+        return $clean;
+    }
+
     public function importcsvAction()
     {
         $errors = array();
@@ -249,10 +261,37 @@ class UsersController extends CockpitController
 
             if (empty($errors)) {
                 $groupClass = $this->loadModel('Group');
-                $group = $groupClass::findBy('code', 'users');
+                $groupUser = $groupClass::findBy('code', 'users');
 
                 $path = $af->uploadedFile['tmp_name'];                
 
+                // On gère les groupes
+                $groupClass = $this->loadModel('Group');
+                $groups = $groupClass::findAll("site_id = " . $this->site->id . " OR site_id is null");
+
+                foreach($groups as $group) {
+                    $groupsName[] = $group->label;
+                }
+                $f = fopen($path, 'r');
+                $r = 0;
+                while (($row = fgetcsv($f, 0, ';', '"', '\\')) !== false) {
+                    // header
+                    if ($r == 0/*$row[0] == 'lastname' && $row[1] == 'firstname'*/) {
+                        $r++;
+                        continue;
+                    }
+
+                    if (!in_array($row[4], $groupsName)) {
+                        $group = new $groupClass();
+                        $group->label = $row[4];
+                        $group->code = $this->slugify($row[4]);
+                        $group->cockpit = 0;
+                        $group->site_id = $this->site->id;
+                        $group->save();
+                        $groupsName[] = $row[4];
+                    }
+                }
+                // On gère les users
                 $f = fopen($path, 'r');
                 $r = 0;
                 while (($row = fgetcsv($f, 0, ';', '"', '\\')) !== false) {
@@ -275,13 +314,22 @@ class UsersController extends CockpitController
                     $cryptedPassword = Password::crypt($password);
                     $user->password = $cryptedPassword;
                     
-                    $user->group_id = $group->id;
+                    $user->group_id = $groupUser->id;
 
                     $user->email_verification_code = Password::generateToken();
                     $user->email_verification_date = date('Y-m-d H:i:s');
                     $user->active = 1;
 
                     if ($user->save()) {
+                        $groupAssignmentClass = $this->loadModel('GroupAssignment');
+                        $groupAssignment = new $groupAssignmentClass();
+                        $groupAssignment->user_id = $user->id;
+                        foreach($groups as $group) {
+                            if ($row[4] == $group->label) {
+                                $groupAssignment->group_id = $group->id;
+                            }
+                        }
+                        $groupAssignment->save();
                         $contents=  '
                             <body>
                                 <table>
@@ -307,9 +355,7 @@ class UsersController extends CockpitController
                     }
                     $r++;
                 }
-                echo "passer 3";
                 $this->addFlash('Fichier bien importé', 'success');
-                die;
                 $this->redirect('cockpit_auth_users');
             } else {
                 $this->addFlash('Erreur(s) dans le formulaire', 'danger');
