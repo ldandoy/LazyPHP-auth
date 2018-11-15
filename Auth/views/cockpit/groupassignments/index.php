@@ -29,7 +29,7 @@
                                 </div>
                                 <div id="roleassignments_group_<?php echo $group->code; ?>" class="collapse" role="tabpanel" aria-labelledby="roleassignments_group_<?php echo $group->code; ?>_header">
                                     <div class="card-block" style="padding: 3%;">
-                                        <table class="data-table table table-hover table-sm">
+                                        <table class="data-table-nopagination table table-hover table-sm">
                                             <thead>
                                                 <tr>
                                                     <th width="1%"></th>
