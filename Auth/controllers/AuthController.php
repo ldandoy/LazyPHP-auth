@@ -276,7 +276,7 @@ class AuthController extends Controller
                                 <tr>
                                     <td>
                                         <b>URL:</b> <a href="http://'.$this->site->host.'" target="_blank">http://'.$this->site->host.'</a><br />
-                                        <b>Login:</b> '.$this->user->email.'<br />
+                                        <b>Login:</b> '.$user->email.'<br />
                                         <b>Mot de passe :</b> '.$password.'
                                     </td>
                                 </tr>
@@ -286,11 +286,11 @@ class AuthController extends Controller
                             </table>
                         </body>
                     ';
-                    Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, $this->site->label . 'Accès à '.$this->site->label , $contents);
+                    Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, $this->site->label . 'Accès à '.$this->site->label , $contents);
 		
 
                     $this->addFlash('Votre nouveau mot de passe vient de vous être envoyé par email', 'success');
-                    $this->redirect($this->loginPage);
+                    $this->redirect($this->afterLoginPage);
                 } else {
                     $errors['email'] = 'Cet addresse email ne correspond à aucun compte';
                 }
