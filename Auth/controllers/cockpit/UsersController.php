@@ -119,7 +119,7 @@ class UsersController extends CockpitController
                     <body>
                         <table>
                             <tr>
-                                <td><h1>Voici vos accès au Bureau Virtuel</h1></td>
+                                <td><h1>Voici vos accès au site du '.$this->site->label . '</h1></td>
                             </tr>
                             <tr>
                                 <td>
@@ -205,7 +205,7 @@ class UsersController extends CockpitController
             <body>
                 <table>
                     <tr>
-                        <td><h1>Voici vos accès au Bureau Virtuel</h1></td>
+                        <td><h1>Voici vos accès au site du '.$this->site->label . '</h1></td>
                     </tr>
                     <tr>
                         <td>
@@ -334,7 +334,7 @@ class UsersController extends CockpitController
                             <body>
                                 <table>
                                     <tr>
-                                        <td><h1>Voici vos accès au Bureau Virtuel</h1></td>
+                                        <td><h1>Voici vos accès au site du '.$this->site->label . '</h1></td>
                                     </tr>
                                     <tr>
                                         <td>
