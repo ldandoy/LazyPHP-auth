@@ -349,7 +349,13 @@ class UsersController extends CockpitController
                                 </table>
                             </body>
                         ';
-                        Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, "[".$this->site->label . '] Création de votre compte' , $contents);
+
+                        if ($this->site->sender_mail != null or $this->site->sender_mail != "") {
+                            $sender = $this->site->sender_mail;
+                        } else {
+                            $sender = 'contact@'.$this->site->host;
+                        }
+                        Mail::send($sender, 'Contact', $user->email, $user->fullname, "[".$this->site->label . '] Création de votre compte' , $contents);
                     } else {
                         $this->addFlash("Erreur(s) lors de la création d'utilisateur", 'danger');
                     }
