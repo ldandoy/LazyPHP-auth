@@ -325,7 +325,7 @@ class UsersController extends CockpitController
                         $groupAssignment = new $groupAssignmentClass();
                         $groupAssignment->user_id = $user->id;
                         foreach($groups as $group) {
-                            if ($row[4] == $group->label) {
+                            if ($row[4] == $group->code) {
                                 $groupAssignment->group_id = $group->id;
                             }
                         }
