@@ -350,7 +350,7 @@ class UsersController extends CockpitController
                             </body>
                         ';
 
-                        if ($this->site->sender_mail != null or $this->site->sender_mail != "") {
+                        if ($this->site->sender_mail != null && $this->site->sender_mail != "") {
                             $sender = $this->site->sender_mail;
                         } else {
                             $sender = 'contact@'.$this->site->host;
