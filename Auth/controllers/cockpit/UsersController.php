@@ -299,9 +299,11 @@ class UsersController extends CockpitController
                         $group->cockpit = 0;
                         $group->site_id = $this->site->id;
                         $group->save();
-                        $groupsName[] = $row[4];
+                        $groups[] = $group;
+                        $groupsName[] = $group->label;
                     }
                 }
+
                 // On gère les users
                 $f = fopen($path, 'r');
                 $r = 0;
@@ -324,7 +326,7 @@ class UsersController extends CockpitController
                     $password = $row[3] != '' ? $row[3] : Password::generatePassword(); 
                     $cryptedPassword = Password::crypt($password);
                     $user->password = $cryptedPassword;
-                    
+
                     $user->group_id = $groupUser->id;
 
                     $user->email_verification_code = Password::generateToken();
@@ -336,11 +338,12 @@ class UsersController extends CockpitController
                         $groupAssignment = new $groupAssignmentClass();
                         $groupAssignment->user_id = $user->id;
                         foreach($groups as $group) {
-                            if ($row[4] == $group->code) {
+                            if ($row[4] == $group->label) {
                                 $groupAssignment->group_id = $group->id;
                             }
                         }
                         $groupAssignment->save();
+                        
                         $contents=  '
                             <body>
                                 <table>
@@ -368,7 +371,7 @@ class UsersController extends CockpitController
                         }
                         Mail::send($sender, 'Contact', $user->email, $user->fullname, "[".$this->site->label . '] Création de votre compte' , $contents);
                     } else {
-                        $this->addFlash("Erreur(s) lors de la création d'utilisateur", 'danger');
+                        $this->addFlash("Erreur(s) lors de la création d'utilisateur: " . $r, 'danger');
                     }
                     $r++;
                 }
