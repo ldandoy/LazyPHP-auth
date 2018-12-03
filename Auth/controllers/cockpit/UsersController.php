@@ -114,7 +114,11 @@ class UsersController extends CockpitController
 
             if ($this->user->create((array)$this->user)) {
                 $this->addFlash('Utilisateur ajouté', 'success');
-		
+                if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
+                    $sender = $this->site->sender_mail;
+                } else {
+                    $sender = 'contact@'.$this->site->host;
+                }
 		        $contents=  '
                     <body>
                         <table>
@@ -129,16 +133,11 @@ class UsersController extends CockpitController
                                 </td>
                             </tr>
                             <tr>
-                                <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:contact@'.$this->site->host.'">contact@'.$this->site->host.'</a></td>
+                                <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:'.$sender.'">'.$sender.'</a></td>
                             </tr>
                         </table>
                     </body>
                 ';
-                if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
-                    $sender = $this->site->sender_mail;
-                } else {
-                    $sender = 'contact@'.$this->site->host;
-                }
                 Mail::send($sender, 'Contact', $this->user->email, $this->user->fullname, '['.$this->site->label . '] Création de votre compte' , $contents);
 		
                 $this->redirect('cockpit_auth_users');
@@ -206,6 +205,12 @@ class UsersController extends CockpitController
         $this->user->save(); 
 
         $this->addFlash('Le mot de passe a bien été renvoyé', 'success');
+        if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
+            $sender = $this->site->sender_mail;
+        } else {
+            $sender = 'contact@'.$this->site->host;
+        }
+
         $contents=  '
             <body>
                 <table>
@@ -220,17 +225,11 @@ class UsersController extends CockpitController
                         </td>
                     </tr>
                     <tr>
-                        <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:contact@'.$this->site->host.'">contact@'.$this->site->host.'</a></td>
+                        <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:'.$sender.'">'.$sender.'</a></td>
                     </tr>
                 </table>
             </body>
         ';
-
-        if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
-            $sender = $this->site->sender_mail;
-        } else {
-            $sender = 'contact@'.$this->site->host;
-        }
         Mail::send($sender, 'Contact', $this->user->email, $this->user->fullname, "[".$this->site->label . '] Renvoi de vos accès', $contents);
 
         $this->redirect('cockpit_auth_users');
@@ -343,7 +342,12 @@ class UsersController extends CockpitController
                             }
                         }
                         $groupAssignment->save();
-                        
+
+                        if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
+                            $sender = $this->site->sender_mail;
+                        } else {
+                            $sender = 'contact@'.$this->site->host;
+                        }
                         $contents=  '
                             <body>
                                 <table>
@@ -358,17 +362,11 @@ class UsersController extends CockpitController
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:contact@'.$this->site->host.'">contact@'.$this->site->host.'</a></td>
+                                        <td>En cas de soucis vous pouvez envoyer un email à <a href="mailto:'.$sender.'">'.$sender.'</a></td>
                                     </tr>
                                 </table>
                             </body>
                         ';
-
-                        if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
-                            $sender = $this->site->sender_mail;
-                        } else {
-                            $sender = 'contact@'.$this->site->host;
-                        }
                         Mail::send($sender, 'Contact', $user->email, $user->fullname, "[".$this->site->label . '] Création de votre compte' , $contents);
                     } else {
                         $this->addFlash("Erreur(s) lors de la création d'utilisateur: " . $r, 'danger');
