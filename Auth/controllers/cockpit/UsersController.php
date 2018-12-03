@@ -134,7 +134,12 @@ class UsersController extends CockpitController
                         </table>
                     </body>
                 ';
-                Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, '['.$this->site->label . '] Création de votre compte' , $contents);
+                if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
+                    $sender = $this->site->sender_mail;
+                } else {
+                    $sender = 'contact@'.$this->site->host;
+                }
+                Mail::send($sender, 'Contact', $this->user->email, $this->user->fullname, '['.$this->site->label . '] Création de votre compte' , $contents);
 		
                 $this->redirect('cockpit_auth_users');
             } else {
@@ -220,7 +225,13 @@ class UsersController extends CockpitController
                 </table>
             </body>
         ';
-        Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, "[".$this->site->label . '] Renvoi de vos accès', $contents);
+
+        if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
+            $sender = $this->site->sender_mail;
+        } else {
+            $sender = 'contact@'.$this->site->host;
+        }
+        Mail::send($sender, 'Contact', $this->user->email, $this->user->fullname, "[".$this->site->label . '] Renvoi de vos accès', $contents);
 
         $this->redirect('cockpit_auth_users');
     }
