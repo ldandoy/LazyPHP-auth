@@ -57,7 +57,7 @@ class AuthController extends Controller
     /**
      * @var string
      */
-    public $loginPage = 'auth_login';
+    public $loginPage = 'usersauth_login';
 
     /**
      * @var string
@@ -199,14 +199,13 @@ class AuthController extends Controller
         }
 
         $this->params = array(
-            'pageTitle' => 'Accédez à votre espace',
-            'formAction' => Router::url($this->loginPage),
-            //'formAction2' => Router::url($this->'auth/signup'),
-            'formAction2' => Router::url($this->loginPage),
-            'signupURL' => '/users',
+            'pageTitle'     => 'Accédez à votre espace',
+            'formAction'    => Router::url($this->loginPage),
+            'formAction2'   => Router::url($this->loginPage),
+            'signupURL'     => '/users',
+            'imageLogin'    => $this->site->brand_logo->url,
             'altImageLogin' => 'Default Image Login',
-            'imageLogin' => '/assets/images/default_image_login.png',
-            'errors' => $errors
+            'errors'        => $errors
         );
 
         if (isset($id)) {
