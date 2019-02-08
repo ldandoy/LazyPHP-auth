@@ -6,6 +6,7 @@ use app\controllers\FrontController;
 use Core\Router;
 use Core\Session;
 use Core\Password;
+use Core\Mail;
 
 use Auth\models\User;
 
@@ -90,8 +91,8 @@ class UserController extends FrontController
                                     <tr>
                                         <td>
                                             <b>URL:</b> <a href="https://'.$this->site->host.'" target="_blank">https://'.$this->site->host.'</a><br />
-                                            <b>Login:</b> '.$user->email.'<br />
-                                            <b>Mot de passe :</b> '.$password.'
+                                            <b>Login:</b> '.$this->user->email.'<br />
+                                            <b>Mot de passe :</b> '.$this->user->password.'
                                         </td>
                                     </tr>
                                     <tr>
@@ -100,7 +101,7 @@ class UserController extends FrontController
                                 </table>
                             </body>
                         ';
-                        Mail::send('contact@'.$this->site->host, 'Contact', $user->email, $user->fullname, "[".$this->site->label . '] Rappel de vos identifiant' , $contents);
+                        Mail::send('contact@'.$this->site->host, 'Contact', $this->user->email, $this->user->fullname, "[".$this->site->label . '] Rappel de vos identifiant' , $contents);
                 } else {
                     $this->user->errors['newPassword'] = 'Mot de passe invalide';
                 }
@@ -109,7 +110,7 @@ class UserController extends FrontController
             if (empty($this->user->errors)) {
                 if ($this->user->update((array)$this->user)) {
                     $this->addFlash('Votre compte a été modifié', 'success');
-                    $this->redirect('/');
+                    $this->redirect('/user');
                 } else {
                     $this->addFlash('Erreur mise à jour base de données', 'danger');
                 }
