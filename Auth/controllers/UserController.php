@@ -91,7 +91,7 @@ class UserController extends FrontController
                                         <td>
                                             <b>URL:</b> <a href="https://'.$this->site->host.'" target="_blank">https://'.$this->site->host.'</a><br />
                                             <b>Login:</b> '.$this->user->email.'<br />
-                                            <b>Mot de passe :</b> '.$this->user->password.'
+                                            <b>Mot de passe :</b> '.$newPassword.'
                                         </td>
                                     </tr>
                                     <tr>
