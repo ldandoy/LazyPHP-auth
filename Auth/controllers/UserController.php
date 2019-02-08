@@ -74,7 +74,6 @@ class UserController extends FrontController
         if (isset($post['media_id']) && $post['media_id'] == '') {
             $post['media_id'] = null;
         }
-
         $this->user->setData($post);
 
         if ($this->user->valid()) {
