@@ -11,6 +11,7 @@ use Core\Mail;
 use Auth\models\User;
 use Auth\models\Group;
 use Core\models\Site;
+use Auth\models\GroupAssignment;
 
 class UsersController extends CockpitController
 {
@@ -78,17 +79,23 @@ class UsersController extends CockpitController
         $groupOptions = Group::getOptions();
         $siteOptions = Site::getOptions();
 
+        $groupsOptions = [];
+        foreach ($this->user->getGroups() as $value) {
+            $groupsOptions[] = $value->id;
+        }
+
         $this->render(
             'auth::users::edit',
             array(
-                'id' => $id,
-                'user' => $this->user,
-                'pageTitle' => $this->pageTitle,
-                'boxTitle' => 'Modification utilisateur n°'.$id,
-                'groupOptions' => $groupOptions,
-                'siteOptions' => $siteOptions,
-                'selectSite' => $this->current_user->site_id === null,
-                'formAction' => Router::url('cockpit_auth_users_update_'.$id)
+                'id'            => $id,
+                'user'          => $this->user,
+                'pageTitle'     => $this->pageTitle,
+                'boxTitle'      => 'Modification utilisateur n°'.$id,
+                'groupOptions'  => $groupOptions,
+                'siteOptions'   => $siteOptions,
+                'selectSite'    => $this->current_user->site_id === null,
+                'formAction'    => Router::url('cockpit_auth_users_update_'.$id),
+                'groups'        => $groupsOptions
             )
         );
     }
@@ -160,7 +167,33 @@ class UsersController extends CockpitController
         $userClass = $this->loadModel('User');
         $this->user = $userClass::findById($id);
         $this->user->setData($this->request->post);
+        $groups = $this->request->post['groups'];
+        $userGroups = $this->user->getGroups();
 
+        // On gère les groupes ici.
+        foreach ($userGroups as $value) {
+            if (!in_array($value->id, $groups)) {
+                $groupAssignment = new GroupAssignment();
+                $where = "group_id = " . $value->id . " AND user_id = " . $this->user->id;
+                $groupAssignment = $groupAssignment::findOne($where);
+                $groupAssignment->delete();
+            }
+        }
+
+        foreach ($groups as $value) {
+            $groupClass = $this->loadModel('Group');
+            $group = $groupClass::findById($value);
+
+            if (!in_array($group, $userGroups)) {
+                $data = array(
+                    'group_id' => $group->id,
+                    'user_id' => $this->user->id,
+                );
+                $groupAssignment = new GroupAssignment();
+                $groupAssignment->create($data);
+            }
+        }
+        
         if ($this->user->valid()) {
             $newPassword = trim($this->request->post['newPassword']);
             if ($newPassword != '') {

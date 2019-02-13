@@ -5,6 +5,7 @@ namespace Auth\models;
 use Core\Model;
 use Core\Query;
 use Core\Password;
+use Auth\models\Group;
 use Auth\models\RoleAssignment;
 
 class User extends Model
@@ -169,12 +170,18 @@ class User extends Model
 
     public function getGroups()
     {
+        $groups = [];
         if ($this->group_id !== null) {
             $groupsAssignments = array_merge(
                 GroupAssignment::findByUser($this->id)
             );
         }
-        return $groupsAssignments;
+
+        foreach($groupsAssignments as $assignment) {
+            $groups[] = Group::findById($assignment->group_id);
+        }
+
+        return $groups;
     }
 
 }

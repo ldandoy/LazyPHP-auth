@@ -20,7 +20,8 @@
 <?php endif; ?>
             {% input_media name="media_id" model="user.media_id" label="Image" mediaType="image" mediaCategory="user" %}
             <?php if ($this->current_user !== null && $this->current_user->group->code == 'administrators'): ?>
-                {% input_select name="group_id" model="user.group_id" label="Groupe" options="groupOptions" %}
+                {% input_select name="group_id" model="user.group_id" label="Groupe Principal" options="groupOptions" %}
+                {% input_select name="groups[]" model="groups" label="Groupes" multiple="1" options="groupOptions" %}
             <?php endif; ?>
             {% input_text name="poste" model="user.poste" label="Poste" %}
             {% input_checkbox name="active" model="user.active" label="Actif" %}
