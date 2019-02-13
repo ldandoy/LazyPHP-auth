@@ -120,6 +120,21 @@ class UsersController extends CockpitController
             $this->user->active = 1;
 
             if ($this->user->create((array)$this->user)) {
+
+                $groups = $this->request->post['groups'];
+
+                foreach ($groups as $value) {
+                    $groupClass = $this->loadModel('Group');
+                    $group = $groupClass::findById($value);
+        
+                    $data = array(
+                        'group_id' => $group->id,
+                        'user_id' => $this->user->lastInsertId,
+                    );
+                    $groupAssignment = new GroupAssignment();
+                    $groupAssignment->create($data);
+                }
+
                 $this->addFlash('Utilisateur ajouté', 'success');
                 if ($this->site->sender_mail != null || $this->site->sender_mail != "") {
                     $sender = $this->site->sender_mail;
@@ -170,7 +185,7 @@ class UsersController extends CockpitController
         $groups = $this->request->post['groups'];
         $userGroups = $this->user->getGroups();
 
-        // On gère les groupes ici.
+        // On gère la suppression des groupes ici.
         foreach ($userGroups as $value) {
             if (!in_array($value->id, $groups)) {
                 $groupAssignment = new GroupAssignment();
@@ -180,6 +195,7 @@ class UsersController extends CockpitController
             }
         }
 
+        // On ajoute les groupes ici
         foreach ($groups as $value) {
             $groupClass = $this->loadModel('Group');
             $group = $groupClass::findById($value);
