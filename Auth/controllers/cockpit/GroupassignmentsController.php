@@ -51,7 +51,6 @@ class GroupassignmentsController extends CockpitController
     private function save()
     {
         $post = $this->request->post;
-        var_dump($post, $this->site->id);
 
         # on récupère tous les ids
         $groupAssignments = GroupAssignment::findAll("site_id = " . $this->site->id . " AND group_id = ". $post['group_id']);
