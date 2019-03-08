@@ -7,27 +7,28 @@
         </div>        
     </div>
     <div class="box-body">
-        {% form_open id="formRoleAssignments" action="formAction" %}
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#roleassignments_groups" role="tab" data-toggle="tab">
-                        Par groupes
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div id="roleassignments_groups" class="tab-pane active" role="tabpanel">
-                    <div id="roleassignments_groups_accordion" role="tablist" aria-multiselectable="true">
-                        <?php foreach ($groups as $group): ?>
-                            <div class="card">
-                                <div class="card-header" role="tab" id="roleassignments_group_<?php echo $group->code; ?>_header">
-                                    <h5 class="mb-0">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#roleassignments_groups_accordion" href="#roleassignments_group_<?php echo $group->code; ?>" aria-expanded="false" aria-controls="roleassignments_group_<?php echo $group->code; ?>">
-                                            <?php echo $group->label; ?>
-                                        </a>
-                                    </h5>
-                                </div>
-                                <div id="roleassignments_group_<?php echo $group->code; ?>" class="collapse" role="tabpanel" aria-labelledby="roleassignments_group_<?php echo $group->code; ?>_header">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#roleassignments_groups" role="tab" data-toggle="tab">
+                    Par groupes
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="roleassignments_groups" class="tab-pane active" role="tabpanel">
+                <div id="roleassignments_groups_accordion" role="tablist" aria-multiselectable="true">
+                    <?php foreach ($groups as $group): ?>
+                        <div class="card">
+                            <div class="card-header" role="tab" id="roleassignments_group_<?php echo $group->code; ?>_header">
+                                <h5 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#roleassignments_groups_accordion" href="#roleassignments_group_<?php echo $group->code; ?>" aria-expanded="false" aria-controls="roleassignments_group_<?php echo $group->code; ?>">
+                                        <?php echo $group->label; ?>
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="roleassignments_group_<?php echo $group->code; ?>" class="collapse" role="tabpanel" aria-labelledby="roleassignments_group_<?php echo $group->code; ?>_header">
+                                {% form_open id="formRoleAssignments_<?php echo $group->id; ?>" action="formAction" %}
+                                    {% input_hidden name="group_id" value="<?php echo $group->id; ?>" label="Group" %}
                                     <div class="card-block" style="padding: 3%;">
                                         <table class="data-table-nopagination table table-hover table-sm">
                                             <thead>
@@ -48,14 +49,14 @@
                                                 <?php endforeach; ?>
                                             </tbody>
                                         </table>
+                                        {% input_submit name="submit" value="save" formId="formRoleAssignments_<?php echo $group->id; ?>" class="btn-primary" label="Enregistrer" %}
                                     </div>
-                                </div>
+                                {% form_close %}
                             </div>
-                        <?php endforeach; ?>
-                    </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
-            {% input_submit name="submit" value="save" formId="formRoleAssignments" class="btn-primary" label="Enregistrer" %}
-        {% form_close %}
+        </div>
     </div>
 </div>
