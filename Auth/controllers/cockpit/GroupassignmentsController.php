@@ -52,17 +52,37 @@ class GroupassignmentsController extends CockpitController
     {
         $post = $this->request->post;
 
-        GroupAssignment::deleteAll();
+        # on récupère tous les ids
+        $groupAssignments = GroupAssignment::findAll("site_id = " . $this->site->id . " AND group_id = ". $post['group_id']);
+
+        # on supprime ceux qui ne sont pas dans la liste
+        foreach ($groupAssignments as $v) {
+            if (!array_key_exists("group_assignment_".$post['group_id']."_".$v->user_id, $post)) {
+                $v->delete();
+            }
+        }
+
+        # on ajoute les nouveaux
         foreach ($post as $k => $v) {
             if (strpos($k, 'group_assignment') === 0) {
                 $a = explode('_', $k);
+                $create = true;
+                foreach ($groupAssignments as $v) {
+                    if ($v->user_id == $a[3] && $v->group_id == $a[2]) {
+                        $create = false;
+                        break;
+                    }
+                }
 
-                $data = array(
-                    'group_id' => (int)$a[2],
-                    'user_id' => (int)$a[3],
-                );
-                $groupAssignment = new GroupAssignment();
-                $groupAssignment->create($data);
+                if ($create) {
+                    $data = array(
+                        'group_id'  => (int)$a[2],
+                        'user_id'   => (int)$a[3],
+                        'site_id'   => $this->site->id
+                    );
+                    $groupAssignment = new GroupAssignment();
+                    $groupAssignment->create($data);
+                }
             }
         }
         return true;

@@ -8,7 +8,8 @@ class GroupAssignment extends Model
 {
     protected $permittedColumns = array(
         'group_id',
-        'user_id'
+        'user_id',
+        'site_id'
     );
 
     public function getAssociations()
