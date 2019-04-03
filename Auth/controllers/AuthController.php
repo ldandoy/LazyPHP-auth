@@ -184,13 +184,17 @@ class AuthController extends Controller
                 $res = $query->executeAndFetch(array('idField' => $id));
 
                 if ($res && Password::check($password, $res->password)) {
-                    $userClass = $this->loadModel('User');
-                    $user = $userClass::findById($res->id);
-                    $this->session->set($this->sessionKey, $user);
-                    if ($user->group->cockpit == 1) {
-                        $this->redirect($this->afterLoginPageCokpit);
+                    if ($res->active != 1) {
+                        $this->addFlash("Ce compte n'est pas activé", 'danger');
                     } else {
-                        $this->redirect($this->afterLoginPage);
+                        $userClass = $this->loadModel('User');
+                        $user = $userClass::findById($res->id);
+                        $this->session->set($this->sessionKey, $user);
+                        if ($user->group->cockpit == 1) {
+                            $this->redirect($this->afterLoginPageCokpit);
+                        } else {
+                            $this->redirect($this->afterLoginPage);
+                        }
                     }
                 } else {
                     $this->addFlash('Identifiant ou mot de passe incorrect', 'danger');

@@ -209,7 +209,11 @@ class UsersController extends CockpitController
                 $groupAssignment->create($data);
             }
         }
-        
+
+        if(!isset($this->request->post['active'])) {
+            $this->user->active = 0;
+        }
+
         if ($this->user->valid()) {
             $newPassword = trim($this->request->post['newPassword']);
             if ($newPassword != '') {
