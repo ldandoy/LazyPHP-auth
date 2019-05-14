@@ -22,7 +22,7 @@ class GroupsController extends CockpitController
 
     public function indexAction()
     {
-        $groups = Group::findAll();
+        $groups = Group::findAll('site_id is NULL OR site_id = ' . $this->site->id);
 
         $this->render(
             'auth::groups::index',

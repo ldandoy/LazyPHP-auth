@@ -35,7 +35,7 @@ class GroupassignmentsController extends CockpitController
             $tabAssign[$assign->group_id][$assign->user_id] = 1;
         }
         
-        $groups = Group::findAll();
+        $groups = Group::findAll('site_id is NULL OR site_id = ' . $this->site->id);
         $users = User::findAll($where);
 
         $this->render('auth::groupassignments::index', array(

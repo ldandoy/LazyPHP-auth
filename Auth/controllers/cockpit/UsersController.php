@@ -204,6 +204,7 @@ class UsersController extends CockpitController
                 $data = array(
                     'group_id' => $group->id,
                     'user_id' => $this->user->id,
+                    'site_id' => $this->site->id
                 );
                 $groupAssignment = new GroupAssignment();
                 $groupAssignment->create($data);
