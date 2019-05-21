@@ -449,4 +449,37 @@ class UsersController extends CockpitController
             )
         );
     }
+
+    public function exportcsvAction()
+    {
+        $userClass = $this->loadModel('User');
+        $users = $userClass::findAll("site_id = " . $this->site->id);
+        
+        $csv = "Nom;Prénom;Email;Poste;Actif;Type;Groupes\n";
+        foreach ($users as $user) {
+            $csv .= $user->lastname . ';';
+            $csv .= $user->firstname . ';';
+            $csv .= $user->email . ';';
+            $csv .= $user->poste . ';';
+            $csv .= $user->active . ';';
+            $csv .= $user->group->label . ';';
+            
+            // Get groups
+            $classAssignGroup = $this->loadModel('GroupAssignment');
+            $groupsAssigns = $classAssignGroup::findByUser($user->id);
+            foreach ($groupsAssigns as $groupsAssig) {
+                $csv .= $groupsAssig->group->label. ", ";
+            }
+            $csv .= "\n";
+        }
+
+        $this->render(
+            '',
+            array(
+                'filename' => 'listeuser'.date('dmY').'.csv',
+                'csv' => $csv
+            ),
+            false
+        );
+    }
 }

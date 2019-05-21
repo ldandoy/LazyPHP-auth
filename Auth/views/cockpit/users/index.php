@@ -4,6 +4,7 @@
         <h3 class="box-title">{{ boxTitle }}</h3>
         <div class="box-tools pull-right">
             {% button url="cockpit_auth_users_new" type="success" size="sm" icon="plus" hint="Ajouter" %}
+            {% button url="cockpit_auth_users_exportcsv" type="info" size="sm" icon="upload" hint="Exporter" %}
             <?php if ($this->current_user !== null && $this->current_user->group->code == 'administrators'): ?>
                 {% button url="cockpit_auth_users_importcsv" type="warning" size="sm" icon="download" hint="Importer" %}
             <?php endif; ?>
